@@ -1,0 +1,88 @@
+---
+site_name: copier_template_tester
+site_author: Kyle King
+site_description: copier_template_tester project documentation
+site_url: https://copier-template-tester.kyleking.me
+repo_name: kyleking/copier-template-tester
+repo_url: https://github.com/kyleking/copier-template-tester
+edit_uri: edit/main/docs
+docs_dir: docs
+site_dir: releases/site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      accent: green
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - toc.autohide
+
+plugins:
+  - build_plantuml:
+      render: server  # or "local"
+      bin_path: /usr/local/bin/plantuml  # ignored when render: server
+      server: http://www.plantuml.com/plantuml  # official plantuml server
+      output_format: svg
+      diagram_root: docs/diagrams
+      output_folder: out
+      input_folder: src
+      input_extensions: puml
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_nav.py
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
+      enable_creation_date: true
+  - mkdocstrings:
+      handlers:
+        python:
+          rendering:
+            docstring_section_style: spacy
+            line_length: 120
+            separate_signature: true
+            show_category_heading: true
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index:
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - codehilite:
+      linenums: true
+  - def_list
+  - extra
+  - fenced_code
+  - footnotes
+  - mdx_truly_sane_lists
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
+      linenums_style: pymdownx-inline
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - smarty
+  - tables
+  - toc:
+      permalink: ⚓︎
+      toc_depth: 5
+
+extra_css:
+  - css/mkdocstrings.css
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - _javascript/tables.js

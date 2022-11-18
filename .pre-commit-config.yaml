@@ -1,0 +1,112 @@
+---
+# Common commands:
+# poetry run pre-commit install
+# poetry run pre-commit run --all-files --hook-stage commit
+# poetry run pre-commit run --all-files --hook-stage push
+# poetry run doit run pre_commit_hooks
+#
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-yaml
+        args: [--unsafe]
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: double-quote-string-fixer
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: fix-encoding-pragma
+        args: [--remove]
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+        args: [--fix=auto]
+      - id: pretty-format-json
+        args: [--autofix, --indent=4]
+        exclude: (tests/.*assert-cache.*/.+\.json)
+      - id: trailing-whitespace
+  - repo: https://github.com/lovesegfault/beautysh
+    rev: v6.2.1
+    hooks:
+      - id: beautysh
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.37.0
+    hooks:
+      - id: commitizen
+        additional_dependencies: [cz_legacy]
+        stages: [commit-msg]
+  # FIXME: Needs to support mkdocs: https://github.com/executablebooks/mdformat/issues/317
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-beautysh
+          - mdformat-black
+          - mdformat-config
+          - mdformat-frontmatter
+          - mdformat-gfm
+          - mdformat-tables
+          - mdformat-toc
+          - mdformat-web
+        exclude: _.*\.md|CHANGELOG\.md
+        args: [--wrap=no]
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: 0.3.5
+    hooks:
+      - id: pyproject-fmt
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.8.0.4
+    hooks:
+      - id: shellcheck
+        args: [--severity=warning]
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      # Can't generate baseline with Py 3.8. Use exclude regex rules instead
+      # See: https://github.com/Yelp/detect-secrets/issues/452
+      - id: detect-secrets
+        # args: ["--baseline", ".secrets.baseline"]
+        exclude: poetry\.lock|.*/cassettes/.*\.yaml
+  - repo: https://github.com/lyz-code/yamlfix/
+    rev: 1.1.0
+    hooks:
+      - id: yamlfix
+        exclude: \.copier-answers\.yml|.*/cassettes/.*\.yaml
+        types_or: []
+        types: [file, yaml]
+  - repo: local
+    hooks:
+      - id: copier-forbidden-files
+        name: copier_forbidden_files
+        entry: |
+          Found copier update rejection files; review them and remove them
+          (https://copier.readthedocs.io/en/stable/updating/)
+        language: fail
+        files: \.rej$
+        # Note: there are occasional errors when running doit in pre-commit
+        #  "doit.dependency.DatabaseException: [Errno 35] Resource temporarily unavailable: '.doit.db'"
+        #  Using './.doit.tmp-*' helps, but sometimes the file needs to be manually removed
+      - id: python-formatter
+        name: Python Auto-Formatter
+        description: Apply calcipy formatting
+        language: system
+        entry: poetry run doit run --db-file=./.doit.tmp-py format_py
+        types: [python]
+      - id: toml-formatter
+        name: Optional TOML Auto-Formatter
+        description: Install taplo with 'npm install -g @taplo/cli'
+        language: system
+        entry: poetry run doit run --db-file=./.doit.tmp-toml format_toml
+        types: [toml]
+        exclude: poetry\.lock

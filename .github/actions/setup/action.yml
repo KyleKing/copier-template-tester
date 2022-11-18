@@ -1,0 +1,47 @@
+---
+name: Setup Action
+description: Run "poetry install"
+
+inputs:
+  os:
+    default: ubuntu-latest
+  poetry-version:
+    default: 1.2.2
+  python-version:
+    required: true
+
+env:
+  POETRY_VIRTUALENVS_IN_PROJECT: true
+  POETRY_NO_INTERACTION: 1
+
+runs:
+  using: composite
+  steps:
+    - name: Install Poetry ${{ inputs.poetry-version }}
+      run: pipx install poetry==${{ inputs.poetry-version }}
+      shell: bash
+
+    - name: Setup Python ${{ inputs.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: poetry
+
+    - name: Cache Nox
+      uses: actions/cache@v3
+      id: cache
+      with:
+        path: .nox
+        key: ${{ inputs.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock')
+          }}
+
+    - name: Poetry Debug Info
+      run: |-
+        poetry env info
+        poetry config --list
+      shell: bash
+
+    - name: Install Project and Dependencies
+      run: |-
+        poetry install
+      shell: bash

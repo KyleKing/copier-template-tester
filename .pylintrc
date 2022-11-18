@@ -1,0 +1,43 @@
+[MAIN]
+enable-all-extensions=yes
+fail-under=8
+ignore=tests
+py-version=3.10
+suggestion-mode=yes
+
+[BASIC]
+include-naming-hint=yes
+
+[CLASSES]
+check-protected-access-in-special-methods=yes
+
+[DESIGN]
+max-bool-expr=4  # Def: 5
+max-branches=10  # Def: 12
+max-parents=3  # Def: 7
+max-public-methods=15  # Def: 20
+max-returns=5  # Def: 6
+min-public-methods=1  # Def: 2
+
+[IMPORTS]
+allow-wildcard-with-all=yes
+
+[LOGGING]
+logging-format-style=new
+
+[MESSAGES CONTROL]
+disable=line-too-long  # Defer to flake8/black
+
+[REFACTORING]
+max-nested-blocks=3
+
+[REPORTS]
+output-format=colorized
+reports=yes
+
+[SIMILARITIES]
+min-similarity-lines=3
+
+[STRING]
+check-quote-consistency=yes
+check-str-concat-over-line-jumps=yes

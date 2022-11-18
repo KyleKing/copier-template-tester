@@ -1,0 +1,29 @@
+---
+# GH Action https://github.com/crazy-max/ghaction-github-labeler
+# Based on: https://github.com/crazy-max/ghaction-github-labeler/blob/master/.github/labels.yml
+# Other Where Used: https://github.com/search?q=name+path%3A%2F.github+filename%3Alabels.yml&type=Code&ref=advsearch&l=&l=
+#
+# Style Guide: ../docs/STYLE_GUIDE.md
+
+- name: Needs Discussion
+  color: ff5722
+  description: Ticket needs discussion and prioritization
+  from_name: help wanted
+- name: 'Type: Bug'
+  color: d73a4a
+  description: Something isn't working
+  from_name: bug
+- name: 'Type: Documentation'
+  color: 69cde9
+  description: Documentation changes
+  from_name: good first issue
+- name: 'Type: Maintenance'
+  color: c5def5
+  description: Chore including build/dep, CI, refactor, or perf
+- name: 'Type: Idea'
+  color: fbca04
+  description: General idea or concept that could become a feature request
+- name: 'Type: Feature'
+  color: 0075ca
+  description: Clearly defined new feature request
+  from_name: enhancement

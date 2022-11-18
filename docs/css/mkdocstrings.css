@@ -1,0 +1,10 @@
+/* Provide more vertical spacing between docstrings
+
+Source:  ;https://github.com/pawamoy/copier-pdm/blob/79135565c4c7f756204a5f460e87129649f8b704/project/docs/css/mkdocstrings.css
+
+ */
+div.doc-contents:not(.first) {
+  padding-left: 25px;
+  border-left: 4px solid rgba(230, 230, 230);
+  margin-bottom: 80px;
+}

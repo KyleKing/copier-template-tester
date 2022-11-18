@@ -1,0 +1,704 @@
+---
+# See: https://docs.sourcery.ai/Configuration/
+refactor:
+  python_version: '3.10'
+
+# Full Google Style Set from: https://sourcery.ai/blog/google-python-style-guide/
+rules:
+# Import Rules
+  - id: no-wildcard-imports
+    pattern: from ... import *
+    description: Do not use wildcard imports
+    explanation: |
+      Use import statements for packages and modules only, not for individual classes or functions.
+      - Use `import x` for importing packages and modules.
+      - Use `from x import y` where `x` is the package prefix and `y` is the module name with no prefix.
+      - Use `from x import y as z` if two modules named `y` are to be imported, if `y` conflicts with a top-level name defined in the current module, or if `y` is an inconveniently long name.
+      - Use `import y as z` only when `z` is a standard abbreviation (e.g., np for numpy).
+      From: Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    tests:
+      - match: from numpy import *
+      - match: from pandas.series import *
+      - match: from .something import *
+      - no-match: from math import sin
+
+   #  # NOTE: relative imports are preferred. Google's justification doesn't apply when using automated tooling (isort, absolufy-imports, unimport, etc.)
+  # - id: no-relative-imports
+  #   description: Always use absolute imports instead of relative imports
+  #   explanation: |
+  #     Do not use relative names in imports. Even if the module is in the same package, use the full package name. This helps prevent unintentionally importing a package twice.
+  #     From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+  #   pattern: from ${module} import ...
+  #   condition: module.matches_regex(r"^\.")
+  #   tests:
+  #     - match: from . import important_function
+  #     - match: from .my_module import important_function
+  #     - match: from ..my_module import important_function, unimportant_function
+  #     - no-match: from my_company.my_module import important_function
+  #     - no-match: from pathlib import Path
+
+  - id: use-standard-name-for-aliases-pandas
+    description: Import `pandas` as `pd`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., pandas as ${alias}, ...
+    condition: not alias.equals("pd")
+    tests:
+      - no-match: import pandas
+      - no-match: from pandas import DataFrame
+      - no-match: import pandas as pd
+      - no-match: import numpy, pandas as pd, tensorflow
+      - no-match: from modin import pandas as pds
+      - no-match: import modin.pandas as pds
+      - match: import pandas as pds
+      - match: import pandas as np
+      - match: import numpy, pandas as pds, tensorflow
+
+  - id: use-standard-name-for-aliases-numpy
+    description: Import `numpy` as `np`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., numpy as ${alias}, ...
+    condition: not alias.equals("np")
+    tests:
+      - no-match: import numpy
+      - no-match: from numpy import ndarray
+      - no-match: import numpy as np
+      - no-match: import pandas, numpy as np, tensorflow
+      - match: import numpy as numpie
+      - match: import numpy as pd
+      - match: import pandas, numpy as numpie, tensorflow
+
+  - id: use-standard-name-for-aliases-matplotlib-pyplot
+    description: Import `matplotlib.pyplot` as `plt`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., matplotlib.pyplot as ${alias}, ...
+    condition: not alias.equals("plt")
+    tests:
+      - no-match: import matplotlib.pyplot
+      - no-match: from matplotlib.pyplot import Figure
+      - no-match: import matplotlib.pyplot as plt
+      - no-match: import pandas, matplotlib.pyplot as plt, tensorflow
+      - match: import matplotlib.pyplot as mplplot
+      - match: import pandas, matplotlib.pyplot as mplplot, tensorflow
+
+  - id: use-standard-name-for-aliases-tensorflow
+    description: Import `tensorflow` as `tf`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., tensorflow as ${alias}, ...
+    condition: not alias.equals("tf")
+    tests:
+      - no-match: import tensorflow
+      - no-match: from tensorflow import keras
+      - no-match: import tensorflow as tf
+      - no-match: import pandas, tensorflow as tf
+      - match: import tensorflow as tflow
+      - match: import pandas, tensorflow as tflow
+
+  - id: use-standard-name-for-aliases-datetime
+    description: Import `datetime` as `dt`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., datetime as ${alias}, ...
+    condition: not alias.equals("dt")
+    tests:
+      - no-match: import datetime
+      - no-match: from datetime import datetime
+      - no-match: import datetime as dt
+      - no-match: import pandas, datetime as dt
+      - match: import datetime as dtime
+      - match: import pandas, datetime as dtime, tensorflow
+
+  - id: use-standard-name-for-aliases-tkinter
+    description: Import `tkinter` as `tk`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., tkinter as ${alias}, ...
+    condition: not alias.equals("tk")
+    tests:
+      - no-match: import tkinter
+      - no-match: from tkinter import ttk
+      - no-match: import tkinter as tk
+      - no-match: import pandas, tkinter as tk
+      - match: import tkinter as t
+      - match: import pandas, tkinter as t, tensorflow
+
+  - id: use-standard-name-for-aliases-multiprocessing
+    description: Import `multiprocessing` as `mp`
+    explanation: |
+      Use `import y as z` only when `z` is a standard abbreviation.
+      From Google Style Guide [2.2.4](https://google.github.io/styleguide/pyguide.html#224-decision)
+    pattern: import ..., multiprocessing as ${alias}, ...
+    condition: not alias.equals("mp")
+    tests:
+      - no-match: import multiprocessing
+      - no-match: from multiprocessing import Pool
+      - no-match: import multiprocessing as mp
+      - no-match: import pandas, multiprocessing as mp
+      - match: import multiprocessing as multi
+      - match: import pandas, multiprocessing as multi, tensorflow
+
+# Naming Rules
+
+  - id: avoid-single-character-names-variables
+    pattern: ${var} = ${value}
+    condition: var.character_count() == 1
+    description: Avoid single character names
+    explanation: |
+      Avoid single character names, except for specifically allowed cases:
+      - counters or iterators (e.g. `i`, `j`, `k`, `v`, et al.)
+      - `e` as an exception identifier in `try`/`except` statements.
+      - `f` as a file handle in `with` statements
+      - private `TypeVar`s with no constraints (e.g. `_T`, `_U`, `_V`)
+      From Google Style Guide [3.16.1](https://google.github.io/styleguide/pyguide.html#3161-names-to-avoid)
+    tests:
+      - match: i = 0
+      - no-match: initial_value = 0
+      - match: A = get_account()
+      - no-match: account = get_account()
+      - no-match: |
+          for i in range(10):
+              print(i)
+      - no-match: |
+          try:
+              explode_computer()
+          except ExplosionError as e:
+              pass
+      - no-match: |
+          with open("file.txt") as f:
+              contents = f.read()
+      - no-match: |
+          from typing import TypeVar
+          _T = TypeVar("_T")
+
+  - id: avoid-single-character-names-functions
+    pattern: |
+      def ${function_name}(...):
+        ...
+    condition: function_name.character_count() == 1
+    description: Avoid single character names
+    explanation: |
+      Avoid single character names, except for specifically allowed cases:
+      - counters or iterators (e.g. `i`, `j`, `k`, `v`, et al.)
+      - `e` as an exception identifier in `try`/`except` statements.
+      - `f` as a file handle in `with` statements
+      - private `TypeVar`s with no constraints (e.g. `_T`, `_U`, `_V`)
+      From Google Style Guide [3.16.1](https://google.github.io/styleguide/pyguide.html#3161-names-to-avoid)
+    tests:
+      - match: |
+          def f():
+              pass
+      - match: |
+          async def f():
+              pass
+      - no-match: |
+          def function_with_good_and_descriptive_name():
+              pass
+      - match: |
+          def g(a, b: int = 0, **kwargs) -> str:
+              if b > 5:
+                return str(a) + str(b) + str(kwargs)
+              return "b <= 4"
+      - no-match: |
+          def perform_calculation(a, b: int = 0, **kwargs) -> str:
+              if b > 5:
+                return str(a) + str(b) + str(kwargs)
+              return "b <= 4"
+      - match: |
+          class MyClass:
+            def m(self, a: int, b: float) -> str:
+              print(a)
+              return repr(b)
+      - no-match: |
+          class MyClass:
+            def good_method(self, a: int, b: float) -> str:
+              print(a)
+              return repr(b)
+
+  - id: name-type-suffix
+    pattern: ${name} = ${value}
+    condition: |
+      name.ends_with("_dict")
+      or name.ends_with("_list")
+      or name.ends_with("_set")
+      or name.ends_with("_int")
+      or name.ends_with("_float")
+      or name.ends_with("_str")
+    description: Don't use the type of a variable as a suffix
+    explanation: |
+      Names shouldn't needlessly include the type of the variable.
+      Such suffix might be OK for more complex types,
+      e.g. first_account, advanced_account.
+      But it's rarely necessary for built-in types.
+      From Google Style Guide [3.16.1](https://google.github.io/styleguide/pyguide.html#s3.16-naming)
+    tests:
+      - match: magic_int = 42
+      - match: magic_int = 42.00
+      - match: magic_float = 42
+      - match: magic_float = 42.00
+      - match: custom_notes_dict = {}
+
+  - id: errors-named-error
+    pattern: |
+      class ${error}(${base}):
+        ${statements*}
+    condition: (base.is_exception_type() or base.matches_regex("[A-Z][a-zA-Z]*Error"))
+      and not error.matches_regex("[A-Z][a-zA-Z]*Error")
+    description: Exception names must end in Error
+    explanation: |
+      From Google Style Guide [2.4.4](https://google.github.io/styleguide/pyguide.html#244-decision)
+    tests:
+      - match: |
+          class Foo(ValueError):
+            ...
+      - match: |
+          class ExampleException(CustomError):
+            def __init__(self, msg):
+              ...
+      - match: |
+          class InvalidName(Exception):
+            ...
+      - match: |
+          class InvalidName(BaseException):
+            ...
+      - no-match: |
+          class MyError(Exception):
+            def __init__(self, msg):
+              ...
+      - no-match: |
+          class NameError(AttributeError):
+            ...
+      - no-match: |
+          class Dog(Mammal):
+            ...
+
+  - id: snake-case-variable-declarations
+    pattern: |
+      ${var}: ${type_annotation}
+    condition: not var.is_snake_case() and not var.in_module_scope()
+    description: Use snake case for variable names
+    explanation: |
+      Use snake case for variables.
+      This rule catches only variables that were declared with a type annotation.
+      From Google Style Guide [3.16.2](https://google.github.io/styleguide/pyguide.html#s3.16.2-naming-conventions) and [PEP 8](https://peps.python.org/pep-0008/#function-and-variable-names)
+    tests:
+      - match: |
+          def some_function():
+            miXed: int
+      - match: |
+          def some_function():
+            CamelCase: int
+      - match: |
+          def some_function():
+            CamelCase42: int
+      - match: |
+          def some_function():
+            mixed_and_underScore: int
+      - match: |
+          def some_function():
+            too__many__underscores: str
+      - match: |
+          def some_function():
+            _too__many__underscores: str
+      - match: |
+          def some_function():
+            ___3_underscores_prefix: str
+      - match: |
+          def some_function():
+            double_underscore_suffix__: str
+      - no-match: |
+          def some_function():
+            nr: int = 42
+      - no-match: |
+          def some_function():
+            miXed: int = 42
+      - no-match: |
+          def some_function():
+            snake_nr: int = 42
+      - no-match: simple_NR = 42
+      - no-match: CONTEXT = "whatever"
+      - no-match: |
+          def some_function():
+            _initial_value: int = 0
+      - no-match: |
+          def some_function():
+            __initial_value: int = 0
+      - no-match: __version__ = "3.14"
+
+  - id: snake-case-functions
+    pattern: |
+      def ${function_name}(...):
+        ...
+    condition: not function_name.is_snake_case()
+    description: Use snake case for function names
+    explanation: |
+      Use snake case for function and method names.
+      From Google Style Guide [3.16.2](https://google.github.io/styleguide/pyguide.html#s3.16.2-naming-conventions) and [PEP 8](https://peps.python.org/pep-0008/#function-and-variable-names)
+    tests:
+      - match: |
+          def miXed():
+            pass
+      - match: |
+          def CamelCase():
+            pass
+      - match: |
+          class Something:
+            def CamelCase(self):
+              pass
+      - match: |
+          def too__many__underscores():
+            pass
+      - match: |
+          def double_underscore_suffix__():
+            pass
+      - match: |
+          def mixed_and_underScore():
+            pass
+      - no-match: |
+          def nice_function_name():
+            pass
+      - no-match: |
+          def _private():
+            pass
+      - no-match: |
+          def __very_private():
+            pass
+      - no-match: |
+          class Something:
+            def single(self):
+              pass
+      - no-match: |
+          class Something:
+            def __init__(self):
+              pass
+
+  - id: camel-case-classes
+    pattern: |
+      class ${class_name}(...):
+        ...
+    condition: not class_name.is_upper_camel_case()
+    description: Use camel case for class names
+    explanation: |
+      Use camel case for class names
+      From Google Style Guide [3.16.2](https://google.github.io/styleguide/pyguide.html#s3.16.2-naming-conventions) and [PEP 8](https://peps.python.org/pep-0008/#class-names)
+    tests:
+      - match: |
+          class lower:
+            pass
+      - match: |
+          class UPPER:
+            pass
+      - match: |
+          class snake_case:
+            pass
+      - match: |
+          class UPPER_UNDERSCORE:
+            pass
+      - match: |
+          class CamelCase_WithUnderscore:
+            pass
+      - no-match: |
+          class CamelCase:
+            pass
+      - no-match: |
+          class CamelCase42:
+            pass
+      - no-match: |
+          class B:
+            pass
+
+# Structural Rules
+
+  - id: do-not-use-staticmethod
+    pattern: |
+      @staticmethod
+      def ${name}(...):
+        ...
+    description: Do not use the staticmethod decorator
+    explanation: |
+      Never use staticmethod unless forced to in order to integrate with an API defined in an existing library. Write a module level function instead.
+      From: Google Style Guide [2.17.4](https://google.github.io/styleguide/pyguide.html#2174-decision)
+    tests:
+      - match: |
+          @staticmethod
+          def suggested_event(new_suggestion) -> str:
+              pass
+      - match: |
+          @staticmethod
+          def suggested_event(new_suggestion: bool) -> str:
+              pass
+      - no-match: |
+          def suggested_event(new_suggestion) -> str:
+              pass
+      - no-match: |
+          @staticmethod  # Note that this will not currently trigger where there are other decorators
+          @other_decorator
+          def suggested_event(new_suggestion) -> str:
+              pass
+
+  - id: no-complex-if-expressions
+    description: Only use conditional expressions for simple cases
+    explanation: |
+      Each portion [of the conditional expression] must fit on one line: `true-expression`, `if-expression`, `else-expression`. Use a complete if statement when things get more complicated.
+      From Google Style Guide [2.11.4](https://google.github.io/styleguide/pyguide.html#2114-decision)
+    pattern: ${value} if ${test} else ${default}
+    condition: value.character_count() > 80 or test.character_count() > 80 or default.character_count()
+      > 80
+    tests:
+      - no-match: a = 1 if cond else 2
+      - match: a = 1 if this_is_an_incredibly_long_condition_that_is_more_than_80_characters_long_no_joking_around
+          else 2
+      - match: a = this_is_an_incredibly_long_value_that_is_more_than_80_characters_long_no_joking_around
+          if cond else 2
+      - match: a = 1 if cond else this_is_an_incredibly_long_value_that_is_more_than_80_characters_long_no_joking_around
+      - match: a = 1 if cond else this_is_an_incredibly_long_value + is_more_than_80_characters_long_no_joking_around()
+
+  - id: lambdas-should-be-short
+    description: Lambda functions should be kept to a single line
+    explanation: |
+      Okay to use them for one-liners.
+      If the code inside the lambda function is longer than 60-80 chars, it’s probably better to define it as a regular nested function.
+      From Google Style Guide [2.10.4](https://google.github.io/styleguide/pyguide.html#2104-decision)
+    pattern: 'lambda ...: ${body}'
+    condition: body.character_count() > 80
+    tests:
+      - no-match: 'lambda x: x**2'
+      - no-match: 'lambda x, y: x**y'
+      - match: 'lambda x: do_something_very_long_and_involved_with(x) - do_other_very_long_and_involved_things_with(x)'
+      - match: 'lambda x, y, z: do_something_very_long_and_involved_with(x) - do_other_very_long_and_involved_things_with(y,
+          z)'
+
+  - id: map-lambda-to-generator
+    pattern: 'map(lambda ${arg}: ${expr}, ${items})'
+    replacement: (${expr} for ${arg} in ${items})
+    description: Replace mapping a lambda with a generator expression
+    explanation: |
+      Prefer generator expressions over map() or filter() with a lambda.
+      From Google Style Guide [2.10](https://google.github.io/styleguide/pyguide.html#210-lambda-functions)
+    tests:
+      - match: 'transformed_things = map(lambda x: x**2, things)'
+        expect: transformed_things = (x**2 for x in things)
+      - match: 'list(map(lambda x: x**2, things))'
+        expect: list(x**2 for x in things)
+      - no-match: 'filter(lambda x: x > x**2, things)'
+
+  - id: filter-lambda-to-generator
+    pattern: 'filter(lambda ${arg}: ${expr}, ${items})'
+    replacement: (${arg} for ${arg} in ${items} if ${expr})
+    description: Replace filtering with a lambda with a generator expression
+    explanation: |
+      Prefer generator expressions over map() or filter() with a lambda.
+      From Google Style Guide [2.10](https://google.github.io/styleguide/pyguide.html#210-lambda-functions)
+    tests:
+      - match: 'filtered_things = filter(lambda x: x > x**2, things)'
+        expect: filtered_things = (x for x in things if x > x**2)
+      - match: 'list(filter(lambda x: x > x**2, things))'
+        expect: list(x for x in things if x > x**2)
+      - no-match: 'map(lambda x: x**2, things)'
+
+  - id: avoid-global-variables
+    pattern: ${var} = ${value}
+    condition: pattern.in_module_scope() and var.is_lower_case() and not var.starts_with("_")
+      and var.is_identifier()
+    description: Do not define variables at the module level - (found variable ${var})
+    explanation: |
+      Avoid global variables.
+      If needed, global variables should be declared at the module level and made internal to the module by prepending an `_` to the name. External access to global variables must be done through public module-level functions.
+      While module-level constants are technically variables, they are permitted and encouraged. For example: `MAX_HOLY_HANDGRENADE_COUNT = 3`. Constants must be named using all caps with underscores.
+      From Google Style Guide [2.5.4](https://google.github.io/styleguide/pyguide.html#254-decision)
+    tests:
+      - match: max_holy_handgrenade_count = 3
+      - match: 'max_holy_handgrenade_count: int = 3'
+      - no-match: holy_handgrenade[1] = 3
+      - no-match: _max_holy_handgrenade_count = 3
+      - no-match: HolyGrenades = Dict[str, Grenade]
+      - no-match: MAX_HOLY_HANDGRENADE_COUNT = 3
+      - no-match: |
+          def f():
+              max_holy_handgrenade_count = 3
+
+  - id: avoid-trivial-properties
+    description: Avoid defining trivial properties
+    explanation: |
+      Getter and setter functions (also called accessors and mutators) should be used when
+      they provide a meaningful role or behavior for getting or setting a variable's
+      value.
+      In particular, they should be used when getting or setting the variable is complex
+      or the cost is significant, either currently or in a reasonable future.
+      If, for example, a pair of getters/setters simply read and write an internal
+      attribute, the internal attribute should be made public instead. By comparison, if
+      setting a variable means some state is invalidated or rebuilt, it should be a setter
+      function. The function invocation hints that a potentially non-trivial operation is
+      occurring. Alternatively, properties may be an option when simple logic is needed,
+      or refactoring to no longer need getters and setters.
+      From Google Style Guide [3.15](https://google.github.io/styleguide/pyguide#315-getters-and-setters)
+    pattern: |
+      @property
+      def ${f}(self):
+        return self.${value}
+      ...
+      @${f}.setter
+      def ${setter}(self, ${other}):
+        self.${value} = ${other}
+    tests:
+      - match: |
+          class Student:
+            def __init__(self, name):
+              self._name = name
+            @property
+            def name(self):
+              return self._name
+            @name.setter
+            def name(self, new_name):
+              self._name = new_name
+      - match: |
+          class Student:
+            def __init__(self, name, grade):
+              self._name = name
+              self._grade = grade
+            @property
+            def name(self):
+              return self._name
+            def get_grade(self):
+              return self._grade
+            @name.setter
+            def name(self, new_name):
+              self._name = new_name
+      - match: |
+          class Student:
+            def __init__(self, name: str) -> None:
+              self._name: str = name
+            @property
+            def name(self) -> str:
+              return self._name
+            @name.setter
+            def name(self, new_name: str) -> None:
+              self._name = new_name
+      - no-match: |
+          class Student:
+            def __init__(self, name: str) -> None:
+              self._name: str = name
+            @property
+            def name(self) -> str:
+              return self._name.title()  # perform computation on name
+            @name.setter
+            def name(self, new_name: str) -> None:
+              self._name = new_name
+      - no-match: |
+          class Student:
+            def __init__(self, name: str) -> None:
+              self._name: str = name
+            @property
+            def name(self) -> str:
+              return self._name.title()  # perform computation on name
+            # no setter: this means that `Student.name` is read-only
+
+  - id: no-long-functions
+    pattern: |
+      def ${name}(...):
+          ${statements+}
+    condition: statements.statement_count() > 40
+    description: Functions should be less than 40 lines
+    explanation: |
+      Prefer small and focused functions.
+      We recognize that long functions are sometimes appropriate, so no hard limit is placed on function length. If a function exceeds about 40 lines, think about whether it can be broken up without harming the structure of the program.
+      Even if your long function works perfectly now, someone modifying it in a few months may add new behavior. This could result in bugs that are hard to find. Keeping your functions short and simple makes it easier for other people to read and modify your code.
+      From Google Style Guide [3.18](https://google.github.io/styleguide/pyguide.html#318-function-length)
+    tests:
+      - no-match: |
+          def f(a, b) -> int:
+              x()
+
+  - id: do-not-use-has-key
+    pattern: ${d}.has_key(${key})
+    condition: d.has_type("dict")
+    replacement: ${key} in ${d}
+    description: Replace Python 2 syntax `dict.has_key` with a Python 3 membership
+      test
+    explanation: |
+      Use default iterators and operators for types that support them, like lists, dictionaries, and files. The built-in types define iterator methods, too. Prefer these methods to methods that return lists, except that you should not mutate a container while iterating over it.
+      From Google Style Guide [2.8.4](https://google.github.io/styleguide/pyguide.html#284-decision)
+      Note that the method `dict.has_key` is only available in Python 2, but Sourcery only
+      works with Python 3 code. Hence, this rule prevents programmers from erroneously
+      checking membership with `dictionary.has_key(key)`, suggesting instead the use of
+      the correct Python 3 syntax `key in dictionary`.
+    tests:
+      - match: |
+          tasks_for_today: dict[str, Task] = get_tasks("today")
+          is_week_day = tasks_for_today.has_key("work")
+        expect: |
+          tasks_for_today: dict[str, Task] = get_tasks("today")
+          is_week_day = "work" in tasks_for_today
+      - match: |
+          def is_movie_in_database(movie: Movie, movies: Dict[Movie, MovieSpec]) -> bool:
+            return movies.has_key(movie)
+        expect: |
+          def is_movie_in_database(movie: Movie, movies: Dict[Movie, MovieSpec]) -> bool:
+            return movie in movies
+      - match: |
+          pro_users = {
+            user.name: user
+            for user in database.fetch(User)
+          }
+          if pro_users.has_key(get_current_user().name):
+            print("You've signed in under the PRO subscription")
+          else:
+            print("Please sign up for PRO to use this awesome feature!")
+        expect: |
+          pro_users = {
+            user.name: user
+            for user in database.fetch(User)
+          }
+          if get_current_user().name in pro_users:
+            print("You've signed in under the PRO subscription")
+          else:
+            print("Please sign up for PRO to use this awesome feature!")
+      - no-match: |
+          # Not sure of `random_object` is a dictionary
+          random_object.has_key(random_key)
+      - no-match: |
+          # Custom type `Database` is not a dictionary
+          database: Database = get_database()
+          print(database.has_key("dinosaur"))
+
+# Typing Rules
+
+  - id: require-return-annotation
+    pattern: |
+      def ${name}(...) -> !!!:
+          ...
+    condition: not name.starts_with("_")
+    paths:
+      exclude:
+        - test/
+        - tests/
+    description: Annotate public function/method `${name}` with a return type annotation
+    explanation: |
+      Adding type annotations has several benefits:
+      1. It improves the documentation of the function
+      2. It allows the function to be checked for correctness
+      3. It allows checking that the function callers are passing the correct params
+      These [mypy docs](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html#functions) describe how to
+      annotate function arguments and return types.
+      From Google Style Guide [2.21](https://google.github.io/styleguide/pyguide#221-type-annotated-code)
+    tests:
+      - match: |
+          def f():
+              x()
+      - no-match: |
+          def f() -> int:
+              x()
+      - match: |
+          def f(a: int, b: str):
+              x()
+      - no-match: |-
+          def f(something) -> int:
+              x()
