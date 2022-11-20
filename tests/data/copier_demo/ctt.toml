@@ -1,15 +1,12 @@
 # Configuration for: https://github.com/KyleKing/copier-template-tester
 
-[ctt]
-source_directory = "template_dir"
-
 [defaults]
 project_name = "placeholder"
 # package_name_py = ...
 # copyright_date = ...
-minimum_python = "3.11.0"
-include_all = true
+# minimum_python = ...
+# include_all = ...
 
 [output.".ctt/no_all"]
-package_name = "testing-no-all"
+project_name = "testing-no-all"
 include_all = false
