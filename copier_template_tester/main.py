@@ -19,8 +19,6 @@ except ModuleNotFoundError:  # pragma: no cover
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
         print('Warning: You probably want a section: [defaults]')  # noqa: T001
-    if not config.get('ctt', {}).get('source_directory'):
-        raise RuntimeError('CTT expected:\n[ctt]\nsource_directory="..."')
     if not config.get('output'):
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
@@ -50,6 +48,7 @@ def _render(  # type: ignore[no-untyped-def]
     """
     kwargs.setdefault('cleanup_on_error', False)
     kwargs.setdefault('data', data or {})
+    kwargs.setdefault('defaults', True)
     kwargs.setdefault('overwrite', True)
     kwargs.setdefault('quiet', False)
     copier.run_auto(str(src_path), dst_path, **kwargs)
@@ -62,7 +61,7 @@ def run(base_dir: Path | None = None) -> None:
     config = _load_config(base_dir)
     defaults = config.get('defaults', {})
 
-    input_path = base_dir / config['ctt']['source_directory']
+    input_path = base_dir
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)

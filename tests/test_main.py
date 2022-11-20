@@ -19,18 +19,11 @@ CTT_CMD = ['poetry', 'run', 'ctt']
             {},
             pytest.raises(
                 RuntimeError,
-                match=r'CTT expected:\n\[ctt\]\nsource_directory="\.\.\."',
-            ),
-        ),
-        (
-            {'ctt': {'source_directory': 'something'}},
-            pytest.raises(
-                RuntimeError,
                 match=r'CTT expected headers like: \[output."<something>"\]',
             ),
         ),
         (
-            {'ctt': {'source_directory': 'something'}, 'output': {'something': True}},
+            {'output': {'something': True}},
             does_not_raise(),
         ),
     ],

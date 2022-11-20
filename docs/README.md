@@ -6,13 +6,11 @@ Parametrize copier templates to test for syntax errors, check the expected outpu
 
 Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
 
-One last caveat is that copier question defaults won't work with how the test is run. So you'll need to provide values in `ctt.toml` for any values you want filled.
-
 ## Usage
 
 ### Configuration File
 
-When creating a copier template repository, you'll need to follow the nested ["subdirectory" approach](https://copier.readthedocs.io/en/latest/configuring/#subdirectory) so that the directory looks like this:
+When creating a copier template repository, I recommend following the nested ["subdirectory" approach](https://copier.readthedocs.io/en/latest/configuring/#subdirectory) so that the directory looks like this:
 
 ```sh
 └── template_dir
@@ -25,15 +23,11 @@ When creating a copier template repository, you'll need to follow the nested ["s
 Create a new `ctt.toml` file in the top-level directory of your copier repository. Populate the file to look like the below example.
 
 ```toml
-# Specify the subdirectory name that contains the template
-[ctt]
-source_directory = "template_dir"
-
-# Specify the defaults that are shared across all 'output'
+# Specify shared data across all 'output' destinations
+# Note that the copier.yml defaults are used whenever the key is not set in this file
 [defaults]
 project_name = "placeholder"
 copyright_year = 2022
-include_all = true
 
 # Parametrize each output with a relative path and optionally any values to override
 [output.".ctt/defaults"]
