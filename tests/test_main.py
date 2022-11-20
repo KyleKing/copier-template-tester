@@ -58,7 +58,7 @@ def test_main(shell):
     ret.stdout.matcher.fnmatch_lines_random(['*Creating:*copier_demo*no_all*'])
     ret.stderr.matcher.fnmatch_lines_random([
         '*Copying from template*',
-        '*create*.copier-answers.yml*',
+        '*.copier-answers.yml*',
     ])
 
 

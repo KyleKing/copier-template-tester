@@ -47,5 +47,11 @@ poetry run doit run lock document deploy_docs publish
 ## Current Status
 
 <!-- {cts} COVERAGE -->
+| File                                 |   Statements |   Missing |   Excluded | Coverage   |
+|--------------------------------------|--------------|-----------|------------|------------|
+| `copier_template_tester/__init__.py` |            2 |         0 |          0 | 100.0%     |
+| `copier_template_tester/main.py`     |           38 |         0 |          5 | 100.0%     |
+| **Totals**                           |           40 |         0 |          5 | 100.0%     |
 
+Generated on: 2022-11-20
 <!-- {cte} -->

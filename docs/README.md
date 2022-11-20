@@ -4,7 +4,7 @@ Parametrize copier templates to test for syntax errors and check the expected ou
 
 Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
 
-One last caveat is that copier question defaults don't work with how the test is run. So you'll need to provide values in `ctt.toml` for any values you want filled.
+One last caveat is that copier question defaults won't work with how the test is run. So you'll need to provide values in `ctt.toml` for any values you want filled.
 
 ## Usage
 
@@ -50,18 +50,24 @@ repos:
   - repo: https://github.com/KyleKing/copier-template-tester
     rev: main
     hooks:
-      - id: ctt
+      - id: copier-template-tester
+```
+
+Install and update to the latest revision:
+
+```sh
+pre-commit autoupdate
 ```
 
 The run with `pre-commit`:
 
 ```sh
-pre-commit run --all-files --hook-stage commit copier-template-tester
+pre-commit run --all-files copier-template-tester
 ```
 
 ### pipx
 
-You can also try `ctt` as a CLI tool by installing with `pipx`
+You can also try `ctt` as a CLI tool by installing with `pipx`:
 
 ```sh
 pipx install copier-template-tester

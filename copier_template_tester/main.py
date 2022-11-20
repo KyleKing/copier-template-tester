@@ -4,7 +4,6 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 """
 
-import shutil
 from pathlib import Path
 
 import copier
@@ -67,8 +66,6 @@ def run(base_dir: Path | None = None) -> None:
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
-        if output_path.is_dir():
-            shutil.rmtree(output_path)
         print(f'Creating: {output_path}')  # noqa: T001
         _render(input_path, base_dir / output_path, data=defaults | data)
 
