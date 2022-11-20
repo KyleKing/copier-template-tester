@@ -17,8 +17,6 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    - navigation.instant
-    - navigation.tabs
     - toc.autohide
 
 plugins:
