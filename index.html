@@ -715,10 +715,9 @@
 <p><img alt="./ctt-logo.png" src="ctt-logo.png" /></p>
 <p>Parametrize copier templates to test for syntax errors, check the expected output, and to check against copier versions.</p>
 <p>Note that <code>ctt</code> only tests the <code>copier copy</code> operation and doesn&rsquo;t check the <code>update</code> behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.</p>
-<p>One last caveat is that copier question defaults won&rsquo;t work with how the test is run. So you&rsquo;ll need to provide values in <code>ctt.toml</code> for any values you want filled.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">⚓︎</a></h2>
 <h3 id="configuration-file">Configuration File<a class="headerlink" href="#configuration-file" title="Permanent link">⚓︎</a></h3>
-<p>When creating a copier template repository, you&rsquo;ll need to follow the nested <a href="https://copier.readthedocs.io/en/latest/configuring/#subdirectory">&ldquo;subdirectory&rdquo; approach</a> so that the directory looks like this:</p>
+<p>When creating a copier template repository, I recommend following the nested <a href="https://copier.readthedocs.io/en/latest/configuring/#subdirectory">&ldquo;subdirectory&rdquo; approach</a> so that the directory looks like this:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>└── template_dir
 <span class="linenos" data-linenos="2 "></span>│   └── <span class="o">{{</span> _copier_conf.answers_file <span class="o">}}</span>.jinja
 <span class="linenos" data-linenos="3 "></span>├── README.md
@@ -726,22 +725,18 @@
 <span class="linenos" data-linenos="5 "></span>└── ctt.toml
 </code></pre></div>
 <p>Create a new <code>ctt.toml</code> file in the top-level directory of your copier repository. Populate the file to look like the below example.</p>
-<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="c1"># Specify the subdirectory name that contains the template</span><span class="w"></span>
-<span class="linenos" data-linenos=" 2 "></span><span class="k">[ctt]</span><span class="w"></span>
-<span class="linenos" data-linenos=" 3 "></span><span class="n">source_directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;template_dir&quot;</span><span class="w"></span>
-<span class="linenos" data-linenos=" 4 "></span>
-<span class="linenos" data-linenos=" 5 "></span><span class="c1"># Specify the defaults that are shared across all &#39;output&#39;</span><span class="w"></span>
-<span class="linenos" data-linenos=" 6 "></span><span class="k">[defaults]</span><span class="w"></span>
-<span class="linenos" data-linenos=" 7 "></span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;placeholder&quot;</span><span class="w"></span>
-<span class="linenos" data-linenos=" 8 "></span><span class="n">copyright_year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2022</span><span class="w"></span>
-<span class="linenos" data-linenos=" 9 "></span><span class="n">include_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="linenos" data-linenos="10 "></span>
-<span class="linenos" data-linenos="11 "></span><span class="c1"># Parametrize each output with a relative path and optionally any values to override</span><span class="w"></span>
-<span class="linenos" data-linenos="12 "></span><span class="k">[output.&quot;.ctt/defaults&quot;]</span><span class="w"></span>
-<span class="linenos" data-linenos="13 "></span>
-<span class="linenos" data-linenos="14 "></span><span class="k">[output.&quot;.ctt/no_all&quot;]</span><span class="w"></span>
-<span class="linenos" data-linenos="15 "></span><span class="n">package_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;testing-no-all&quot;</span><span class="w"></span>
-<span class="linenos" data-linenos="16 "></span><span class="n">include_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="c1"># Specify shared data across all &#39;output&#39; destinations</span><span class="w"></span>
+<span class="linenos" data-linenos=" 2 "></span><span class="c1"># Note that the copier.yml defaults are used whenever the key is not set in this file</span><span class="w"></span>
+<span class="linenos" data-linenos=" 3 "></span><span class="k">[defaults]</span><span class="w"></span>
+<span class="linenos" data-linenos=" 4 "></span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;placeholder&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 5 "></span><span class="n">copyright_year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2022</span><span class="w"></span>
+<span class="linenos" data-linenos=" 6 "></span>
+<span class="linenos" data-linenos=" 7 "></span><span class="c1"># Parametrize each output with a relative path and optionally any values to override</span><span class="w"></span>
+<span class="linenos" data-linenos=" 8 "></span><span class="k">[output.&quot;.ctt/defaults&quot;]</span><span class="w"></span>
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span><span class="k">[output.&quot;.ctt/no_all&quot;]</span><span class="w"></span>
+<span class="linenos" data-linenos="11 "></span><span class="n">package_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;testing-no-all&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="12 "></span><span class="n">include_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
 </code></pre></div>
 <h3 id="pre-commit-hook">Pre-Commit Hook<a class="headerlink" href="#pre-commit-hook" title="Permanent link">⚓︎</a></h3>
 <p>First, add this section to your <code>.pre-commit-config.yml</code> file:</p>
