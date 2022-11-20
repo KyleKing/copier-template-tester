@@ -43,10 +43,10 @@ def test_validate_config(config, expectation):
 def test_main_with_copier_mock(monkeypatch):
     """Only necessary for coverage metrics."""
     @beartype
-    def _copy(src_path: str, dst_path: Path, **kwargs) -> None:
+    def _run_auto(src_path: str, dst_path: Path, **kwargs) -> None:
         pass
 
-    monkeypatch.setattr(copier, 'copy', _copy)
+    monkeypatch.setattr(copier, 'run_auto', _run_auto)
 
     run(base_dir=TEST_DATA_DIR / 'copier_demo')
 

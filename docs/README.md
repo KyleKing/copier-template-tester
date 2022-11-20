@@ -1,6 +1,6 @@
 # copier-template-tester
 
-Parametrize copier templates to test for syntax errors and check the expected output.
+Parametrize copier templates to test for syntax errors, check the expected output, and to check against copier versions.
 
 Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
 
@@ -10,7 +10,7 @@ One last caveat is that copier question defaults won't work with how the test is
 
 ### Configuration File
 
-When creating a copier template repository, you'll need to follow the nested approach so that the directory looks like this:
+When creating a copier template repository, you'll need to follow the nested ["subdirectory" approach](https://copier.readthedocs.io/en/latest/configuring/#subdirectory) so that the directory looks like this:
 
 ```sh
 └── template_dir

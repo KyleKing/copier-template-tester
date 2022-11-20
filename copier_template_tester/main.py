@@ -48,11 +48,11 @@ def _render(  # type: ignore[no-untyped-def]
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
+    kwargs.setdefault('cleanup_on_error', False)
     kwargs.setdefault('data', data or {})
     kwargs.setdefault('overwrite', True)
-    kwargs.setdefault('cleanup_on_error', False)
     kwargs.setdefault('quiet', False)
-    copier.copy(str(src_path), dst_path, **kwargs)
+    copier.run_auto(str(src_path), dst_path, **kwargs)
 
 
 @beartype
