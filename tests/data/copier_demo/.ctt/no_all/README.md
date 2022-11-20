@@ -2,4 +2,4 @@
 
 Works with Python=3.11
 
-Copyright: 
+Copyright: 2032
