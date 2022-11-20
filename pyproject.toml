@@ -9,7 +9,7 @@ pythons = ["3.11"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.0.1"
+version = "1.0.0"
 version_files = ["pyproject.toml", "copier_template_tester/__init__.py"]
 
 [tool.isort]
@@ -24,7 +24,7 @@ multi_line_output = 5
 
 [tool.poetry]
 name = "copier_template_tester"
-version = "0.0.1"
+version = "1.0.0"
 description = "Test copier templates"
 license = "MIT"
 authors = ["Kyle King <dev.act.kyle@gmail.com>"]

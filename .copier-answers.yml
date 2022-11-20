@@ -1,7 +1,7 @@
 # yamllint disable-file
 # Answer file maintained by Copier for: https://github.com/KyleKing/calcipy_template
 # Check into version control. Edit by re-running copier and changing responses to the questions
-_commit: 0.16.3
+_commit: 0.17.0
 _src_path: gh:KyleKing/calcipy_template
 author_email: dev.act.kyle@gmail.com
 author_name: Kyle King

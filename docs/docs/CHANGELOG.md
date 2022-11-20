@@ -7,4 +7,5 @@
 
 ### Fix
 
+- use the public run_auto instead of .copy
 - remove folder deletion

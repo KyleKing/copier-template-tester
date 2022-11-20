@@ -2,15 +2,18 @@
 
 from pathlib import Path
 
-import tomli
-
 from copier_template_tester import __version__
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib  # ignore: type[no-redef]
 
 
 def test_version():
     """Check that PyProject and __version__ are equivalent."""
     data = Path('pyproject.toml').read_text()
 
-    result = tomli.loads(data)['tool']['poetry']['version']
+    result = tomllib.loads(data)['tool']['poetry']['version']
 
     assert result == __version__
