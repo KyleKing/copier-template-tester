@@ -11,6 +11,6 @@ FIXME: Replace with programmatic imports? Maybe explicit imports to check backwa
 
 from pprint import pprint
 
-# TODO: Replace with imports to test
+from copier_template_tester.main import run
 
-pprint(locals())  # noqa: T003
+pprint(f'run: {run}\n\n{locals()}')  # noqa: T003

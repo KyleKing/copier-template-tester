@@ -4,6 +4,9 @@ requires = [
   "poetry-core",
 ]
 
+[tool.calcipy.test]
+pythons = ["3.11"]
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.0.1"
@@ -32,14 +35,15 @@ readme = "docs/README.md"
 include = ["LICENSE.md"]
 keywords = []
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ] # https://pypi.org/classifiers/
+
+[tool.poetry.scripts]
+ctt = "copier_template_tester.main:run"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
@@ -47,7 +51,10 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10.5"
-calcipy = ">=0.20.0"
+beartype = ">=0.11.0"
+copier = ">=7.0.1"
+tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 
-[tool.poetry.dev-dependencies]
-calcipy = { version = "*", extras = ["dev", "lint", "test"] }
+[tool.poetry.group.dev.dependencies]
+calcipy = { version = ">=0.21.3", extras = ["dev", "lint", "test"] }
+pytest-shell-utilities = ">=1.7.0"

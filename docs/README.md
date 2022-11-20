@@ -1,26 +1,78 @@
 # copier-template-tester
 
-Test copier templates
+Parametrize copier templates to test for syntax errors and check the expected output.
 
-## Installation
+Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
 
-1. `poetry add `
-
-1. ...
-
-   ```sh
-   import
-
-   # < TODO: Add example code here >
-   ```
-
-1. ...
+One last caveat is that copier question defaults don't work with how the test is run. So you'll need to provide values in `ctt.toml` for any values you want filled.
 
 ## Usage
 
-<!-- < TODO: Show an example (screenshots, terminal recording, etc.) > -->
+### Configuration File
 
-For more example code, see the [scripts] directory or the [tests].
+When creating a copier template repository, you'll need to follow the nested approach so that the directory looks like this:
+
+```sh
+└── template_dir
+│   └── {{ _copier_conf.answers_file }}.jinja
+├── README.md
+├── copier.yml
+└── ctt.toml
+```
+
+Create a new `ctt.toml` file in the top-level directory of your copier repository. Populate the file to look like the below example.
+
+```toml
+# Specify the subdirectory name that contains the template
+[ctt]
+source_directory = "template_dir"
+
+# Specify the defaults that are shared across all 'output'
+[defaults]
+project_name = "placeholder"
+copyright_year = 2022
+include_all = true
+
+# Parametrize each output with a relative path and optionally any values to override
+[output.".ctt/defaults"]
+
+[output.".ctt/no_all"]
+package_name = "testing-no-all"
+include_all = false
+```
+
+### Pre-Commit Hook
+
+First, add this section to your `.pre-commit-config.yml` file:
+
+```yaml
+repos:
+  - repo: https://github.com/KyleKing/copier-template-tester
+    rev: main
+    hooks:
+      - id: ctt
+```
+
+The run with `pre-commit`:
+
+```sh
+pre-commit run --all-files --hook-stage commit copier-template-tester
+```
+
+### pipx
+
+You can also try `ctt` as a CLI tool by installing with `pipx`
+
+```sh
+pipx install copier-template-tester
+
+cd ~/your/copier/project
+ctt
+```
+
+### More Examples
+
+For more example code, see the [tests] directory or how this utility is used in a real project: [KyleKing/calcipy_template](https://github.com/KyleKing/calcipy_template)
 
 ## Project Status
 
@@ -54,6 +106,5 @@ If you have any security issue to report, please contact the project maintainers
 [contributor-covenant]: https://www.contributor-covenant.org
 [developer_guide]: ./docs/DEVELOPER_GUIDE.md
 [license]: https://github.com/kyleking/copier-template-tester/LICENSE
-[scripts]: https://github.com/kyleking/copier-template-tester/scripts
 [style_guide]: ./docs/STYLE_GUIDE.md
 [tests]: https://github.com/kyleking/copier-template-tester/tests
