@@ -4,8 +4,6 @@ Parametrize copier templates to test for syntax errors, check the expected outpu
 
 Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
 
-One last caveat is that copier question defaults won't work with how the test is run. So you'll need to provide values in `ctt.toml` for any values you want filled.
-
 ## Usage
 
 ### Configuration File

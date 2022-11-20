@@ -23,6 +23,7 @@ copyright_date:
 minimum_python:
   type: str
   help: The minimum Python version
+  default: 3.8.4
 
 include_all:
   type: bool
