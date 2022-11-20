@@ -50,10 +50,9 @@ def _render(  # type: ignore[no-untyped-def]
     """
     kwargs.setdefault('cleanup_on_error', False)
     kwargs.setdefault('data', data or {})
-    kwargs.setdefault('defaults', True)
     kwargs.setdefault('overwrite', True)
     kwargs.setdefault('quiet', False)
-    copier.run_auto(str(src_path), dst_path, **kwargs)
+    copier.run_auto(str(src_path), dst_path, defaults=True, **kwargs)
 
 
 @beartype
