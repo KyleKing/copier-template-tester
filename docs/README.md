@@ -1,5 +1,7 @@
 # copier-template-tester
 
+![./ctt-logo.png](./ctt-logo.png)
+
 Parametrize copier templates to test for syntax errors, check the expected output, and to check against copier versions.
 
 Note that `ctt` only tests the `copier copy` operation and doesn't check the `update` behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.
