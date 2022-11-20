@@ -781,12 +781,12 @@
 
 
 <h1 id="copier-template-tester">copier-template-tester<a class="headerlink" href="#copier-template-tester" title="Permanent link">⚓︎</a></h1>
-<p>Parametrize copier templates to test for syntax errors and check the expected output.</p>
+<p>Parametrize copier templates to test for syntax errors, check the expected output, and to check against copier versions.</p>
 <p>Note that <code>ctt</code> only tests the <code>copier copy</code> operation and doesn&rsquo;t check the <code>update</code> behavior and any version-specific logic that your template may contain because of how quickly those tests become complex.</p>
-<p>One last caveat is that copier question defaults don&rsquo;t work with how the test is run. So you&rsquo;ll need to provide values in <code>ctt.toml</code> for any values you want filled.</p>
+<p>One last caveat is that copier question defaults won&rsquo;t work with how the test is run. So you&rsquo;ll need to provide values in <code>ctt.toml</code> for any values you want filled.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">⚓︎</a></h2>
 <h3 id="configuration-file">Configuration File<a class="headerlink" href="#configuration-file" title="Permanent link">⚓︎</a></h3>
-<p>When creating a copier template repository, you&rsquo;ll need to follow the nested approach so that the directory looks like this:</p>
+<p>When creating a copier template repository, you&rsquo;ll need to follow the nested <a href="https://copier.readthedocs.io/en/latest/configuring/#subdirectory">&ldquo;subdirectory&rdquo; approach</a> so that the directory looks like this:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>└── template_dir
 <span class="linenos" data-linenos="2 "></span>│   └── <span class="o">{{</span> _copier_conf.answers_file <span class="o">}}</span>.jinja
 <span class="linenos" data-linenos="3 "></span>├── README.md
@@ -817,13 +817,16 @@
 <span class="linenos" data-linenos="2 "></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/KyleKing/copier-template-tester</span><span class="w"></span>
 <span class="linenos" data-linenos="3 "></span><span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w"></span>
 <span class="linenos" data-linenos="4 "></span><span class="w">    </span><span class="nt">hooks</span><span class="p">:</span><span class="w"></span>
-<span class="linenos" data-linenos="5 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ctt</span><span class="w"></span>
+<span class="linenos" data-linenos="5 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copier-template-tester</span><span class="w"></span>
+</code></pre></div>
+<p>Install and update to the latest revision:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pre-commit autoupdate
 </code></pre></div>
 <p>The run with <code>pre-commit</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pre-commit run --all-files --hook-stage commit copier-template-tester
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pre-commit run --all-files copier-template-tester
 </code></pre></div>
 <h3 id="pipx">pipx<a class="headerlink" href="#pipx" title="Permanent link">⚓︎</a></h3>
-<p>You can also try <code>ctt</code> as a CLI tool by installing with <code>pipx</code></p>
+<p>You can also try <code>ctt</code> as a CLI tool by installing with <code>pipx</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pipx install copier-template-tester
 <span class="linenos" data-linenos="2 "></span>
 <span class="linenos" data-linenos="3 "></span><span class="nb">cd</span> ~/your/copier/project
