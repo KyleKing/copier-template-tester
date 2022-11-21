@@ -50,8 +50,8 @@ poetry run doit run lock document deploy_docs publish
 | File                                 |   Statements |   Missing |   Excluded | Coverage   |
 |--------------------------------------|--------------|-----------|------------|------------|
 | `copier_template_tester/__init__.py` |            2 |         0 |          0 | 100.0%     |
-| `copier_template_tester/main.py`     |           37 |         0 |          5 | 100.0%     |
-| **Totals**                           |           39 |         0 |          5 | 100.0%     |
+| `copier_template_tester/main.py`     |           42 |         1 |          5 | 97.6%      |
+| **Totals**                           |           44 |         1 |          5 | 97.7%      |
 
 Generated on: 2022-11-20
 <!-- {cte} -->

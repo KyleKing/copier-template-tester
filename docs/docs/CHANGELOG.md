@@ -2,6 +2,12 @@
 
 ### Fix
 
+- use VCS-ref HEAD and remove .git if found
+
+## 1.0.1 (2022-11-20)
+
+### Fix
+
 - use the proper directory for copier run
 
 ## 1.0.0 (2022-11-20)
