@@ -4,6 +4,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 """
 
+import shutil
 from pathlib import Path
 
 import copier
@@ -51,7 +52,11 @@ def _render(  # type: ignore[no-untyped-def]
     kwargs.setdefault('defaults', True)
     kwargs.setdefault('overwrite', True)
     kwargs.setdefault('quiet', False)
+    kwargs.setdefault('vcs_ref', 'HEAD')
     copier.run_auto(str(src_path), dst_path, **kwargs)
+    git_path = dst_path / '.git'
+    if git_path.is_dir():
+        shutil.rmtree(git_path)
 
 
 @beartype
