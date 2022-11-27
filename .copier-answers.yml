@@ -1,7 +1,8 @@
 # yamllint disable-file
 # Answer file maintained by Copier for: https://github.com/KyleKing/calcipy_template
-# Check into version control. Edit by re-running copier and changing responses to the questions
-_commit: 0.17.0
+# DO NOT MODIFY THIS FILE. Edit by re-running copier and changing responses to the questions
+# Check into version control.
+_commit: 0.17.4
 _src_path: gh:KyleKing/calcipy_template
 author_email: dev.act.kyle@gmail.com
 author_name: Kyle King
@@ -13,10 +14,11 @@ doc_dir: docs
 include_adrs: false
 include_all: true
 install_extras: null
-minimum_python: 3.11.0
+minimum_python: 3.10.5
 package_name_py: copier_template_tester
 project_description: Test copier templates
 project_name: copier-template-tester
 repository_namespace: kyleking
 repository_provider: https://github.com
 repository_url: https://github.com/kyleking/copier-template-tester
+

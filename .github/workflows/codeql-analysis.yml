@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.11.0]
+        python-version: [3.10.5]
         language: [python]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
@@ -40,19 +40,12 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
+          config-file: .github/workflows/codeql-config.yml
           languages: ${{ matrix.language }}
           setup-python-dependencies: false
 
-          # If you wish to specify custom queries, you can do so here or in a config file.
-          # By default, queries listed here will override any specified in a config file.
-          # Prefix the list here with "+" to use these queries and those in the config file.
-
           # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
           queries: security-extended,security-and-quality
-
-          query-filters:
-            - exclude:
-                id: py/unused-import
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
