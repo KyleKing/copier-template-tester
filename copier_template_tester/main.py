@@ -55,7 +55,7 @@ def _render(  # type: ignore[no-untyped-def]
     kwargs.setdefault('vcs_ref', 'HEAD')
     copier.run_auto(str(src_path), dst_path, **kwargs)
     git_path = dst_path / '.git'
-    if git_path.is_dir():
+    if git_path.is_dir():  # pragma: no cover
         shutil.rmtree(git_path)
 
 

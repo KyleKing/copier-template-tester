@@ -144,12 +144,12 @@
         "version": "2.3.post1"
     },
     "calcipy": {
-        "datetime": "2022-11-14T03:41:58.276905+00:00",
+        "datetime": "2022-11-21T03:44:47.818616+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2022-11-14T03:41:58.276905+00:00",
-        "latest_version": "0.21.3",
+        "latest_datetime": "2022-11-21T03:44:47.818616+00:00",
+        "latest_version": "0.21.4",
         "name": "calcipy",
-        "version": "0.21.3"
+        "version": "0.21.4"
     },
     "cement": {
         "datetime": "2022-08-18T19:10:40.137300+00:00",
@@ -1672,12 +1672,12 @@
         "version": "0.9.0"
     },
     "termcolor": {
-        "datetime": "2022-10-30T09:28:50.420349+00:00",
+        "datetime": "2022-11-20T07:59:25.044511+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2022-10-30T09:28:50.420349+00:00",
-        "latest_version": "2.1.0",
+        "latest_datetime": "2022-11-20T07:59:25.044511+00:00",
+        "latest_version": "2.1.1",
         "name": "termcolor",
-        "version": "2.1.0"
+        "version": "2.1.1"
     },
     "terminaltables": {
         "datetime": "2021-12-07T19:03:34.013333+00:00",

@@ -53,5 +53,5 @@ poetry run doit run lock document deploy_docs publish
 | `copier_template_tester/main.py`     |           42 |         1 |          5 | 97.6%      |
 | **Totals**                           |           44 |         1 |          5 | 97.7%      |
 
-Generated on: 2022-11-20
+Generated on: 2022-11-21
 <!-- {cte} -->
