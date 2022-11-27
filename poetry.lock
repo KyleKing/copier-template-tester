@@ -204,7 +204,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "calcipy"
-version = "0.21.4"
+version = "0.21.5"
 description = "Python package to simplify development. Includes functionality for task running, testing, linting, documenting, and more"
 category = "dev"
 optional = false
@@ -2947,7 +2947,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.5"
-content-hash = "41600fcdf6438c7ebaffdb904b02fb7ce678432b4fede2fc806becac3f4afd4b"
+content-hash = "a49f58cf324e937d6c41c1fce528c282711a90cf15d8654fd8b893fc7157efb7"
 
 [metadata.files]
 absolufy-imports = [
@@ -3023,8 +3023,8 @@ bracex = [
     {file = "bracex-2.3.post1.tar.gz", hash = "sha256:e7b23fc8b2cd06d3dec0692baabecb249dda94e06a617901ff03a6c56fd71693"},
 ]
 calcipy = [
-    {file = "calcipy-0.21.4-py3-none-any.whl", hash = "sha256:766e14ecad776e993181fb7f6e2537791a3b97fd770b1504c6818d32cf78fe65"},
-    {file = "calcipy-0.21.4.tar.gz", hash = "sha256:9058fb6ea2bc7fe69c443e380468d944b15edae90a79e151f9c8c7b9002c81b2"},
+    {file = "calcipy-0.21.5-py3-none-any.whl", hash = "sha256:485b6485a634239083d785253ddea65ecd59ed71e508348df556b214cc789920"},
+    {file = "calcipy-0.21.5.tar.gz", hash = "sha256:df079ef10638004757f66f0780c8812d08bbf503fa7820d9f2cce924ba4c9fc1"},
 ]
 cement = [
     {file = "cement-3.0.8-py3-none-any.whl", hash = "sha256:6bea33b89d3329c405ca4119b7da402b53b7c2c402e98cda371e882d5a2f485e"},

@@ -56,5 +56,5 @@ copier = ">=7.0.1"
 tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 
 [tool.poetry.group.dev.dependencies]
-calcipy = { version = ">=0.21.3", extras = ["dev", "lint", "test"] }
+calcipy = { version = ">=0.21.5", extras = ["dev", "lint", "test"] }
 pytest-shell-utilities = ">=1.7.0"
