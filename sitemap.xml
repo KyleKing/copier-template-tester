@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://copier-template-tester.kyleking.me/docs/Advanced_Documentation/</loc>
+         <lastmod>2022-11-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://copier-template-tester.kyleking.me/docs/CHANGELOG/</loc>
          <lastmod>2022-11-27</lastmod>
          <changefreq>daily</changefreq>
