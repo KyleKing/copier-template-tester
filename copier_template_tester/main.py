@@ -4,7 +4,10 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 """
 
+import shlex
 import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import copier
@@ -60,6 +63,22 @@ def _render(  # type: ignore[no-untyped-def]
 
 
 @beartype
+def _ls_untracked_dir() -> set[Path]:
+    cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
+    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
+    stdout, _stderr = process.communicate()
+    return {Path.cwd() / _d.strip() for _d in stdout.decode().split('\n') if _d}
+
+
+@beartype
+def _check_for_untracked(output_paths: set[Path]) -> None:
+    """Resolves the edge case in #3 by raising when pre-commit won't error."""
+    if new_dirs := output_paths.intersection(_ls_untracked_dir()):
+        print(f'pre-commit error: untracked files from {new_dirs} must be added')  # noqa: T001
+        sys.exit(1)
+
+
+@beartype
 def run(base_dir: Path | None = None) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
@@ -67,11 +86,14 @@ def run(base_dir: Path | None = None) -> None:
     defaults = config.get('defaults', {})
 
     input_path = base_dir
+    output_paths = set()
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
+        output_path.add(output_path)
         print(f'Creating: {output_path}')  # noqa: T001
         _render(input_path, base_dir / output_path, data=defaults | data)
+    _check_for_untracked(output_paths)
 
 
 if __name__ == '__main__':  # pragma: no cover
