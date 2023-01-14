@@ -19,6 +19,9 @@ theme:
   features:
     - toc.autohide
 
+watch:
+  - copier_template_tester
+
 plugins:
   - build_plantuml:
       render: server  # or "local"
@@ -38,8 +41,6 @@ plugins:
       fallback_to_build_date: true
       enable_creation_date: true
   - mkdocstrings:
-      watch:
-        - copier_template_tester
       handlers:
         python:
           rendering:

@@ -4,7 +4,7 @@ description: Run "poetry install"
 
 inputs:
   os:
-    default: ubuntu-latest
+    default: ubuntu-22.04
   poetry-version:
     default: 1.2.2
   python-version:
