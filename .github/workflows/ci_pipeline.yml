@@ -16,8 +16,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.10.5]
+        os: [ubuntu-22.04]
+        python-version: ['3.10']
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
-        python-version: [3.10.5]
+        python-version: ['3.10']
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -49,8 +49,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.10.5]
+        os: [ubuntu-22.04]
+        python-version: ['3.10']
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
