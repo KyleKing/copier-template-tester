@@ -1,13 +1,21 @@
 ---
 name: Update Docs
 
-on:  # yamllint disable-line rule:truthy
+on: # yamllint disable-line rule:truthy
   push:
     branches: [main]
     paths:
       - docs/**
       - mkdocs.yml
-  workflow_dispatch:  # For manual runs
+  workflow_dispatch: # For manual runs
+
+# Docs: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+permissions:
+  # Repository contents, commits, branches, downloads, releases, and merges.
+  contents: write
+
+env:
+  COLUMNS: 120
 
 jobs:
   docs:
@@ -15,11 +23,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04]
-        python-version: ['3.10']
+        python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # For git-revision-date-localized-plugin
+          fetch-depth: 0 # For git-revision-date-localized-plugin
       - uses: ./.github/actions/setup
         with:
           os: ${{ matrix.os }}
@@ -33,4 +41,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Build and deploy documentation
-        run: poetry run doit run cl_write document deploy_docs
+        run: ./run cl.write doc.build doc.deploy

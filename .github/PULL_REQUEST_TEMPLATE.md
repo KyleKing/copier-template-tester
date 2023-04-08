@@ -2,4 +2,4 @@
 
 ## Description
 
-<!-- TODO: Please describe the purpose and high-level explanation of the changes -->
+<!-- Please describe the purpose and high-level explanation of the changes -->

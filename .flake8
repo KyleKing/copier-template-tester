@@ -1,27 +1,16 @@
 [flake8]
-annoy = true
-assertive-snakecase = true
-cohesion-below = 50.0
-docstring-convention = all
-# May generate false positives. May need to revisit, but seems fine so far
-eradicate-aggressive = true
 # Explanation and Notes on Flake8 Ignore Rules. Also see: https://www.flake8rules.com/
-# ANN01,ANN002,ANN003,ANN101 / flake8-annotations: https://github.com/sco1/flake8-annotations
-# D203,D213,D214,D406,D407 / (conflicts with Google docstrings) http://www.pydocstyle.org/en/latest/error_codes.html
-#   Be more flexible with punctuation. Choose D415 over D400
-# G004 / https://github.com/globality-corp/flake8-logging-format#violations-detected
-# PD005,PD011 / (false positives) https://github.com/deppen8/pandas-vet/issues/74
-# S322 / https://github.com/tylerwince/flake8-bandit
-# TC003 / Tryceratops - allow arbitrary error messages
-# W503 - Must select one of W503 or W504. See: https://lintlyci.github.io/Flake8Rules/rules/W504.html
-#   Python 3 standard is a line break BEFORE binary operator, so ignore W503. Enforce W504
-ignore = ANN01,ANN002,ANN003,ANN101,D203,D213,D214,D400,D406,D407,G004,H101,H238,H301,H304,H306,PD005,PD011,S322,TC003,W503
-# Default is 7. See: https://github.com/best-doctor/flake8-expression-complexity
-max-expression-complexity = 7
+# E501 - defer line length to other tools
+# PIE786 - Use precise exception handlers
+# W503 - Python 3 standard is a line break BEFORE binary operator, so ignore W503. Enforce W504
+ignore = E501,PIE786,W503
 max-function-length = 55
 max-line-length = 120
-max-parameters-amount = 6
 min-python-version = 3.10
-per-file-ignores=test_*.py:ANN001,ANN201,DAR101,DAR201,E800,S101
-radon-max-cc = 7
+per-file-ignores=
+    # Enforcing beartype on @nox_session doesn't make sense
+    *noxfile.py:RBT001,
+    __init__.py:F401,
+    check_imports.py:F401,
+    test_*.py:RBT001
 select = A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z

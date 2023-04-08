@@ -12,17 +12,13 @@ from pathlib import Path
 
 import copier
 from beartype import beartype
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover
-    import tomli as tomllib  # type: ignore[no-redef]
+from corallium.tomllib import tomllib
 
 
 @beartype
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
-        print('Warning: You probably want a section: [defaults]')  # noqa: T001
+        print('Warning: You probably want a section: [defaults]')  # noqa: T201
     if not config.get('output'):
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
@@ -35,7 +31,7 @@ def _load_config(base_dir: Path) -> dict:  # type: ignore[type-arg]
         config: dict = tomllib.loads(cfg_path.read_text())  # type: ignore[type-arg]
         _validate_config(config)
         return config
-    raise ValueError(f'No configuration file found. Expected: {cfg_path.absolute()}')  # pragma: no cover
+    raise ValueError(f'No configuration file found. Expected: {cfg_path.absolute()}')  # pragma: no cover # noqa: EM102
 
 
 @beartype
@@ -74,7 +70,7 @@ def _ls_untracked_dir() -> set[Path]:
 def _check_for_untracked(output_paths: set[Path]) -> None:
     """Resolves the edge case in #3 by raising when pre-commit won't error."""
     if new_dirs := output_paths.intersection(_ls_untracked_dir()):
-        print(f'pre-commit error: untracked files from {new_dirs} must be added')  # noqa: T001
+        print(f'pre-commit error: untracked files from {new_dirs} must be added')  # noqa: T201
         sys.exit(1)
 
 
@@ -91,7 +87,7 @@ def run(base_dir: Path | None = None) -> None:
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
         output_path.add(output_path)
-        print(f'Creating: {output_path}')  # noqa: T001
+        print(f'Creating: {output_path}')  # noqa: T201
         _render(input_path, base_dir / output_path, data=defaults | data)
     _check_for_untracked(output_paths)
 

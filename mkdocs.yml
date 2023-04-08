@@ -24,9 +24,9 @@ watch:
 
 plugins:
   - build_plantuml:
-      render: server  # or "local"
-      bin_path: /usr/local/bin/plantuml  # ignored when render: server
-      server: http://www.plantuml.com/plantuml  # official plantuml server
+      render: server # or "local"
+      bin_path: /usr/local/bin/plantuml # ignored when render: server
+      server: http://www.plantuml.com/plantuml # official plantuml server
       output_format: svg
       diagram_root: docs/diagrams
       output_folder: out
@@ -37,9 +37,10 @@ plugins:
       scripts:
         - docs/gen_ref_nav.py
   - git-revision-date-localized:
-      type: date
-      fallback_to_build_date: true
       enable_creation_date: true
+      fallback_to_build_date: true
+      strict: false
+      type: date
   - mkdocstrings:
       handlers:
         python:
@@ -62,7 +63,6 @@ markdown_extensions:
   - extra
   - fenced_code
   - footnotes
-  - mdx_truly_sane_lists
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg

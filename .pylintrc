@@ -5,6 +5,27 @@ ignore=tests
 py-version=3.10
 suggestion-mode=yes
 
+load-plugins=
+    pylint.extensions.bad_builtin,
+    pylint.extensions.broad_try_clause,
+    pylint.extensions.check_elif,
+    pylint.extensions.code_style,
+    pylint.extensions.comparetozero,
+    pylint.extensions.comparison_placement,
+    pylint.extensions.confusing_elif,
+    pylint.extensions.consider_ternary_expression,
+    pylint.extensions.empty_comment,
+    pylint.extensions.emptystring,
+    pylint.extensions.eq_without_hash,
+    pylint.extensions.for_any_all,
+    pylint.extensions.mccabe,
+    pylint.extensions.overlapping_exceptions,
+    pylint.extensions.private_import,
+    pylint.extensions.redefined_loop_name,
+    pylint.extensions.redefined_variable_type,
+    pylint.extensions.set_membership,
+    pylint.extensions.typing
+
 [BASIC]
 include-naming-hint=yes
 
@@ -12,6 +33,7 @@ include-naming-hint=yes
 check-protected-access-in-special-methods=yes
 
 [DESIGN]
+max-args=7  # Def: 6
 max-bool-expr=4  # Def: 5
 max-branches=10  # Def: 12
 max-parents=3  # Def: 7
@@ -26,18 +48,37 @@ allow-wildcard-with-all=yes
 logging-format-style=new
 
 [MESSAGES CONTROL]
-disable=line-too-long  # Defer to flake8/black
+# Fixes 'no-name-in-module'
+extension-pkg-whitelist=pydantic
+# Defer to other tools and reduce false positives
+disable=
+    broad-except,
+    fixme,
+    import-outside-toplevel,
+    invalid-name,
+    line-too-long,
+    logging-format-interpolation,
+    logging-fstring-interpolation,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
+    no-self-argument,
+    redefined-builtin,
+    singleton-comparison,
+    too-few-public-methods,
+    too-many-try-statements,
+    ungrouped-imports,
+    use-maxsplit-arg,
+    wrong-import-order
 
 [REFACTORING]
 max-nested-blocks=3
 
 [REPORTS]
 output-format=colorized
-reports=yes
 
 [SIMILARITIES]
-min-similarity-lines=3
+min-similarity-lines=5
 
 [STRING]
-check-quote-consistency=yes
 check-str-concat-over-line-jumps=yes

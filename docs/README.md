@@ -74,7 +74,7 @@ ctt
 
 ### More Examples
 
-For more example code, see the [tests] directory or how this utility is used in a real project: [KyleKing/calcipy_template](https://github.com/KyleKing/calcipy_template)
+For more example code, see the [scripts] directory or the [tests].
 
 ## Project Status
 
@@ -93,7 +93,7 @@ We follow the [Contributor Covenant Code of Conduct][contributor-covenant].
 
 ### Open Source Status
 
-We try to reasonably meet most aspects of the "OpenSSF scorecard" from [Open Source Insights](https://deps.dev/pypi/copier_template_tester)
+We try to reasonably meet most aspects of the "OpenSSF scorecard" from [Open Source Insights](https://deps.dev/pypi/copier-template-tester)
 
 ## Responsible Disclosure
 
@@ -103,10 +103,11 @@ If you have any security issue to report, please contact the project maintainers
 
 [LICENSE]
 
-[changelog]: ./docs/CHANGELOG.md
-[code_tag_summary]: ./docs/CODE_TAG_SUMMARY.md
+[changelog]: https://copier-template-tester.kyleking.me/docs/CHANGELOG
+[code_tag_summary]: https://copier-template-tester.kyleking.me/docs/CODE_TAG_SUMMARY
 [contributor-covenant]: https://www.contributor-covenant.org
-[developer_guide]: ./docs/DEVELOPER_GUIDE.md
-[license]: https://github.com/kyleking/copier-template-tester/LICENSE
-[style_guide]: ./docs/STYLE_GUIDE.md
-[tests]: https://github.com/kyleking/copier-template-tester/tests
+[developer_guide]: https://copier-template-tester.kyleking.me/docs/DEVELOPER_GUIDE
+[license]: https://github.com/kyleking/copier-template-tester/blob/main/LICENSE
+[scripts]: https://github.com/kyleking/copier-template-tester/blob/main/scripts
+[style_guide]: https://copier-template-tester.kyleking.me/docs/STYLE_GUIDE
+[tests]: https://github.com/kyleking/copier-template-tester/blob/main/tests

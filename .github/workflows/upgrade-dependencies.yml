@@ -2,11 +2,19 @@
 # Based on: https://www.oddbird.net/2022/06/01/dependabot-single-pull-request/
 name: Upgrade Dependencies
 
-on:  # yamllint disable-line rule:truthy
+on: # yamllint disable-line rule:truthy
   workflow_dispatch:
   schedule:
     # First day of every month at 08:00 UTC
     - cron: 0 8 1 * *
+
+permissions:
+  pull-requests: write
+  # Repository contents, commits, branches, downloads, releases, and merges.
+  contents: write
+
+env:
+  COLUMNS: 120
 
 jobs:
   upgrade:
@@ -15,24 +23,26 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04]
-        python-version: ['3.10']
+        python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v3
         with:
           ref: main
-
       - uses: ./.github/actions/setup
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Upgrade Python dependencies
         run: poetry update
 
+      - name: Upgrade pre-commit dependencies
+        run: pip install pre-commit && pre-commit autoupdate
+
       # Creates a PR against the checked-out branch
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
-          title: 'build: automated dependency upgrades'
-          body: 'Full log: https://github.com/${{ github.repository }}/actions/runs/${{
-            github.run_id }}'
+          title: "build: automated dependency upgrades"
+          body: "Full log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           branch: auto-dependency-upgrades
           delete-branch: true

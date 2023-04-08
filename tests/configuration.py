@@ -2,12 +2,7 @@
 
 from pathlib import Path
 
-from calcipy.file_helpers import delete_dir, ensure_dir
-from calcipy.log_helpers import activate_debug_logging
-
-from copier_template_tester import __pkg_name__
-
-activate_debug_logging(pkg_names=[__pkg_name__], clear_log=True)
+from corallium.file_helpers import delete_dir, ensure_dir
 
 TEST_DIR = Path(__file__).resolve().parent
 """Path to the `test` directory that contains this file and all other tests."""

@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Fix
+
+- **#2**: resolve issues in Github Workflows
+
 ## 1.0.2 (2022-11-20)
 
 ### Fix
