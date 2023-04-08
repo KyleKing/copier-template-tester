@@ -1,46 +1,39 @@
 [build-system]
 build-backend = "poetry.core.masonry.api"
-requires = [
-  "poetry-core",
-]
-
-[tool.calcipy.test]
-pythons = ["3.11"]
+requires = ["poetry-core"]
 
 [tool.commitizen]
-name = "cz_conventional_commits"
 version = "1.0.2"
-version_files = ["pyproject.toml", "copier_template_tester/__init__.py"]
-
-[tool.isort]
-balanced_wrapping = true
-default_section = "THIRDPARTY"
-force_grid_wrap = 0
-include_trailing_comma = true
-known_first_party = "copier_template_tester"
-length_sort = false
-line_length = 120
-multi_line_output = 5
+version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
 [tool.poetry]
-name = "copier_template_tester"
-version = "1.0.2"
-description = "Test copier templates"
-license = "MIT"
 authors = ["Kyle King <dev.act.kyle@gmail.com>"]
-maintainers = []
-repository = "https://github.com/kyleking/copier-template-tester"
-documentation = "https://github.com/kyleking/copier-template-tester/docs"
-readme = "docs/README.md"
-include = ["LICENSE.md"]
-keywords = []
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
 ] # https://pypi.org/classifiers/
+description = "Test copier templates"
+documentation = "https://copier-template-tester.kyleking.me"
+include = ["LICENSE"]
+keywords = []
+license = "MIT"
+maintainers = []
+name = "copier_template_tester"
+readme = "docs/README.md"
+repository = "https://github.com/kyleking/copier-template-tester"
+version = "1.0.2"
+
+[tool.poetry.dependencies]
+python = "^3.10.5"
+copier = ">=7.0.1"
+corallium = ">=0.1.1"
+
+[tool.poetry.group.dev.dependencies]
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.3"}
+pytest-shell-utilities = ">=1.7.0"
 
 [tool.poetry.scripts]
 ctt = "copier_template_tester.main:run"
@@ -49,12 +42,6 @@ ctt = "copier_template_tester.main:run"
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
 "Changelog" = "https://github.com/kyleking/copier-template-tester/blob/main/docs/docs/CHANGELOG.md"
 
-[tool.poetry.dependencies]
-python = "^3.10.5"
-beartype = ">=0.11.0"
-copier = ">=7.0.1"
-tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
-
-[tool.poetry.group.dev.dependencies]
-calcipy = { version = ">=0.21.5", extras = ["dev", "lint", "test"] }
-pytest-shell-utilities = ">=1.7.0"
+[tool.pyright]
+include = ["copier_template_tester"]
+pythonVersion = "3.10"

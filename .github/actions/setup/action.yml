@@ -6,7 +6,7 @@ inputs:
   os:
     default: ubuntu-22.04
   poetry-version:
-    default: 1.3.1
+    default: 1.4.2
   python-version:
     required: true
 
@@ -32,12 +32,11 @@ runs:
       id: cache
       with:
         path: .nox
-        key: ${{ inputs.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock')
-          }}
+        key: ${{ inputs.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Poetry Debug Info
       run: |-
-        poetry env info
+        poetry debug info
         poetry config --list
       shell: bash
 
