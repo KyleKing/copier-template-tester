@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
 # shellcheck disable=SC2048
-poetry run copier_template_tester -v $*
+poetry run calcipy -v $*

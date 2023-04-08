@@ -14,8 +14,6 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
 ] # https://pypi.org/classifiers/
 description = "Test copier templates"
 documentation = "https://copier-template-tester.kyleking.me"
@@ -34,11 +32,10 @@ copier = ">=7.0.1"
 corallium = ">=0.1.1"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.1"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.3"}
 pytest-shell-utilities = ">=1.7.0"
 
 [tool.poetry.scripts]
-copier_template_tester = "copier_template_tester.scripts:start"
 ctt = "copier_template_tester.main:run"
 
 [tool.poetry.urls]

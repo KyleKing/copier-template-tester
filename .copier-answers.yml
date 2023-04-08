@@ -11,7 +11,7 @@ cname: copier-template-tester.kyleking.me
 copyright_date: '2022'
 development_branch: main
 doc_dir: docs
-extends_calcipy: true
+extends_calcipy: false
 include_adrs: false
 install_extras: ''
 minimum_python: 3.10.5

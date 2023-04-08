@@ -9,17 +9,13 @@ from pathlib import Path
 
 import copier
 from beartype import beartype
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover
-    import tomli as tomllib  # type: ignore[no-redef]
+from corallium.tomllib import tomllib
 
 
 @beartype
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
-        print('Warning: You probably want a section: [defaults]')  # noqa: T001
+        print('Warning: You probably want a section: [defaults]')  # noqa: T201
     if not config.get('output'):
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
@@ -32,7 +28,7 @@ def _load_config(base_dir: Path) -> dict:  # type: ignore[type-arg]
         config: dict = tomllib.loads(cfg_path.read_text())  # type: ignore[type-arg]
         _validate_config(config)
         return config
-    raise ValueError(f'No configuration file found. Expected: {cfg_path.absolute()}')  # pragma: no cover
+    raise ValueError(f'No configuration file found. Expected: {cfg_path.absolute()}')  # pragma: no cover # noqa: EM102
 
 
 @beartype
@@ -70,7 +66,7 @@ def run(base_dir: Path | None = None) -> None:
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
-        print(f'Creating: {output_path}')  # noqa: T001
+        print(f'Creating: {output_path}')  # noqa: T201
         _render(input_path, base_dir / output_path, data=defaults | data)
 
 
