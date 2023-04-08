@@ -1,1 +1,3 @@
-"""copier_template_tester test files."""
+from os import environ
+
+environ['BEARTYPE_SHOW_WARNINGS'] = 'yes'

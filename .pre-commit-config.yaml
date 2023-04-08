@@ -1,12 +1,19 @@
 ---
 # Common commands:
-# poetry run pre-commit install
-# poetry run pre-commit run --all-files --hook-stage commit
-# poetry run pre-commit run --all-files --hook-stage push
-# poetry run doit run pre_commit_hooks
+# pre-commit install
+# pre-commit autoupdate
+# pre-commit run --all-files absolufy-imports
+# pre-commit run --all-files --hook-stage commit
+# pre-commit run --all-files --hook-stage push
+# poetry run calcipy lint.pre-commit --no-update
 #
 # See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+#  and https://pre-commit.com/hooks.html for more hooks
+
+# Only commit is installed by default: https://pre-commit.com/#pre-commit-install
+# Pending rename of pre-push from: https://github.com/pre-commit/pre-commit/issues/2732
+default_install_hook_types: ["commit-msg", "pre-commit", "pre-push"]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -32,66 +39,49 @@ repos:
       - id: forbid-new-submodules
       - id: mixed-line-ending
         args: [--fix=auto]
-      - id: pretty-format-json
-        args: [--autofix, --indent=4]
-        exclude: (tests/.*assert-cache.*/.+\.json)
       - id: trailing-whitespace
-  - repo: https://github.com/lovesegfault/beautysh
-    rev: v6.2.1
-    hooks:
-      - id: beautysh
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.40.0
+    rev: v2.42.0
     hooks:
       - id: commitizen
-        additional_dependencies: [cz_legacy]
         stages: [commit-msg]
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: ['mdformat-mkdocs[recommneded]']
+        additional_dependencies: ["mdformat-mkdocs[recommended]"]
         args: [--wrap=no]
-  - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: 0.6.0
-    hooks:
-      - id: pyproject-fmt
+        exclude: _.+\.md|CHANGELOG\.md|CODE_TAG_SUMMARY\.md
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.9.0.2
     hooks:
       - id: shellcheck
         args: [--severity=warning]
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
-    hooks:
-      # Can't generate baseline with Py 3.8. Use exclude regex rules instead
-      # See: https://github.com/Yelp/detect-secrets/issues/452
-      - id: detect-secrets
-        # args: ["--baseline", ".secrets.baseline"]
-        exclude: poetry\.lock|.*/cassettes/.*\.yaml
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.0.0-alpha.4
     hooks:
       - id: prettier
         additional_dependencies:
           - prettier-plugin-sh
-        exclude: \.copier-answers\.yml|.*/cassettes/.*\.yaml
-        types: [yaml]
-  - repo: local
+        exclude: \.copier-answers\.yml|.*/cassettes/.*\.yaml|tests/.*assert-cache.*/.+\.json
+        types: [html, javascript, shell, yaml]
+  - repo: https://github.com/pappasam/toml-sort
+    rev: v0.22.4
+    hooks:
+      - id: toml-sort-fix
+        args: [--in-place, --all, --trailing-comma-inline-array]
+        # TODO: https://github.com/pappasam/toml-sort/issues/42
+        exclude: poetry\.lock|pyproject\.toml
+  - repo: https://github.com/MarcoGorelli/absolufy-imports
+    rev: v0.3.1
+    hooks:
+      - id: absolufy-imports
+        args: [--never]
+        files: copier_template_tester/.*\.py
+  - repo: https://github.com/KyleKing/calcipy
+    rev: 1.2.3
     hooks:
       - id: copier-forbidden-files
-        name: copier_forbidden_files
-        entry: |
-          Found copier update rejection files; review them and remove them
-          (https://copier.readthedocs.io/en/stable/updating/)
-        language: fail
-        files: \.rej$
-        # Note: there are occasional errors when running doit in pre-commit
-        #  "doit.dependency.DatabaseException: [Errno 35] Resource temporarily unavailable: '.doit.db'"
-        #  Using './.doit.tmp-*' helps, but sometimes the file needs to be manually removed
-      - id: python-formatter
-        name: Python Auto-Formatter
-        description: Apply calcipy formatting
-        language: system
-        entry: poetry run doit run --db-file=./.doit.tmp-py format_py
-        types: [python]
+      - id: lint-fix
+      - id: flake8
+      - id: tags
