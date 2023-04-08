@@ -1,6 +1,8 @@
+# noqa: INP001
 """Generate the code reference pages and navigation.
 
-Copied from: https://github.com/pawamoy/copier-pdm/blob/79135565c4c7f756204a5f460e87129649f8b704/project/docs/gen_ref_nav.py
+Copied from:
+https://github.com/pawamoy/copier-pdm/blob/79135565c4c7f756204a5f460e87129649f8b704/project/docs/gen_ref_nav.py
 
 """
 
@@ -32,8 +34,7 @@ for path in sorted(Path('copier_template_tester').rglob('*.py')):
 
     mkdocs_gen_files.set_edit_path(full_doc_path, path)
 
-# add pages manually:
-# nav["package", "module"] = "path/to/file.md"
+# FYI, to add pages manually, use: `nav["package", "module"] = "path/to/file.md"`
 
 with mkdocs_gen_files.open('reference/SUMMARY.md', 'w') as nav_file:
     nav_file.writelines(nav.build_literate_nav())
