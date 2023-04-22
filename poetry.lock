@@ -1495,7 +1495,7 @@ terminaltables = "*"
 name = "platformdirs"
 version = "3.2.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -2749,4 +2749,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.5"
-content-hash = "146d0af91407ebcc01284e2ac9dffaac8731e581e1a1a69cbee31cc064bed903"
+content-hash = "cc7172fb51fab8c408d080755771040225176d3cb8fe2441735d425e34e5f48f"
