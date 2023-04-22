@@ -689,31 +689,35 @@
 
       <details class="quote">
         <summary>Source code in <code>copier_template_tester/_write_output.py</code></summary>
-        <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="44 "></span><span class="nd">@beartype</span>
-<span class="linenos" data-linenos="45 "></span><span class="k">def</span> <span class="nf">write_output</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
-<span class="linenos" data-linenos="46 "></span>    <span class="o">*</span><span class="p">,</span>
-<span class="linenos" data-linenos="47 "></span>    <span class="n">src_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-<span class="linenos" data-linenos="48 "></span>    <span class="n">dst_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-<span class="linenos" data-linenos="49 "></span>    <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
-<span class="linenos" data-linenos="50 "></span>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="linenos" data-linenos="51 "></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos" data-linenos="52 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy the specified directory to the target location with provided data.</span>
+        <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="42 "></span><span class="nd">@beartype</span>
+<span class="linenos" data-linenos="43 "></span><span class="k">def</span> <span class="nf">write_output</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+<span class="linenos" data-linenos="44 "></span>    <span class="o">*</span><span class="p">,</span>
+<span class="linenos" data-linenos="45 "></span>    <span class="n">src_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+<span class="linenos" data-linenos="46 "></span>    <span class="n">dst_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+<span class="linenos" data-linenos="47 "></span>    <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
+<span class="linenos" data-linenos="48 "></span>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="linenos" data-linenos="49 "></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos" data-linenos="50 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy the specified directory to the target location with provided data.</span>
+<span class="linenos" data-linenos="51 "></span>
+<span class="linenos" data-linenos="52 "></span><span class="sd">    kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173</span>
 <span class="linenos" data-linenos="53 "></span>
-<span class="linenos" data-linenos="54 "></span><span class="sd">    kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173</span>
-<span class="linenos" data-linenos="55 "></span>
-<span class="linenos" data-linenos="56 "></span><span class="sd">    &quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="57 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;cleanup_on_error&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="linenos" data-linenos="58 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="ow">or</span> <span class="p">{})</span>
-<span class="linenos" data-linenos="59 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-<span class="linenos" data-linenos="60 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;overwrite&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-<span class="linenos" data-linenos="61 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;quiet&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="linenos" data-linenos="62 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;vcs_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="63 "></span>    <span class="n">copier</span><span class="o">.</span><span class="n">run_auto</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">src_path</span><span class="p">),</span> <span class="n">dst_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="linenos" data-linenos="64 "></span>    <span class="n">git_path</span> <span class="o">=</span> <span class="n">dst_path</span> <span class="o">/</span> <span class="s1">&#39;.git&#39;</span>
-<span class="linenos" data-linenos="65 "></span>    <span class="k">if</span> <span class="n">git_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="66 "></span>        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">git_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="67 "></span>    <span class="c1"># Ensure deterministic output</span>
-<span class="linenos" data-linenos="68 "></span>    <span class="n">_remove_unique_values</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">dst_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="54 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="55 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;cleanup_on_error&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="linenos" data-linenos="56 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="ow">or</span> <span class="p">{})</span>
+<span class="linenos" data-linenos="57 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="linenos" data-linenos="58 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;overwrite&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="linenos" data-linenos="59 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;quiet&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="linenos" data-linenos="60 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;vcs_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="61 "></span>    <span class="n">copier</span><span class="o">.</span><span class="n">run_auto</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">src_path</span><span class="p">),</span> <span class="n">dst_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="linenos" data-linenos="62 "></span>    <span class="n">git_path</span> <span class="o">=</span> <span class="n">dst_path</span> <span class="o">/</span> <span class="s1">&#39;.git&#39;</span>
+<span class="linenos" data-linenos="63 "></span>    <span class="k">if</span> <span class="n">git_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="64 "></span>        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">git_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="65 "></span>
+<span class="linenos" data-linenos="66 "></span>    <span class="c1"># Ensure deterministic output</span>
+<span class="linenos" data-linenos="67 "></span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="68 "></span>        <span class="n">_remove_unique_values</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">dst_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="69 "></span>    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<span class="linenos" data-linenos="70 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>  <span class="c1"># noqa: TRY400</span>
 </code></pre></div>
       </details>
   </div>
