@@ -17,7 +17,7 @@ CTT_CMD = ['poetry', 'run', 'ctt']
 DEMO_DIR = TEST_DATA_DIR / 'copier_demo'
 
 
-class TestExpectedError(Exception):
+class ExpectedError(Exception):
     """Test-only exception."""
 
 
