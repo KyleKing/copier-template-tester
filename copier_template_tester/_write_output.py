@@ -31,14 +31,12 @@ def _remove_unique_values(*, src_path: Path, dst_path: Path) -> None:
     # https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146a4/copier/subproject.py#L39
     answers_filename = copier_config.get('_answers_file') or '.copier-answers.yml'
     answers_path = dst_path / answers_filename
-    removed_prefix = '_commit'
-    answers_path.write_text(
-        '\n'.join(
-            line
-            for line in answers_path.read_text().split('\n')
-            if not line.startswith(removed_prefix)
-        ),
+    lines = (  # noqa: ECE001
+        # Create a stable tag that copier will still utilize
+        f'{line.split("-")[0]}-0' if line.startswith('_commit') else line
+        for line in answers_path.read_text().split('\n')
     )
+    answers_path.write_text('\n'.join(lines))
 
 
 @beartype
