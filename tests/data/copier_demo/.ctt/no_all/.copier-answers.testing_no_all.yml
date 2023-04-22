@@ -1,0 +1,9 @@
+# yamllint disable-file
+# Answer file maintained by Copier for: https://github.com/KyleKing/calcipy_template
+# Check into version control. Edit by re-running copier and changing responses to the questions
+_src_path: ../../copier_demo
+copyright_date: '2023'
+include_all: false
+minimum_python: 3.11.0
+package_name_py: testing_no_all
+project_name: testing-no-all
