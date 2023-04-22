@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Generator
 
 from beartype import beartype
+from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import ProcessResult
@@ -79,7 +80,7 @@ def reset_path_in_test_answers() -> None:
     answers_path = TEST_DATA_DIR / 'copier_demo/.ctt/no_all/.copier-answers.testing_no_all.yml'
     lines = (
         '_src_path: ../../copier_demo' if line.startswith('_src_path') else line
-        for line in answers_path.read_text().split('\n')
+        for line in read_lines(answers_path)
         if line
     )
     answers_path.write_text('\n'.join(lines) + '\n')

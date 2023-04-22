@@ -7,6 +7,7 @@ from pathlib import Path
 import copier
 import yaml
 from beartype import beartype
+from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 
 logger = get_logger()
@@ -29,7 +30,7 @@ def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     copier_path = base_dir / DEFAULT_TEMPLATE_FILE_NAME
     if not copier_path.is_file():
         copier_path = copier_path.with_suffix('.yml')
-    if not copier_path.is_file():
+    if not copier_path.is_file():  # pragma: no cover
         msg = f"Can't find the copier template file. Expected: {copier_path} (or .yaml)"
         raise FileNotFoundError(msg)
 
@@ -45,11 +46,11 @@ def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
         # If the filename is created from the template, just grab the first match
         search_name = re.sub(r'{{[^}]+}}', '*', answers_filename)
         matches = [*dst_path.glob(search_name)]
-        if len(matches) == 1:
-            return matches[0]
-        msg = f"Can't find just one copier answers file matching {dst_path / search_name}. Found: {matches}"
-        raise ValueError(msg)
-    return dst_path / answers_filename
+        if len(matches) != 1:  # pragma: no cover
+            msg = f"Can't find just one copier answers file matching {dst_path / search_name}. Found: {matches}"
+            raise ValueError(msg)
+        return matches[0]
+    return dst_path / answers_filename  # pragma: no cover
 
 
 @beartype
@@ -59,7 +60,7 @@ def _stabilize_commit_id(*, src_path: Path, dst_path: Path) -> None:
     lines = (  # noqa: ECE001
         # Create a stable tag that copier will still utilize
         f'{line.split("-")[0]}-0' if line.startswith('_commit') else line
-        for line in answers_path.read_text().split('\n')
+        for line in read_lines(answers_path)
     )
     answers_path.write_text('\n'.join(lines))
 
@@ -91,5 +92,5 @@ def write_output(  # type: ignore[no-untyped-def]
     # Reduce variability in the output
     try:
         _stabilize_commit_id(src_path=src_path, dst_path=dst_path)
-    except FileNotFoundError as exc:
+    except FileNotFoundError as exc:  # pragma: no cover
         logger.error(str(exc))  # noqa: TRY400

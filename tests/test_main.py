@@ -23,6 +23,7 @@ def test_main_with_copier_mock(monkeypatch) -> None:
     monkeypatch.setattr(copier, 'run_auto', _run_auto)
 
     run(base_dir=DEMO_DIR)
+    reset_path_in_test_answers()
 
 
 @beartype
