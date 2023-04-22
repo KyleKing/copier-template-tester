@@ -1,12 +1,11 @@
 """Support running `ctt` in `pre-commit`."""
 
-import shlex
-import subprocess  # noqa: S404  # nosec
 import sys
 from pathlib import Path
 
 from beartype import beartype
 from corallium.log import get_logger
+from corallium.shell import capture_shell
 
 logger = get_logger()
 
@@ -15,11 +14,8 @@ logger = get_logger()
 def _ls_untracked_dir(base_dir: Path) -> set[Path]:
     """Use git to list all untracked files."""
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
-    process = subprocess.Popen(  # noqa: DUO116  # nosec  # nosemgrep
-        shlex.split(cmd), stdout=subprocess.PIPE, cwd=base_dir,  # noqa: S603
-    )
-    stdout, _stderr = process.communicate()
-    return {base_dir / _d.strip() for _d in stdout.decode().split('\n') if _d}
+    output = capture_shell(cmd=cmd, cwd=base_dir)
+    return {base_dir / _d.strip() for _d in output.split('\n') if _d}
 
 
 @beartype
