@@ -1,28 +1,13 @@
 """Template Directory Writer."""
 
 import shutil
-from hashlib import sha256
 from pathlib import Path
 
 import copier
 from beartype import beartype
 from corallium.log import get_logger
-from corallium.shell import run_shell
-from platformdirs import user_cache_dir
 
 logger = get_logger()
-
-
-@beartype
-def _shadow_source(src_path: Path) -> Path:
-    """Support freezing the git commit by using a cached directory."""
-    checkout_id = sha256(str(src_path).encode(errors='ignore')).hexdigest()
-    ctt_cache = Path(user_cache_dir()) / 'copier-template-tester' / src_path.name / checkout_id
-
-    cmd = f'git clone {src_path} {ctt_cache}' if ctt_cache.is_dir() else 'git pull'
-    run_shell(cmd=cmd)
-
-    return ctt_cache
 
 
 @beartype
