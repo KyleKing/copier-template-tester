@@ -4,21 +4,28 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 """
 
+import logging
 import shlex
 import shutil
-import subprocess
+import subprocess  # noqa: S404  # nosec
 import sys
+from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
 
 import copier
 from beartype import beartype
+from corallium.log import configure_logger, get_logger
+from corallium.loggers.plain_printer import plain_printer
 from corallium.tomllib import tomllib
+
+configure_logger(log_level=logging.INFO, logger=plain_printer)
+logger = get_logger()
 
 
 @beartype
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
-        print('Warning: You probably want a section: [defaults]')  # noqa: T201
+        logger.text('Warning: You probably want a section: [defaults]')
     if not config.get('output'):
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
@@ -59,23 +66,35 @@ def _render(  # type: ignore[no-untyped-def]
 
 
 @beartype
-def _ls_untracked_dir() -> set[Path]:
+def _ls_untracked_dir(base_dir: Path) -> set[Path]:
+    """Use git to list all untracked files."""
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
-    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)  # noqa: S603
+    process = subprocess.Popen(  # noqa: DUO116  # nosec  # nosemgrep
+        shlex.split(cmd), stdout=subprocess.PIPE, cwd=base_dir,  # noqa: S603
+    )
     stdout, _stderr = process.communicate()
-    return {Path.cwd() / _d.strip() for _d in stdout.decode().split('\n') if _d}
+    return {base_dir / _d.strip() for _d in stdout.decode().split('\n') if _d}
 
 
 @beartype
-def _check_for_untracked(output_paths: set[Path]) -> None:
+def _is_relative(file_path: Path, directories: set[Path]) -> bool:
+    """Returns True if the file_path is relative to any of the directories."""
+    return any(file_path.is_relative_to(directory) for directory in directories)
+
+
+@beartype
+def _check_for_untracked(output_paths: set[Path], base_dir: Path) -> None:
     """Resolves the edge case in #3 by raising when pre-commit won't error."""
-    if new_dirs := output_paths.intersection(_ls_untracked_dir()):
-        print(f'pre-commit error: untracked files from {new_dirs} must be added')  # noqa: T201
+    if untracked_paths := {
+        untracked for untracked in _ls_untracked_dir(base_dir)
+        if _is_relative(untracked, output_paths)
+    }:
+        logger.text('pre-commit error: untracked files must be added', untracked_paths=untracked_paths)
         sys.exit(1)
 
 
 @beartype
-def run(base_dir: Path | None = None) -> None:
+def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
     config = _load_config(base_dir)
@@ -87,10 +106,30 @@ def run(base_dir: Path | None = None) -> None:
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
         paths.add(output_path)
-        print(f'Creating: {output_path}')  # noqa: T201
+        logger.text(f'Creating: {output_path}')
         _render(input_path, base_dir / output_path, data=defaults | data)
-    _check_for_untracked(paths)
+
+    if check_untracked:  # pragma: no cover
+        _check_for_untracked(paths, base_dir)
 
 
-if __name__ == '__main__':  # pragma: no cover
-    run(Path.cwd().parent / 'calcipy_template')
+@beartype
+def run_cli() -> None:  # pragma: no cover
+    """Accept CLI configuration for running ctt."""
+    @beartype
+    def dir_path(pth: str | None) -> Path:
+        if pth and Path(pth).is_dir():
+            return Path(pth).resolve()
+        msg = f'Expected a path to a directory. Received: `{pth}`'
+        raise ArgumentTypeError(msg)
+
+    cli = ArgumentParser()
+    cli.add_argument(
+        '-b',
+        '--base-dir',
+        help='Specify the path to the directory that contains the configuration file',
+        type=dir_path)
+    cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
+
+    args = cli.parse_args()
+    run(base_dir=args.base_dir, check_untracked=args.check_untracked)

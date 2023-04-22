@@ -5,7 +5,7 @@
 
 - id: copier-template-tester
   description: 'ctt: copier-template-tester'
-  entry: ctt
+  entry: ctt --check-untracked
   language: python
   minimum_pre_commit_version: 2.9.2
   name: copier-template-tester

@@ -47,8 +47,8 @@ poetry config pypi-token.pypi ...
 | File                                 |   Statements |   Missing |   Excluded | Coverage   |
 |--------------------------------------|--------------|-----------|------------|------------|
 | `copier_template_tester/__init__.py` |            2 |         0 |          0 | 100.0%     |
-| `copier_template_tester/main.py`     |           39 |         0 |          5 | 100.0%     |
-| **Totals**                           |           41 |         0 |          5 | 100.0%     |
+| `copier_template_tester/main.py`     |           65 |         0 |         18 | 100.0%     |
+| **Totals**                           |           67 |         0 |         18 | 100.0%     |
 
-Generated on: 2023-04-08
+Generated on: 2023-04-22
 <!-- {cte} -->
