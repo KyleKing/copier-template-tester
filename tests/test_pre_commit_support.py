@@ -69,4 +69,6 @@ def test_ctt_with_untracked_files(shell: Subprocess) -> None:
         f'*create* {untracked_file.name}*',
     ])
     # Check created files:
+    assert Path('.ctt/no_all/.copier-answers.testing_no_all.yml') in paths
+    assert Path('.ctt/no_all/.copier-answers.yml') not in paths
     assert Path(f'.ctt/no_all/{untracked_file.name}') in paths

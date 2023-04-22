@@ -238,4 +238,4 @@ coverage.json
 # Custom Rules
 
 # Exclude files that contain absolute paths
-tests/data/copier_demo/.ctt/*/.copier-answers.yml
+tests/data/copier_demo/.ctt/*/.copier-answers*.yml

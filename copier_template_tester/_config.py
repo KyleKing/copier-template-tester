@@ -25,4 +25,5 @@ def load_config(base_dir: Path) -> dict:  # type: ignore[type-arg]
         config: dict = tomllib.loads(cfg_path.read_text())  # type: ignore[type-arg]
         _validate_config(config)
         return config
-    raise ValueError(f'No configuration file found. Expected: {cfg_path.absolute()}')  # pragma: no cover # noqa: EM102
+    msg = f'No configuration file found. Expected: {cfg_path.absolute()}'
+    raise ValueError(msg)

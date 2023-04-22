@@ -36,6 +36,8 @@ def test_main(shell: Subprocess) -> None:
     # Check a few of the created files:
     paths = {pth.relative_to(DEMO_DIR) for pth in (DEMO_DIR / '.ctt').rglob('*.*') if pth.is_file()}
     assert Path('.ctt/no_all/README.md') in paths
+    assert Path('.ctt/no_all/.copier-answers.testing_no_all.yml') in paths
+    assert Path('.ctt/no_all/.copier-answers.yml') not in paths
 
 
 @beartype

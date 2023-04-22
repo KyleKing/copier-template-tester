@@ -2,7 +2,7 @@
 _min_copier_version: 7.0.0
 
 # ====== TEMPLATE ======
-_answers_file: .copier-answers.yml
+_answers_file: .copier-answers.{{ package_name_py }}.yml
 _subdirectory: template_dir
 
 # ====== QUESTIONS ======
