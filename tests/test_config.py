@@ -24,6 +24,10 @@ logger = get_logger()
             does_not_raise(),
         ),
     ],
+    ids=[
+        'Check an incomplete config',
+        'Check a normal config',
+    ],
 )
 @beartype
 def test_validate_config(config: dict, expectation) -> None:
