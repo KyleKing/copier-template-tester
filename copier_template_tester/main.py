@@ -15,9 +15,8 @@ from pathlib import Path
 import copier
 from beartype import beartype
 from corallium.log import configure_logger, get_logger
+from corallium.loggers.plain_printer import plain_printer
 from corallium.tomllib import tomllib
-
-from .plain_printer import plain_printer
 
 configure_logger(log_level=logging.INFO, logger=plain_printer)
 logger = get_logger()
