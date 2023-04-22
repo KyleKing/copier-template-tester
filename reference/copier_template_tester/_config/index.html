@@ -696,7 +696,8 @@
 <span class="linenos" data-linenos="25 "></span>        <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cfg_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>  <span class="c1"># type: ignore[type-arg]</span>
 <span class="linenos" data-linenos="26 "></span>        <span class="n">_validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 <span class="linenos" data-linenos="27 "></span>        <span class="k">return</span> <span class="n">config</span>
-<span class="linenos" data-linenos="28 "></span>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No configuration file found. Expected: </span><span class="si">{</span><span class="n">cfg_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no cover # noqa: EM102</span>
+<span class="linenos" data-linenos="28 "></span>    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;No configuration file found. Expected: </span><span class="si">{</span><span class="n">cfg_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="linenos" data-linenos="29 "></span>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </code></pre></div>
       </details>
   </div>
