@@ -113,7 +113,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
 
 
 @beartype
-def run_cli() -> None:
+def run_cli() -> None:  # pragma: no cover
     """Accept CLI configuration for running ctt."""
     @beartype
     def dir_path(pth: str | None) -> Path:

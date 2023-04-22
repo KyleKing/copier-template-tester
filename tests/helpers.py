@@ -17,11 +17,21 @@ CTT_CMD = ['poetry', 'run', 'ctt']
 DEMO_DIR = TEST_DATA_DIR / 'copier_demo'
 
 
+class TestExpectedError(Exception):
+    """Test-only exception."""
+
+
+@beartype
+def _format_ret_kwargs(ret: ProcessResult) -> dict[str, str]:
+    """Cleanup the shell output for printing."""
+    return {'stdout': f'`{ret.stdout.strip()}`', 'stderr': f'`{ret.stderr.strip()}`'}
+
+
 @beartype
 def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> ProcessResult:
     """Run `ctt` in the specified directory."""
     ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd)
-    logger.text('ran ctt', stdout=f'`{ret.stdout}`', stderr=f'`{ret.stderr}`')
+    logger.text('ran ctt', **_format_ret_kwargs(ret))
     return ret
 
 
@@ -29,7 +39,7 @@ def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> Proc
 def run_check(shell: Subprocess, *args, **kwargs) -> ProcessResult:
     """Check that the shell process completed with exit code 0."""
     ret = shell.run(*args, **kwargs)
-    logger.text('run_check', _args=args, _kwargs=kwargs, stdout=f'`{ret.stdout}`', stderr=f'`{ret.stderr}`')
+    logger.text('run_check', _args=args, _kwargs=kwargs, **_format_ret_kwargs(ret))
     if ret.returncode != 0:
         raise RuntimeError(f'Failed to run {args} with {kwargs}')
     return ret
@@ -45,7 +55,7 @@ def add_commit(shell: Subprocess, cwd: Path) -> None:
 
 @contextmanager
 @beartype
-def temporary_git_dir(shell: Subprocess, source_dir: Path | None) -> Generator[Path, None, None]:
+def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> Generator[Path, None, None]:
     """Initialize a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmp_dir:
         working_dir = Path(tmp_dir) / (source_dir.name if source_dir else 'subdir')
