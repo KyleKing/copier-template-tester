@@ -1,8 +1,18 @@
-## Unreleased
+## 1.1.0 (2023-04-22)
+
+### Feat
+
+- add CLI arguments
 
 ### Fix
 
+- correctly handle files in untracked directories
+- **#3**: return error in pre-commit on new output directories (#5)
 - **#2**: resolve issues in Github Workflows
+
+### Refactor
+
+- switch to the corallium logger
 
 ## 1.0.2 (2022-11-20)
 

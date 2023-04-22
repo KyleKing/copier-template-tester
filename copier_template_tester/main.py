@@ -7,7 +7,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 import logging
 import shlex
 import shutil
-import subprocess
+import subprocess  # noqa: S404  # nosec
 import sys
 from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
@@ -69,7 +69,9 @@ def _render(  # type: ignore[no-untyped-def]
 def _ls_untracked_dir(base_dir: Path) -> set[Path]:
     """Use git to list all untracked files."""
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
-    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, cwd=base_dir)  # noqa: S603
+    process = subprocess.Popen(  # noqa: DUO116  # nosec  # nosemgrep
+        shlex.split(cmd), stdout=subprocess.PIPE, cwd=base_dir,  # noqa: S603
+    )
     stdout, _stderr = process.communicate()
     return {base_dir / _d.strip() for _d in stdout.decode().split('\n') if _d}
 
@@ -107,7 +109,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         logger.text(f'Creating: {output_path}')
         _render(input_path, base_dir / output_path, data=defaults | data)
 
-    if check_untracked:
+    if check_untracked:  # pragma: no cover
         _check_for_untracked(paths, base_dir)
 
 
