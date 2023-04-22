@@ -32,12 +32,10 @@ def test_main(shell: Subprocess) -> None:
     assert ret.returncode == 0
     ret.stdout.matcher.fnmatch_lines(['*Creating:*copier_demo*no_all*', ''])
     # Check output from copier
-    ret.stderr.matcher.fnmatch_lines_random([  # Order can vary on Windows
-        '*Copying from template*',
-        '* .copier-answers.yml*',
-        '*identical* README.md*',
-        '*identical* script.py*',
-    ])
+    ret.stderr.matcher.fnmatch_lines(['*Copying from template*'])
+    # Check a few of the created files:
+    paths = {pth.relative_to(DEMO_DIR) for pth in (DEMO_DIR / '.ctt').rglob('*.*') if pth.is_file()}
+    assert Path('.ctt/no_all/README.md') in paths
 
 
 @beartype

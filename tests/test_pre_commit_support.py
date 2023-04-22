@@ -57,12 +57,16 @@ def test_ctt_with_untracked_files(shell: Subprocess) -> None:
         (copier_dir / untracked_file).write_text('Placeholder\n')
         add_commit(shell, cwd=copier_dir)
         ret = run_ctt(shell, cwd=TEST_DATA_DIR, args=[f'--base-dir={copier_dir}', '--check-untracked'])
+        # Store paths to check later
+        paths = {pth.relative_to(copier_dir) for pth in (copier_dir / '.ctt').rglob('*.*') if pth.is_file()}
 
     assert ret.returncode == 1
     ret.stdout.matcher.fnmatch_lines(['*Creating:*copier_demo*no_all*', ''])
     # Check output from copier
     ret.stderr.matcher.fnmatch_lines_random([  # Order can vary on Windows
         '*Copying from template*',
-        '*conflict* .copier-answers.yml*',
+        '*conflict* .copier-answers.testing_no_all.yml*',
         f'*create* {untracked_file.name}*',
     ])
+    # Check created files:
+    assert Path(f'.ctt/no_all/{untracked_file.name}') in paths
