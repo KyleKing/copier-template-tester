@@ -67,23 +67,33 @@ def _render(  # type: ignore[no-untyped-def]
 
 
 @beartype
-def _ls_untracked_dir() -> set[Path]:
+def _ls_untracked_dir(base_dir: Path) -> set[Path]:
+    """Use git to list all untracked files."""
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
-    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)  # noqa: S603
+    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, cwd=base_dir)  # noqa: S603
     stdout, _stderr = process.communicate()
-    return {Path.cwd() / _d.strip() for _d in stdout.decode().split('\n') if _d}
+    return {base_dir / _d.strip() for _d in stdout.decode().split('\n') if _d}
 
 
 @beartype
-def _check_for_untracked(output_paths: set[Path]) -> None:
+def _is_relative(file_path: Path, directories: set[Path]) -> bool:
+    """Returns True if the file_path is relative to any of the directories."""
+    return any(file_path.is_relative_to(directory) for directory in directories)
+
+
+@beartype
+def _check_for_untracked(output_paths: set[Path], base_dir: Path) -> None:
     """Resolves the edge case in #3 by raising when pre-commit won't error."""
-    if new_dirs := output_paths.intersection(_ls_untracked_dir()):
-        print(f'pre-commit error: untracked files from {new_dirs} must be added')  # noqa: T201
+    if untracked_paths := {
+        untracked for untracked in _ls_untracked_dir(base_dir)
+        if _is_relative(untracked, output_paths)
+    }:
+        logger.text('pre-commit error: untracked files must be added', untracked_paths=untracked_paths)
         sys.exit(1)
 
 
 @beartype
-def run(base_dir: Path | None = None, check_untracked: bool = False) -> None:
+def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
     config = _load_config(base_dir)
@@ -109,7 +119,8 @@ def run_cli() -> None:
     def dir_path(pth: str | None) -> Path:
         if pth and Path(pth).is_dir():
             return Path(pth).resolve()
-        raise ArgumentTypeError(f'Expected a path to a directory. Received: `{pth}`')
+        msg = f'Expected a path to a directory. Received: `{pth}`'
+        raise ArgumentTypeError(msg)
 
     cli = ArgumentParser()
     cli.add_argument(
@@ -120,4 +131,4 @@ def run_cli() -> None:
     cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
 
     args = cli.parse_args()
-    run(args.base_dir, args.check_untracked)
+    run(base_dir=args.base_dir, check_untracked=args.check_untracked)
