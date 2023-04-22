@@ -4,6 +4,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 """
 
+import logging
 import shlex
 import shutil
 import subprocess
@@ -13,13 +14,19 @@ from pathlib import Path
 
 import copier
 from beartype import beartype
+from corallium.log import configure_logger, get_logger
 from corallium.tomllib import tomllib
+
+from .plain_printer import plain_printer
+
+configure_logger(log_level=logging.INFO, logger=plain_printer)
+logger = get_logger()
 
 
 @beartype
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
-        print('Warning: You probably want a section: [defaults]')  # noqa: T201
+        logger.text('Warning: You probably want a section: [defaults]')
     if not config.get('output'):
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
@@ -88,7 +95,7 @@ def run(base_dir: Path | None = None, check_untracked: bool = False) -> None:
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
         paths.add(output_path)
-        print(f'Creating: {output_path}')  # noqa: T201
+        logger.text(f'Creating: {output_path}')
         _render(input_path, base_dir / output_path, data=defaults | data)
 
     if check_untracked:
