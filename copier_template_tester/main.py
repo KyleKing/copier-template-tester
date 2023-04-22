@@ -86,7 +86,7 @@ def run(base_dir: Path | None = None) -> None:
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
-        output_path.add(output_path)
+        output_paths.add(output_path)
         print(f'Creating: {output_path}')  # noqa: T201
         _render(input_path, base_dir / output_path, data=defaults | data)
     _check_for_untracked(output_paths)
