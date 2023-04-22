@@ -47,11 +47,11 @@ poetry config pypi-token.pypi ...
 | File                                            |   Statements |   Missing |   Excluded | Coverage   |
 |-------------------------------------------------|--------------|-----------|------------|------------|
 | `copier_template_tester/__init__.py`            |            2 |         0 |          0 | 100.0%     |
-| `copier_template_tester/_config.py`             |           18 |         0 |          1 | 100.0%     |
+| `copier_template_tester/_config.py`             |           20 |         2 |          0 | 90.0%      |
 | `copier_template_tester/_pre_commit_support.py` |           19 |         0 |          0 | 100.0%     |
-| `copier_template_tester/_write_output.py`       |           37 |         4 |          2 | 89.2%      |
+| `copier_template_tester/_write_output.py`       |           52 |         7 |          2 | 86.5%      |
 | `copier_template_tester/main.py`                |           25 |         0 |         15 | 100.0%     |
-| **Totals**                                      |          101 |         4 |         18 | 96.0%      |
+| **Totals**                                      |          118 |         9 |         17 | 92.4%      |
 
 Generated on: 2023-04-22
 <!-- {cte} -->

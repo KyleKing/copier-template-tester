@@ -1,3 +1,9 @@
+## Unreleased
+
+### Feat
+
+- support templated copier answer files
+
 ## 1.2.0rc1 (2023-04-22)
 
 ### Fix
