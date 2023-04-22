@@ -61,7 +61,7 @@ def _render(  # type: ignore[no-untyped-def]
 @beartype
 def _ls_untracked_dir() -> set[Path]:
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
-    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
+    process = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)  # noqa: S603
     stdout, _stderr = process.communicate()
     return {Path.cwd() / _d.strip() for _d in stdout.decode().split('\n') if _d}
 
@@ -82,14 +82,14 @@ def run(base_dir: Path | None = None) -> None:
     defaults = config.get('defaults', {})
 
     input_path = base_dir
-    output_paths = set()
+    paths = set()
     for key, data in config['output'].items():
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
-        output_paths.add(output_path)
+        paths.add(output_path)
         print(f'Creating: {output_path}')  # noqa: T201
         _render(input_path, base_dir / output_path, data=defaults | data)
-    _check_for_untracked(output_paths)
+    _check_for_untracked(paths)
 
 
 if __name__ == '__main__':  # pragma: no cover
