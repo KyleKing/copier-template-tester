@@ -64,5 +64,9 @@ def write_output(  # type: ignore[no-untyped-def]
     git_path = dst_path / '.git'
     if git_path.is_dir():  # pragma: no cover
         shutil.rmtree(git_path)
+
     # Ensure deterministic output
-    _remove_unique_values(src_path=src_path, dst_path=dst_path)
+    try:
+        _remove_unique_values(src_path=src_path, dst_path=dst_path)
+    except FileNotFoundError as exc:
+        logger.error(str(exc))  # noqa: TRY400
