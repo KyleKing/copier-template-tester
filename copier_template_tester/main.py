@@ -8,6 +8,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
 
 import copier
@@ -75,7 +76,7 @@ def _check_for_untracked(output_paths: set[Path]) -> None:
 
 
 @beartype
-def run(base_dir: Path | None = None) -> None:
+def run(base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
     config = _load_config(base_dir)
@@ -89,8 +90,27 @@ def run(base_dir: Path | None = None) -> None:
         paths.add(output_path)
         print(f'Creating: {output_path}')  # noqa: T201
         _render(input_path, base_dir / output_path, data=defaults | data)
-    _check_for_untracked(paths)
+
+    if check_untracked:
+        _check_for_untracked(paths, base_dir)
 
 
-if __name__ == '__main__':  # pragma: no cover
-    run(Path.cwd().parent / 'calcipy_template')
+@beartype
+def run_cli() -> None:
+    """Accept CLI configuration for running ctt."""
+    @beartype
+    def dir_path(pth: str | None) -> Path:
+        if pth and Path(pth).is_dir():
+            return Path(pth).resolve()
+        raise ArgumentTypeError(f'Expected a path to a directory. Received: `{pth}`')
+
+    cli = ArgumentParser()
+    cli.add_argument(
+        '-b',
+        '--base-dir',
+        help='Specify the path to the directory that contains the configuration file',
+        type=dir_path)
+    cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
+
+    args = cli.parse_args()
+    run(args.base_dir, args.check_untracked)

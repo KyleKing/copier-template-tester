@@ -36,7 +36,7 @@ calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], ve
 pytest-shell-utilities = ">=1.7.0"
 
 [tool.poetry.scripts]
-ctt = "copier_template_tester.main:run"
+ctt = "copier_template_tester.main:run_cli"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
