@@ -12,7 +12,7 @@ logger = get_logger()
 
 
 @beartype
-def _read_copier_template(base_dir: Path) -> dict:
+def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     """Locate and read the copier configuration file."""
     copier_path = base_dir / 'copier.yaml'
     if not copier_path.is_file():
@@ -21,7 +21,7 @@ def _read_copier_template(base_dir: Path) -> dict:
         msg = f"Can't find the copier answer file. Expected: {copier_path} (or .yaml)"
         raise FileNotFoundError(msg)
 
-    return yaml.safe_load(copier_path.read_text())
+    return yaml.safe_load(copier_path.read_text())  # type: ignore[no-any-return]
 
 
 @beartype
