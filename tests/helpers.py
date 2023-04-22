@@ -64,6 +64,9 @@ def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> G
         working_dir.mkdir(exist_ok=True)
 
         run_check(shell, 'git', 'init', cwd=working_dir)
+        # Required for Windows CI and works without issue everywhere else
+        run_check(shell, 'git', 'config', '--local', 'user.email', 'tester@py.test', cwd=working_dir)
+        run_check(shell, 'git', 'config', '--local', 'user.name', 'Pytest', cwd=working_dir)
         if source_dir:
             add_commit(shell, cwd=working_dir)
 
