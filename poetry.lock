@@ -2458,6 +2458,30 @@ diagrams = ["pygraphviz"]
 test = ["pytest"]
 
 [[package]]
+name = "types-pyyaml"
+version = "6.0.12.9"
+description = "Typing stubs for PyYAML"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-PyYAML-6.0.12.9.tar.gz", hash = "sha256:c51b1bd6d99ddf0aa2884a7a328810ebf70a4262c292195d3f4f9a0005f9eeb6"},
+    {file = "types_PyYAML-6.0.12.9-py3-none-any.whl", hash = "sha256:5aed5aa66bd2d2e158f75dda22b059570ede988559f030cf294871d3b647e3e8"},
+]
+
+[[package]]
+name = "types-setuptools"
+version = "67.6.0.8"
+description = "Typing stubs for setuptools"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-setuptools-67.6.0.8.tar.gz", hash = "sha256:df3e084c3b5af782cb81bd516f40213b572d932fa2f1272aef307d15643736f8"},
+    {file = "types_setuptools-67.6.0.8-py3-none-any.whl", hash = "sha256:0b178cab1d5a7487cd410d1b5448d1a85d9da1bf44aa7be7c0d4f33d65041e5a"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.5.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -2749,4 +2773,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.5"
-content-hash = "146d0af91407ebcc01284e2ac9dffaac8731e581e1a1a69cbee31cc064bed903"
+content-hash = "ab0fc941cf339be407fc28e76edd4edb4323c7b084e1dd423e37ee6c3de61002"

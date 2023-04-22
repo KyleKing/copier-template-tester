@@ -1,3 +1,29 @@
+## Unreleased
+
+## 1.2.0 (2023-04-22)
+
+### Feat
+
+- support templated copier answer files
+
+## 1.2.0rc1 (2023-04-22)
+
+### Fix
+
+- write the commit as '-0' each time
+
+## 1.2.0rc0 (2023-04-22)
+
+### Feat
+
+- remove _commit from the answers file
+
+### Refactor
+
+- experiment with a shadow copy
+- use capture_shell
+- split the main logic into three files
+
 ## 1.1.0 (2023-04-22)
 
 ### Feat

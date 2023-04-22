@@ -34,7 +34,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         output_path.mkdir(parents=True, exist_ok=True)
         paths.add(output_path)
         logger.text(f'Creating: {output_path}')
-        write_output(input_path, base_dir / output_path, data=defaults | data)
+        write_output(src_path=input_path, dst_path=base_dir / output_path, data=defaults | data)
 
     if check_untracked:  # pragma: no cover
         check_for_untracked(paths, base_dir)
