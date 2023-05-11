@@ -40,7 +40,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     if check_untracked:  # pragma: no cover
         logger.text('Checking for untracked files')
         check_for_untracked(paths, base_dir)
-    logger.text('Completed Copier Template Tester')
+    logger.text('Completed Copier Template Tester. If files were modified, pre-commit will report a failure.')
 
 
 @beartype
