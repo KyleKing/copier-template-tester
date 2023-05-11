@@ -117,5 +117,5 @@ def write_output(  # type: ignore[no-untyped-def]
     try:
         _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
     except FileNotFoundError as exc:  # pragma: no cover
-        logger.error(str(exc))  # noqa: TRY400
+        logger.warning(str(exc))  # noqa: TRY400
         raise
