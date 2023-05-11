@@ -2,6 +2,7 @@
 
 import re
 import shutil
+from functools import lru_cache
 from pathlib import Path
 
 import copier
@@ -9,6 +10,7 @@ import yaml
 from beartype import beartype
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
+from corallium.shell import capture_shell
 
 logger = get_logger()
 
@@ -53,27 +55,37 @@ def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     return dst_path / answers_filename  # pragma: no cover
 
 
+@lru_cache(maxsize=3)
 @beartype
-def _stabilize_commit_id(*, src_path: Path, dst_path: Path) -> None:
-    """Replace part of the _commit for a less variable 'ctt' output."""
-    answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (  # noqa: ECE001
-        # Create a stable tag that copier will still utilize
-        f'{line.split("-")[0]}-0' if line.startswith('_commit') else line
-        for line in read_lines(answers_path)
-    )
-    answers_path.write_text('\n'.join(lines))
+def _resolve_git_root_dir(base_dir: Path) -> Path:
+    """Use git to list all untracked files."""
+    cmd = 'git rev-parse --show-toplevel'
+    output = capture_shell(cmd=cmd, cwd=base_dir)
+    return Path(output.strip())
 
 
-# FIXME: Merge this with _find_answers_file
 @beartype
-def _reset_src_path(*, src_path: Path, dst_path: Path) -> None:
-    """Convert _src_path to a deterministic relative path."""
+def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
+    # Convert _src_path to a deterministic relative path
+    if line.startswith('_src_path'):
+        raw_path = Path(line.split('_src_path:')[-1].strip())
+        ans_dir = answers_path.parent
+        if ans_dir.is_relative_to(raw_path):
+            count_rel = len(ans_dir.relative_to(raw_path).parts)
+            rel_path = '/'.join([*(['..'] * count_rel), raw_path.name])
+            return f'_src_path: {rel_path}'
+        return line
+    # Create a stable tag for '_commit' that copier will still utilize
+    if line.startswith('_commit'):
+        return f'{line.split("-")[0]}-0'
+    return line
+
+
+@beartype
+def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:  # noqa: CFQ004
+    """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (
-        "I don't work yet!" if line.startswith('_src_path') else line
-        for line in read_lines(answers_path)
-    )
+    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path))
     answers_path.write_text('\n'.join(lines))
 
 
@@ -103,8 +115,7 @@ def write_output(  # type: ignore[no-untyped-def]
 
     # Reduce variability in the output
     try:
-        _stabilize_commit_id(src_path=src_path, dst_path=dst_path)
-        _reset_src_path(src_path=src_path, dst_path=dst_path)
+        _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
     except FileNotFoundError as exc:  # pragma: no cover
         logger.error(str(exc))  # noqa: TRY400
         raise
