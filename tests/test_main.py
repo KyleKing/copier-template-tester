@@ -30,7 +30,7 @@ def test_main(shell: Subprocess) -> None:
     ret = run_ctt(shell, cwd=DEMO_DIR)
 
     assert ret.returncode == 0
-    ret.stdout.matcher.fnmatch_lines(['*Creating:*copier_demo*no_all*', ''])
+    ret.stdout.matcher.fnmatch_lines(['*Using copier to create: *copier_demo*no_all*', ''])
     # Check output from copier
     ret.stderr.matcher.fnmatch_lines(['*Copying from template*'])
     # Check a few of the created files:

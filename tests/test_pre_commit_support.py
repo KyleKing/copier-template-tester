@@ -61,7 +61,7 @@ def test_ctt_with_untracked_files(shell: Subprocess) -> None:
         paths = {pth.relative_to(copier_dir) for pth in (copier_dir / '.ctt').rglob('*.*') if pth.is_file()}
 
     assert ret.returncode == 1
-    ret.stdout.matcher.fnmatch_lines(['*Creating:*copier_demo*no_all*', ''])
+    ret.stdout.matcher.fnmatch_lines(['*Using copier to create: *copier_demo*no_all*', ''])
     # Check output from copier
     ret.stderr.matcher.fnmatch_lines_random([  # Order can vary on Windows
         '*Copying from template*',
