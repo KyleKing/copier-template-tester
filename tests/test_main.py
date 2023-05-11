@@ -8,7 +8,7 @@ from pytestshellutils.shell import Subprocess
 from copier_template_tester.main import run
 
 from .configuration import TEST_DATA_DIR
-from .helpers import DEMO_DIR, reset_path_in_test_answers, run_ctt
+from .helpers import DEMO_DIR, run_ctt
 
 logger = get_logger()
 
@@ -23,7 +23,6 @@ def test_main_with_copier_mock(monkeypatch) -> None:
     monkeypatch.setattr(copier, 'run_auto', _run_auto)
 
     run(base_dir=DEMO_DIR)
-    reset_path_in_test_answers()
 
 
 @beartype
@@ -34,7 +33,6 @@ def test_main(shell: Subprocess) -> None:
     ret.stdout.matcher.fnmatch_lines(['*Creating:*copier_demo*no_all*', ''])
     # Check output from copier
     ret.stderr.matcher.fnmatch_lines(['*Copying from template*'])
-    reset_path_in_test_answers()
     # Check a few of the created files:
     paths = {pth.relative_to(DEMO_DIR) for pth in (DEMO_DIR / '.ctt').rglob('*.*') if pth.is_file()}
     assert Path('.ctt/no_all/README.md') in paths

@@ -65,6 +65,18 @@ def _stabilize_commit_id(*, src_path: Path, dst_path: Path) -> None:
     answers_path.write_text('\n'.join(lines))
 
 
+# FIXME: Merge this with _find_answers_file
+@beartype
+def _reset_src_path(*, src_path: Path, dst_path: Path) -> None:
+    """Convert _src_path to a deterministic relative path."""
+    answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
+    lines = (
+        "I don't work yet!" if line.startswith('_src_path') else line
+        for line in read_lines(answers_path)
+    )
+    answers_path.write_text('\n'.join(lines))
+
+
 @beartype
 def write_output(  # type: ignore[no-untyped-def]
     *,
@@ -92,5 +104,7 @@ def write_output(  # type: ignore[no-untyped-def]
     # Reduce variability in the output
     try:
         _stabilize_commit_id(src_path=src_path, dst_path=dst_path)
+        _reset_src_path(src_path=src_path, dst_path=dst_path)
     except FileNotFoundError as exc:  # pragma: no cover
         logger.error(str(exc))  # noqa: TRY400
+        raise
