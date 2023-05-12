@@ -2,6 +2,12 @@
 
 ### Fix
 
+- improve logging when run from pre-commit
+
+## 1.2.1 (2023-05-11)
+
+### Fix
+
 - start implementation to replace the src_path
 
 ### Refactor
