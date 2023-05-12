@@ -31,8 +31,10 @@ def test_main(shell: Subprocess) -> None:
 
     assert ret.returncode == 0
     # Check output from ctt and copier (where order can vary on Windows)
-    ret.stderr.matcher.fnmatch_lines([
-        'Note: If files were modified, pre-commit will report a failure.',
+    ret.stdout.matcher.fnmatch_lines([
+        'Starting Copier Template Tester for *',
+        '*Note: If files were modified, pre-commit will report a failure.',
+        '',
         'Using `copier` to create: .ctt/no_all',
     ])
     ret.stderr.matcher.fnmatch_lines_random([

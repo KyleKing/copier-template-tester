@@ -24,9 +24,9 @@ logger = get_logger()
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
-    logger.text(
-        f'Starting Copier Template Tester for {base_dir}\nNote: If files were modified, pre-commit will report a failure.\n'
-    )
+    logger.text(f'Starting Copier Template Tester for {base_dir}')
+    logger.text('\tNote: If files were modified, pre-commit will report a failure.')
+    logger.text('')
     config = load_config(base_dir)
     defaults = config.get('defaults', {})
 
