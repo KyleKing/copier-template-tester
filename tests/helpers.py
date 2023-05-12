@@ -75,12 +75,8 @@ def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> G
 
 
 @beartype
-def reset_path_in_test_answers() -> None:
-    """Replace the absolute path written by copier.."""
+def fix_answerfile_eol() -> None:
+    """Ensure trailing newline is present."""
     answers_path = TEST_DATA_DIR / 'copier_demo/.ctt/no_all/.copier-answers.testing_no_all.yml'
-    lines = (
-        '_src_path: ../../copier_demo' if line.startswith('_src_path') else line
-        for line in read_lines(answers_path)
-        if line
-    )
+    lines = (_l for _l in read_lines(answers_path) if _l)
     answers_path.write_text('\n'.join(lines) + '\n')
