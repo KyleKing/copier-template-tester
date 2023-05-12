@@ -24,7 +24,9 @@ logger = get_logger()
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
-    logger.text(f'Starting Copier Template Tester for {base_dir}')
+    logger.text(
+        f'Starting Copier Template Tester for {base_dir}\nNote: If files were modified, pre-commit will report a failure.\n'
+    )
     config = load_config(base_dir)
     defaults = config.get('defaults', {})
 
@@ -34,13 +36,11 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         output_path = base_dir / key
         output_path.mkdir(parents=True, exist_ok=True)
         paths.add(output_path)
-        logger.text(f'Using copier to create: {output_path}')
+        logger.text(f'Using `copier` to create: {key}')
         write_output(src_path=input_path, dst_path=base_dir / output_path, data=defaults | data)
 
     if check_untracked:  # pragma: no cover
-        logger.text('Checking for untracked files')
         check_for_untracked(paths, base_dir)
-    logger.text('Completed Copier Template Tester. If files were modified, pre-commit will report a failure.')
 
 
 @beartype

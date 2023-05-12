@@ -61,9 +61,12 @@ def test_ctt_with_untracked_files(shell: Subprocess) -> None:
         paths = {pth.relative_to(copier_dir) for pth in (copier_dir / '.ctt').rglob('*.*') if pth.is_file()}
 
     assert ret.returncode == 1
-    ret.stdout.matcher.fnmatch_lines(['*Using copier to create: *copier_demo*no_all*', ''])
-    # Check output from copier
-    ret.stderr.matcher.fnmatch_lines_random([  # Order can vary on Windows
+    # Check output from ctt and copier (where order can vary on Windows)
+    ret.stderr.matcher.fnmatch_lines([
+        'Note: If files were modified, pre-commit will report a failure.',
+        'Using `copier` to create: .ctt/no_all',
+    ])
+    ret.stderr.matcher.fnmatch_lines_random([
         '*Copying from template*',
         '*conflict* .copier-answers.testing_no_all.yml*',
         f'*create* {untracked_file.name}*',

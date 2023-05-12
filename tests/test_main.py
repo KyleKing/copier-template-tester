@@ -30,9 +30,14 @@ def test_main(shell: Subprocess) -> None:
     ret = run_ctt(shell, cwd=DEMO_DIR)
 
     assert ret.returncode == 0
-    ret.stdout.matcher.fnmatch_lines(['*Using copier to create: *copier_demo*no_all*', ''])
-    # Check output from copier
-    ret.stderr.matcher.fnmatch_lines(['*Copying from template*'])
+    # Check output from ctt and copier (where order can vary on Windows)
+    ret.stderr.matcher.fnmatch_lines([
+        'Note: If files were modified, pre-commit will report a failure.',
+        'Using `copier` to create: .ctt/no_all',
+    ])
+    ret.stderr.matcher.fnmatch_lines_random([
+        '*Copying from template*',
+    ])
     # Check a few of the created files:
     paths = {pth.relative_to(DEMO_DIR) for pth in (DEMO_DIR / '.ctt').rglob('*.*') if pth.is_file()}
     assert Path('.ctt/no_all/README.md') in paths
