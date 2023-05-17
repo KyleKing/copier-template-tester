@@ -32,7 +32,7 @@ copier = ">=7.0.1"
 corallium = ">=0.2.0"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.3"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.4"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"

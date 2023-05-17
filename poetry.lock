@@ -32,14 +32,14 @@ python-dateutil = ">=2.7.0"
 
 [[package]]
 name = "astroid"
-version = "2.15.4"
+version = "2.15.5"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
 python-versions = ">=3.7.2"
 files = [
-    {file = "astroid-2.15.4-py3-none-any.whl", hash = "sha256:a1b8543ef9d36ea777194bc9b17f5f8678d2c56ee6a45b2c2f17eec96f242347"},
-    {file = "astroid-2.15.4.tar.gz", hash = "sha256:c81e1c7fbac615037744d067a9bb5f9aeb655edf59b63ee8b59585475d6f80d8"},
+    {file = "astroid-2.15.5-py3-none-any.whl", hash = "sha256:078e5212f9885fa85fbb0cf0101978a336190aadea6e13305409d099f71b2324"},
+    {file = "astroid-2.15.5.tar.gz", hash = "sha256:1039262575027b441137ab4a62a793a9b43defb42c32d5670f38686207cd780f"},
 ]
 
 [package.dependencies]
@@ -183,14 +183,14 @@ files = [
 
 [[package]]
 name = "calcipy"
-version = "1.2.3"
+version = "1.2.4"
 description = "Python package to simplify development"
 category = "dev"
 optional = false
 python-versions = ">=3.8.12,<4.0.0"
 files = [
-    {file = "calcipy-1.2.3-py3-none-any.whl", hash = "sha256:30536aa15253e22569c0023e83918f2d6d1d8354e608f700c75a9e7fabd49f0a"},
-    {file = "calcipy-1.2.3.tar.gz", hash = "sha256:ec5719305115104909df7c6b9d7f189a1e1c3a3305138df8633a81d2488b6fb6"},
+    {file = "calcipy-1.2.4-py3-none-any.whl", hash = "sha256:a16493c5edcff58c8d90f0767b8e2119635e36c43725e32ccbff85bc4d10d443"},
+    {file = "calcipy-1.2.4.tar.gz", hash = "sha256:c6441d5dd73c017d5868a89b44a4fd297ce1ad08715f8147977711580d24f54e"},
 ]
 
 [package.dependencies]
@@ -200,8 +200,8 @@ bandit = {version = ">=1.7.4", optional = true, markers = "extra == \"lint\""}
 beartype = ">=0.12.0"
 bidict = {version = ">=0.22.1", optional = true, markers = "extra == \"stale\""}
 commitizen = {version = ">=2.42.0", optional = true, markers = "extra == \"doc\""}
-corallium = ">=0.1.1"
-invoke = ">=2.0.0"
+corallium = ">=0.2.1"
+invoke = ">=2.1.0"
 mkdocs = {version = ">=1.4.1", optional = true, markers = "extra == \"doc\""}
 mkdocs-build-plantuml-plugin = {version = ">=1.7.4", optional = true, markers = "extra == \"doc\""}
 mkdocs-gen-files = {version = ">=0.4.0", optional = true, markers = "extra == \"doc\""}
@@ -210,13 +210,14 @@ mkdocs-include-markdown-plugin = {version = ">=4.0.3", optional = true, markers 
 mkdocs-literate-nav = {version = ">=0.5.0", optional = true, markers = "extra == \"doc\""}
 mkdocs-material = {version = ">=8.2.16", optional = true, markers = "extra == \"doc\""}
 mkdocs-section-index = {version = ">=0.3.4", optional = true, markers = "extra == \"doc\""}
-mkdocstrings = {version = ">=0.18.1", extras = ["python"], optional = true, markers = "extra == \"doc\""}
+mkdocstrings = {version = ">=0.21.1", extras = ["python"], optional = true, markers = "extra == \"doc\""}
 mypy = {version = ">=1.0.0", optional = true, markers = "extra == \"types\""}
 nox-poetry = {version = ">=1.0.2", optional = true, markers = "extra == \"nox\""}
 pandas = {version = ">=1.5.3", optional = true, markers = "extra == \"doc\" or extra == \"tags\""}
 pip-check = {version = ">=2.8.1", optional = true, markers = "extra == \"lint\""}
 pydantic = ">=1.10.5"
 pylint = {version = ">=2.16.2", optional = true, markers = "extra == \"doc\" or extra == \"pylint\""}
+pymdown-extensions = {version = ">=10.0.1", optional = true, markers = "extra == \"doc\""}
 pyrate_limiter = {version = ">=2.4", optional = true, markers = "extra == \"stale\""}
 pytest = {version = ">=7.2.1", optional = true, markers = "extra == \"test\""}
 pytest-cov = {version = ">=4.0.0", optional = true, markers = "extra == \"test\""}
@@ -231,7 +232,7 @@ transitions = {version = ">=0.9.0", optional = true, markers = "extra == \"doc\"
 
 [package.extras]
 ddict = ["python-box (>=6.0.2)"]
-doc = ["commitizen (>=2.42.0)", "mkdocs (>=1.4.1)", "mkdocs-build-plantuml-plugin (>=1.7.4)", "mkdocs-gen-files (>=0.4.0)", "mkdocs-git-revision-date-localized-plugin (>=1.0.1)", "mkdocs-include-markdown-plugin (>=4.0.3)", "mkdocs-literate-nav (>=0.5.0)", "mkdocs-material (>=8.2.16)", "mkdocs-section-index (>=0.3.4)", "mkdocstrings[python] (>=0.18.1)", "pandas (>=1.5.3)", "pylint (>=2.16.2)", "pyyaml (>=5.2)", "transitions (>=0.9.0)"]
+doc = ["commitizen (>=2.42.0)", "mkdocs (>=1.4.1)", "mkdocs-build-plantuml-plugin (>=1.7.4)", "mkdocs-gen-files (>=0.4.0)", "mkdocs-git-revision-date-localized-plugin (>=1.0.1)", "mkdocs-include-markdown-plugin (>=4.0.3)", "mkdocs-literate-nav (>=0.5.0)", "mkdocs-material (>=8.2.16)", "mkdocs-section-index (>=0.3.4)", "mkdocstrings[python] (>=0.21.1)", "pandas (>=1.5.3)", "pylint (>=2.16.2)", "pymdown-extensions (>=10.0.1)", "pyyaml (>=5.2)", "transitions (>=0.9.0)"]
 flake8 = ["dlint (>=0.14.0)", "flake8 (>=6.0.0)", "flake8-adjustable-complexity (>=0.0.6)", "flake8-annotations-complexity (>=0.0.7)", "flake8-executable (>=2.1.3)", "flake8-expression-complexity (>=0.0.11)", "flake8-functions (>=0.0.7)", "flake8-pep3101 (>=2.0.0)", "flake8-pie (>=0.16.0)", "flake8-printf-formatting (>=1.1.2)", "flake8-raise (>=0.0.5)", "flake8-require-beartype (>=0.1.1)", "flake8-sql (>=0.4.1)", "flake8-string-format (>=0.3.0)", "flake8-super (>=0.1.3)", "flake8-tuple (>=0.4.1)", "flake8-typing-imports (>=1.14.0)", "flake8-use-pathlib (>=0.3.0)", "flake8-variables-names (>=0.0.5)"]
 lint = ["autopep8 (>=2.0.1)", "bandit (>=1.7.4)", "pip-check (>=2.8.1)", "ruff (>=0.0.253)", "semgrep (>=1.12.1)"]
 nox = ["nox-poetry (>=1.0.2)"]
@@ -405,14 +406,14 @@ development = ["black", "flake8", "mypy", "pytest", "types-colorama"]
 
 [[package]]
 name = "commitizen"
-version = "3.2.1"
+version = "3.2.2"
 description = "Python commitizen client tool"
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "commitizen-3.2.1-py3-none-any.whl", hash = "sha256:3723a5bf612e75d9cd1b0499ca2902e96d5fa8aaaada3c3b8b5888039edd26a0"},
-    {file = "commitizen-3.2.1.tar.gz", hash = "sha256:2d62fd099e81b5126d1870ada6c7e96ebb561cc27357bd2ce6930c0f5c573c21"},
+    {file = "commitizen-3.2.2-py3-none-any.whl", hash = "sha256:1d967de9d1dc3210947fdbe280b34ac184d83dbe35661f21463cf0305fe670ef"},
+    {file = "commitizen-3.2.2.tar.gz", hash = "sha256:62e06077e657ab6156baa8656a8d5e54db7c5c3f51feab6ea4d7b867ddeab325"},
 ]
 
 [package.dependencies]
@@ -457,14 +458,14 @@ questionary = ">=1.8.1"
 
 [[package]]
 name = "corallium"
-version = "0.2.1"
+version = "0.2.2"
 description = "Shared functionality for calcipy-ecosystem"
 category = "main"
 optional = false
 python-versions = ">=3.8.12,<4.0.0"
 files = [
-    {file = "corallium-0.2.1-py3-none-any.whl", hash = "sha256:544d6adade5e66d3e4c7e66accc0bdec0671c5320ffbde19468d49c39e4d3478"},
-    {file = "corallium-0.2.1.tar.gz", hash = "sha256:64b3d33c999fb4c0af89a71aa3874c7ac9c9b6395bdf820f1966b904ab3ac627"},
+    {file = "corallium-0.2.2-py3-none-any.whl", hash = "sha256:e93d1712e4c5f11e2279ba43a82715376729195f0257b1c109a7cfc65141c9f3"},
+    {file = "corallium-0.2.2.tar.gz", hash = "sha256:4658ad2796be8251ebf903655af54f2ea457f3fddc47ab3b3819127b824f7a65"},
 ]
 
 [package.dependencies]
@@ -605,14 +606,14 @@ files = [
 
 [[package]]
 name = "dunamai"
-version = "1.16.0"
+version = "1.16.1"
 description = "Dynamic version generation"
 category = "main"
 optional = false
 python-versions = ">=3.5,<4.0"
 files = [
-    {file = "dunamai-1.16.0-py3-none-any.whl", hash = "sha256:dc92d817f3bc155e8b129e8c705c36bb15a7e950e2698a93aea142732a888e98"},
-    {file = "dunamai-1.16.0.tar.gz", hash = "sha256:bfe8e23cc5a1ceed1c7f791674ea24cf832a53a5da73f046eeb43367ccfc3f77"},
+    {file = "dunamai-1.16.1-py3-none-any.whl", hash = "sha256:b9f169183147f6f1d3a5b3d913ffdd67247d90948006e205cbc499fe98d45554"},
+    {file = "dunamai-1.16.1.tar.gz", hash = "sha256:4f3bc2c5b0f9d83fa9c90b943100273bb087167c90a0519ac66e9e2e0d2a8210"},
 ]
 
 [package.dependencies]
@@ -746,14 +747,14 @@ yaml = ["PyYAML"]
 
 [[package]]
 name = "griffe"
-version = "0.27.4"
+version = "0.27.5"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "griffe-0.27.4-py3-none-any.whl", hash = "sha256:685350067286229e80a18b8989d6acbd43abdf8b763591221d19c56f4108549e"},
-    {file = "griffe-0.27.4.tar.gz", hash = "sha256:088c25fb22f8d1f1add5d3b58a86a3969993181a36ca55b3fa33096a3f3b1a23"},
+    {file = "griffe-0.27.5-py3-none-any.whl", hash = "sha256:15b48fc3cebfc1c1a1a2f6e8177f6644a4a54517322e08e224fdf671454b34d7"},
+    {file = "griffe-0.27.5.tar.gz", hash = "sha256:96fbc7a264bdb32b4da227bed6a16f2509e028a12d7471dbb48c2785bb01817f"},
 ]
 
 [package.dependencies]
@@ -820,14 +821,14 @@ files = [
 
 [[package]]
 name = "invoke"
-version = "2.1.1"
+version = "2.1.2"
 description = "Pythonic task execution"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "invoke-2.1.1-py3-none-any.whl", hash = "sha256:e86a53046eca453d3e609e7017f65db5f66b947d4d337b60658859eb8c8a80e3"},
-    {file = "invoke-2.1.1.tar.gz", hash = "sha256:7dcf054c4626b89713da650635c29e9dfeb8a1dd0a14edc60bd3e16f751292ff"},
+    {file = "invoke-2.1.2-py3-none-any.whl", hash = "sha256:bfc904df1c9e9fe1a881933de661fe054b8db616ff2c4cf78e00407fe473ba5d"},
+    {file = "invoke-2.1.2.tar.gz", hash = "sha256:a6cc1f06f75bacd0b1e11488fa3bf3e62f85e31f62e2c0172188613ba5b070e2"},
 ]
 
 [[package]]
@@ -1209,14 +1210,14 @@ mkdocs = ">=1.0.3"
 
 [[package]]
 name = "mkdocs-material"
-version = "9.1.11"
+version = "9.1.13"
 description = "Documentation that simply works"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "mkdocs_material-9.1.11-py3-none-any.whl", hash = "sha256:fbc86d50ec2cf34d40d5c4365780f290ceedde23f1a0704323b34e7f16b0c0dd"},
-    {file = "mkdocs_material-9.1.11.tar.gz", hash = "sha256:f5d473eb79d6640a5e668d4b2ab5b9de5e76ae0a0e2d864112df0cfe9016dc1d"},
+    {file = "mkdocs_material-9.1.13-py3-none-any.whl", hash = "sha256:5705cf8cb6c47c747606bd914bb6c01993ff141295cd259475559a1f09f07d5d"},
+    {file = "mkdocs_material-9.1.13.tar.gz", hash = "sha256:9102e7604d73e507021847601b0a8b4fe9035422788390183f464fa3b30dd508"},
 ]
 
 [package.dependencies]
@@ -1285,14 +1286,14 @@ python-legacy = ["mkdocstrings-python-legacy (>=0.2.1)"]
 
 [[package]]
 name = "mkdocstrings-python"
-version = "0.10.1"
+version = "1.0.0"
 description = "A Python handler for mkdocstrings."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "mkdocstrings_python-0.10.1-py3-none-any.whl", hash = "sha256:ef239cee2c688e2b949a0a47e42a141d744dd12b7007311b3309dc70e3bafc5c"},
-    {file = "mkdocstrings_python-0.10.1.tar.gz", hash = "sha256:b72301fff739070ec517b5b36bf2f7c49d1360a275896a64efb97fc17d3f3968"},
+    {file = "mkdocstrings_python-1.0.0-py3-none-any.whl", hash = "sha256:c59d67009a7a85172f4da990d8523e95606b6a1ff93a22a2351ad3b5f8cafed1"},
+    {file = "mkdocstrings_python-1.0.0.tar.gz", hash = "sha256:b89d849df990204f909d5452548b6936a185f912da06208a93909bebe25d6e67"},
 ]
 
 [package.dependencies]
@@ -1579,18 +1580,18 @@ terminaltables = "*"
 
 [[package]]
 name = "platformdirs"
-version = "3.5.0"
+version = "3.5.1"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.5.0-py3-none-any.whl", hash = "sha256:47692bc24c1958e8b0f13dd727307cff1db103fca36399f457da8e05f222fdc4"},
-    {file = "platformdirs-3.5.0.tar.gz", hash = "sha256:7954a68d0ba23558d753f73437c55f89027cf8f5108c19844d4b82e5af396335"},
+    {file = "platformdirs-3.5.1-py3-none-any.whl", hash = "sha256:e2378146f1964972c03c085bb5662ae80b2b8c06226c54b2ff4aa9483e8a13a5"},
+    {file = "platformdirs-3.5.1.tar.gz", hash = "sha256:412dae91f52a6f84830f39a8078cecd0e866cb72294a5c66808e74d5e88d251f"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.1.3)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
+docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.2.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
 
 [[package]]
@@ -1782,14 +1783,14 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "9.11"
+version = "10.0.1"
 description = "Extension pack for Python Markdown."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pymdown_extensions-9.11-py3-none-any.whl", hash = "sha256:a499191d8d869f30339de86fcf072a787e86c42b6f16f280f5c2cf174182b7f3"},
-    {file = "pymdown_extensions-9.11.tar.gz", hash = "sha256:f7e86c1d3981f23d9dc43294488ecb54abadd05b0be4bf8f0e15efc90f7853ff"},
+    {file = "pymdown_extensions-10.0.1-py3-none-any.whl", hash = "sha256:ae66d84013c5d027ce055693e09a4628b67e9dec5bce05727e45b0918e36f274"},
+    {file = "pymdown_extensions-10.0.1.tar.gz", hash = "sha256:b44e1093a43b8a975eae17b03c3a77aad4681b3b56fce60ce746dbef1944c8cb"},
 ]
 
 [package.dependencies]
@@ -2385,43 +2386,43 @@ files = [
 
 [[package]]
 name = "ruff"
-version = "0.0.265"
+version = "0.0.267"
 description = "An extremely fast Python linter, written in Rust."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "ruff-0.0.265-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:30ddfe22de6ce4eb1260408f4480bbbce998f954dbf470228a21a9b2c45955e4"},
-    {file = "ruff-0.0.265-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:a11bd0889e88d3342e7bc514554bb4461bf6cc30ec115821c2425cfaac0b1b6a"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2a9b38bdb40a998cbc677db55b6225a6c4fadcf8819eb30695e1b8470942426b"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a8b44a245b60512403a6a03a5b5212da274d33862225c5eed3bcf12037eb19bb"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b279fa55ea175ef953208a6d8bfbcdcffac1c39b38cdb8c2bfafe9222add70bb"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:5028950f7af9b119d43d91b215d5044976e43b96a0d1458d193ef0dd3c587bf8"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:4057eb539a1d88eb84e9f6a36e0a999e0f261ed850ae5d5817e68968e7b89ed9"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:d586e69ab5cbf521a1910b733412a5735936f6a610d805b89d35b6647e2a66aa"},
-    {file = "ruff-0.0.265-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:aa17b13cd3f29fc57d06bf34c31f21d043735cc9a681203d634549b0e41047d1"},
-    {file = "ruff-0.0.265-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:9ac13b11d9ad3001de9d637974ec5402a67cefdf9fffc3929ab44c2fcbb850a1"},
-    {file = "ruff-0.0.265-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:62a9578b48cfd292c64ea3d28681dc16b1aa7445b7a7709a2884510fc0822118"},
-    {file = "ruff-0.0.265-py3-none-musllinux_1_2_i686.whl", hash = "sha256:d0f9967f84da42d28e3d9d9354cc1575f96ed69e6e40a7d4b780a7a0418d9409"},
-    {file = "ruff-0.0.265-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:1d5a8de2fbaf91ea5699451a06f4074e7a312accfa774ad9327cde3e4fda2081"},
-    {file = "ruff-0.0.265-py3-none-win32.whl", hash = "sha256:9e9db5ccb810742d621f93272e3cc23b5f277d8d00c4a79668835d26ccbe48dd"},
-    {file = "ruff-0.0.265-py3-none-win_amd64.whl", hash = "sha256:f54facf286103006171a00ce20388d88ed1d6732db3b49c11feb9bf3d46f90e9"},
-    {file = "ruff-0.0.265-py3-none-win_arm64.whl", hash = "sha256:c78470656e33d32ddc54e8482b1b0fc6de58f1195586731e5ff1405d74421499"},
-    {file = "ruff-0.0.265.tar.gz", hash = "sha256:53c17f0dab19ddc22b254b087d1381b601b155acfa8feed514f0d6a413d0ab3a"},
+    {file = "ruff-0.0.267-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:4adbbbe314d8fcc539a245065bad89446a3cef2e0c9cf70bf7bb9ed6fe31856d"},
+    {file = "ruff-0.0.267-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:67254ae34c38cba109fdc52e4a70887de1f850fb3971e5eeef343db67305d1c1"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bbe104f21a429b77eb5ac276bd5352fd8c0e1fbb580b4c772f77ee8c76825654"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:db33deef2a5e1cf528ca51cc59dd764122a48a19a6c776283b223d147041153f"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9adf1307fa9d840d1acaa477eb04f9702032a483214c409fca9dc46f5f157fe3"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:0afca3633c8e2b6c0a48ad0061180b641b3b404d68d7e6736aab301c8024c424"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:2972241065b1c911bce3db808837ed10f4f6f8a8e15520a4242d291083605ab6"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:f731d81cb939e757b0335b0090f18ca2e9ff8bcc8e6a1cf909245958949b6e11"},
+    {file = "ruff-0.0.267-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:20c594eb56c19063ef5a57f89340e64c6550e169d6a29408a45130a8c3068adc"},
+    {file = "ruff-0.0.267-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:45d61a2b01bdf61581a2ee039503a08aa603dc74a6bbe6fb5d1ce3052f5370e5"},
+    {file = "ruff-0.0.267-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:2107cec3699ca4d7bd41543dc1d475c97ae3a21ea9212238b5c2088fa8ee7722"},
+    {file = "ruff-0.0.267-py3-none-musllinux_1_2_i686.whl", hash = "sha256:786de30723c71fc46b80a173c3313fc0dbe73c96bd9da8dd1212cbc2f84cdfb2"},
+    {file = "ruff-0.0.267-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:5a898953949e37c109dd242cfcf9841e065319995ebb7cdfd213b446094a942f"},
+    {file = "ruff-0.0.267-py3-none-win32.whl", hash = "sha256:d12ab329474c46b96d962e2bdb92e3ad2144981fe41b89c7770f370646c0101f"},
+    {file = "ruff-0.0.267-py3-none-win_amd64.whl", hash = "sha256:d09aecc9f5845586ba90911d815f9772c5a6dcf2e34be58c6017ecb124534ac4"},
+    {file = "ruff-0.0.267-py3-none-win_arm64.whl", hash = "sha256:7df7eb5f8d791566ba97cc0b144981b9c080a5b861abaf4bb35a26c8a77b83e9"},
+    {file = "ruff-0.0.267.tar.gz", hash = "sha256:632cec7bbaf3c06fcf0a72a1dd029b7d8b7f424ba95a574aaa135f5d20a00af7"},
 ]
 
 [[package]]
 name = "semgrep"
-version = "1.21.0"
+version = "1.22.0"
 description = "Lightweight static analysis for many languages. Find bug variants with patterns that look like source code."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "semgrep-1.21.0-cp37.cp38.cp39.py37.py38.py39-none-any.whl", hash = "sha256:01b543856062cef221d7a8c133a7e791dcc32ff94e60d95a1477fef08392f081"},
-    {file = "semgrep-1.21.0-cp37.cp38.cp39.py37.py38.py39-none-macosx_10_14_x86_64.whl", hash = "sha256:42f77d4cc0cf9159fdd8383a24e50cfed2d9d8fff959592ace3579fbd0e67c6d"},
-    {file = "semgrep-1.21.0-cp37.cp38.cp39.py37.py38.py39-none-macosx_11_0_arm64.whl", hash = "sha256:7e6f604fdc60364655498c5f11222dafdb1c24e610435ddda63c9e18f6ba6196"},
-    {file = "semgrep-1.21.0.tar.gz", hash = "sha256:c01caff2b888848c98dd1af78ed011cffcb6ffc04552244cb90f8596bb6f0aac"},
+    {file = "semgrep-1.22.0-cp37.cp38.cp39.py37.py38.py39-none-any.whl", hash = "sha256:adbcf838c45cdb0cf6a79c946c3c672cffaa96b4b3c6de2db065839a0c91b678"},
+    {file = "semgrep-1.22.0-cp37.cp38.cp39.py37.py38.py39-none-macosx_10_14_x86_64.whl", hash = "sha256:c5d48d55fe82ed8be6603323807d9f0b3c623539cfc0562e03e1dd9b4c4e9aaf"},
+    {file = "semgrep-1.22.0-cp37.cp38.cp39.py37.py38.py39-none-macosx_11_0_arm64.whl", hash = "sha256:f61239738991acb551187d990815916296a7f3c7c8747092a271be6d1f1d10da"},
+    {file = "semgrep-1.22.0.tar.gz", hash = "sha256:b6b47b32520b424c6b7fc4374034d2bede84cf70834556fc91f4e7d6d89f0cea"},
 ]
 
 [package.dependencies]
@@ -2473,14 +2474,14 @@ files = [
 
 [[package]]
 name = "stevedore"
-version = "5.0.0"
+version = "5.1.0"
 description = "Manage dynamic plugins for Python applications"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "stevedore-5.0.0-py3-none-any.whl", hash = "sha256:bd5a71ff5e5e5f5ea983880e4a1dd1bb47f8feebbb3d95b592398e2f02194771"},
-    {file = "stevedore-5.0.0.tar.gz", hash = "sha256:2c428d2338976279e8eb2196f7a94910960d9f7ba2f41f3988511e95ca447021"},
+    {file = "stevedore-5.1.0-py3-none-any.whl", hash = "sha256:8cc040628f3cea5d7128f2e76cf486b2251a4e543c7b938f58d9a377f6694a2d"},
+    {file = "stevedore-5.1.0.tar.gz", hash = "sha256:a54534acf9b89bc7ed264807013b505bf07f74dbe4bcfa37d32bd063870b087c"},
 ]
 
 [package.dependencies]
@@ -2903,4 +2904,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.5"
-content-hash = "ab0fc941cf339be407fc28e76edd4edb4323c7b084e1dd423e37ee6c3de61002"
+content-hash = "d70e8bc8776698475fa0d88996ab14a30361b9cc9f6c1eef4db5b5e337aa19f1"
