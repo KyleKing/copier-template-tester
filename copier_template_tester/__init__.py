@@ -1,6 +1,6 @@
 """copier_template_tester."""
 
-__version__ = '1.2.2'
+__version__ = '1.2.3rc0'
 __pkg_name__ = 'copier_template_tester'
 
 # ====== Above is the recommended code from calcipy_template and may be updated on new releases ======
