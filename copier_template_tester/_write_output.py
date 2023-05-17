@@ -85,8 +85,8 @@ def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
 def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:  # noqa: CFQ004
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path))
-    answers_path.write_text('\n'.join(lines))
+    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip())
+    answers_path.write_text('\n'.join(lines) + '\n')
 
 
 @beartype
