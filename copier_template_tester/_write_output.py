@@ -68,6 +68,7 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
 def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
     # Convert _src_path to a deterministic relative path
     if line.startswith('_src_path'):
+        logger.info('Replacing with deterministic value', line=line)
         raw_path = Path(line.split('_src_path:')[-1].strip())
         ans_dir = answers_path.parent
         if ans_dir.is_relative_to(raw_path):
@@ -77,6 +78,7 @@ def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
         return line
     # Create a stable tag for '_commit' that copier will still utilize
     if line.startswith('_commit'):
+        logger.info('Replacing with deterministic value', line=line)
         return f'{line.split("-")[0]}-0'
     return line
 
@@ -85,8 +87,8 @@ def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
 def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:  # noqa: CFQ004
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path))
-    answers_path.write_text('\n'.join(lines))
+    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip())
+    answers_path.write_text('\n'.join(lines) + '\n')
 
 
 @beartype
@@ -109,8 +111,11 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs.setdefault('quiet', False)
     kwargs.setdefault('vcs_ref', 'HEAD')
     copier.run_auto(str(src_path), dst_path, **kwargs)
+
+    # Remove any .git directory created by copier script
     git_path = dst_path / '.git'
     if git_path.is_dir():  # pragma: no cover
+        logger.info('Removing git created by copier', git_path=git_path)
         shutil.rmtree(git_path)
 
     # Reduce variability in the output
