@@ -2,6 +2,12 @@
 
 ### Fix
 
+- bump minimum pymdown dependency
+
+## 1.2.2 (2023-05-11)
+
+### Fix
+
 - improve logging when run from pre-commit
 
 ## 1.2.1 (2023-05-11)
