@@ -2,6 +2,7 @@
 
 ### Fix
 
+- **#18**: ensure a single trailing newline at end of answerfile
 - bump minimum pymdown dependency
 
 ## 1.2.2 (2023-05-11)
