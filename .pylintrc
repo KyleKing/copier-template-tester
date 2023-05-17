@@ -13,7 +13,9 @@ load-plugins=
     pylint.extensions.comparetozero,
     pylint.extensions.comparison_placement,
     pylint.extensions.confusing_elif,
+    pylint.extensions.consider_refactoring_into_while_condition,
     pylint.extensions.consider_ternary_expression,
+    pylint.extensions.dunder,
     pylint.extensions.empty_comment,
     pylint.extensions.emptystring,
     pylint.extensions.eq_without_hash,
@@ -24,7 +26,8 @@ load-plugins=
     pylint.extensions.redefined_loop_name,
     pylint.extensions.redefined_variable_type,
     pylint.extensions.set_membership,
-    pylint.extensions.typing
+    pylint.extensions.typing,
+    pylint.extensions.while_used
 
 [BASIC]
 include-naming-hint=yes
@@ -48,6 +51,13 @@ allow-wildcard-with-all=yes
 logging-format-style=new
 
 [MESSAGES CONTROL]
+# Enable some checkers that are not activated by default:
+enable =
+    bad-inline-option,
+    deprecated-pragma,
+    file-ignored,
+    use-symbolic-message-instead,
+    useless-suppression
 # Fixes 'no-name-in-module'
 extension-pkg-whitelist=pydantic
 # Defer to other tools and reduce false positives
@@ -64,12 +74,15 @@ disable=
     missing-module-docstring,
     no-self-argument,
     redefined-builtin,
+    reimported,
     singleton-comparison,
     too-few-public-methods,
     too-many-try-statements,
     ungrouped-imports,
     use-maxsplit-arg,
     wrong-import-order
+# Include some helpful details on errors messages for naming rules:
+include-naming-hint = yes
 
 [REFACTORING]
 max-nested-blocks=3
@@ -82,3 +95,7 @@ min-similarity-lines=5
 
 [STRING]
 check-str-concat-over-line-jumps=yes
+
+[STRING_CONSTANT]
+# Doc: https://pylint.pycqa.org/en/latest/user_guide/messages/warning/implicit-str-concat.html
+check-quote-consistency = yes
