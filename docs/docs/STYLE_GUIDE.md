@@ -125,7 +125,7 @@ Personal Guide
 
 ### External Links
 
-**TODO: Revisit**
+<!-- TODO: Revisit -->
 
 - [Git: The Simple Guide][simple_git]
 - [Commit Messages][gcmsg] and [why use the present tense](https://news.ycombinator.com/item?id=8874177)
@@ -136,7 +136,7 @@ Personal Guide
 
 ## Python
 
-**TODO: Revisit**
+<!-- TODO: Revisit -->
 
 - Python Style Guides
   - <https://gist.github.com/sloria/7001839>
@@ -149,10 +149,22 @@ Personal Guide
 
 ## ADRs
 
-**TODO: Revisit**
+<!-- TODO: Revisit -->
 
+- ADR Approaches
+    - <https://infraeng.dev/tech-spec> Template (And [associated review](https://infraeng.dev/tech-spec-review/)) vs. <https://infraeng.dev/decision-log/>
+    - Y-Statements: [abbreviated shorthand](https://medium.com/olzzio/y-statements-10eb07b5a177). Add this as a one-line decision option if a full ADR isn't needed (or when referencing an existing ADR) (<https://scribe.rip/@docsoc/y-statements-10eb07b5a177>)
+    - https://adr.github.io
+    - More formal implementation of [ADRs (MADR) that this is based on](https://adr.github.io/madr/). Template: <https://github.com/adr/madr/blob/97fb8edec60b8dc70b8166ef62de34c4e26b46c0/template/adr-template.md>
+    - [https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md](https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md)
 - Examples
-  - <https://github.com/pawamoy/mkdocstrings/issues/28>
+    - <https://github.com/pawamoy/mkdocstrings/issues/28>
+    - <https://github.com/arachne-framework/architecture/blob/060a956277a5ad71df93da49fee52463408841af/adr-002-configuration.md>
+    - <https://github.com/arachne-framework/architecture/tree/060a956277a5ad71df93da49fee52463408841af>
+    - [https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md](https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md)
+    - [https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html](https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html)
+    - [https://peps.python.org/pep-0387/](https://peps.python.org/pep-0387)
+    - And many others!
 
 <-- Links -->
   [simple_git]: http://rogerdudler.github.io/git-guide/
