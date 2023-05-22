@@ -79,7 +79,7 @@ def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
     # Create a stable tag for '_commit' that copier will still utilize
     if line.startswith('_commit'):
         logger.info('Replacing with deterministic value', line=line)
-        return f'{line.split("-")[0]}-0'
+        return '_commit: HEAD'
     return line
 
 
