@@ -1,5 +1,11 @@
 ## Unreleased
 
+### Fix
+
+- **#20**: set commit to HEAD
+
+## 1.2.3 (2023-05-17)
+
 ### Refactor
 
 - improve log output on post-copier steps
