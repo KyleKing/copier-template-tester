@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Generator
 
 from beartype import beartype
-from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import ProcessResult
@@ -72,11 +71,3 @@ def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> G
             add_commit(shell, cwd=working_dir)
 
         yield working_dir
-
-
-@beartype
-def fix_answerfile_eol() -> None:
-    """Ensure trailing newline is present."""
-    answers_path = TEST_DATA_DIR / 'copier_demo/.ctt/no_all/.copier-answers.testing_no_all.yml'
-    lines = (_l for _l in read_lines(answers_path) if _l)
-    answers_path.write_text('\n'.join(lines) + '\n')
