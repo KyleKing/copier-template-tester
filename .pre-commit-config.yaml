@@ -41,7 +41,7 @@ repos:
         args: [--fix=auto]
       - id: trailing-whitespace
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: 3.2.1
+    rev: 3.2.2
     hooks:
       - id: commitizen
         stages: [commit-msg]
@@ -78,7 +78,7 @@ repos:
         args: [--never]
         files: copier_template_tester/.*\.py
   - repo: https://github.com/KyleKing/calcipy
-    rev: 1.2.3
+    rev: 1.2.5
     hooks:
       - id: copier-forbidden-files
       - id: lint-fix

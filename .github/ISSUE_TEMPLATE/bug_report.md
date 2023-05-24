@@ -7,23 +7,10 @@ assignees: kyleking
 ---
 
 **Describe the bug**
-<!-- Describe the bug -->
+<!-- Describe the bug and any other relevant information, such as: `copier_template_tester` version, Operating System Type and Version (MacOS 13.2 vs. Window 8), etc.  -->
 
-#**To Reproduce**
-<!-- How can someone else replicate the issue -->
-
-Steps and/or code snippet(s) to reproduce the behavior:
-
-1. ...
-1. ...
+**To Reproduce**
+<!-- What steps or code snippets can allow someone else to replicate the issue -->
 
 **Expected behavior**
 <!-- What did you expect? -->
-
-**Additional Information**
-<!-- Add any relevant versions -->
-
-- `copier_template_tester` Version:
-- OS: \[e.g. macOS/Windows\]:
-- OS Version \[e.g. Catalina/10\]:
-<!-- Add `pip freeze` or other version information that is relevant -->

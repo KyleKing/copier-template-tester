@@ -125,7 +125,7 @@ Personal Guide
 
 ### External Links
 
-<!-- TODO: Revisit -->
+<!-- Revisit -->
 
 - [Git: The Simple Guide][simple_git]
 - [Commit Messages][gcmsg] and [why use the present tense](https://news.ycombinator.com/item?id=8874177)
@@ -136,7 +136,7 @@ Personal Guide
 
 ## Python
 
-<!-- TODO: Revisit -->
+<!-- Revisit -->
 
 - Python Style Guides
   - <https://gist.github.com/sloria/7001839>
@@ -149,7 +149,7 @@ Personal Guide
 
 ## ADRs
 
-<!-- TODO: Revisit -->
+<!-- Revisit -->
 
 - ADR Approaches
     - <https://infraeng.dev/tech-spec> Template (And [associated review](https://infraeng.dev/tech-spec-review/)) vs. <https://infraeng.dev/decision-log/>
