@@ -4,7 +4,7 @@
 # pre-commit try-repo ../copier-template-tester copier-template-tester --verbose --all-files
 
 - id: copier-template-tester
-  description: 'ctt: copier-template-tester'
+  description: "ctt: copier-template-tester"
   entry: ctt --check-untracked
   language: python
   minimum_pre_commit_version: 2.9.2

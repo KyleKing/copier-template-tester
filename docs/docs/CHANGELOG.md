@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 1.2.4 (2023-05-22)
+
 ### Fix
 
 - **#20**: set commit to HEAD

@@ -88,12 +88,12 @@
         "version": "2.3.post1"
     },
     "calcipy": {
-        "datetime": "2023-05-16T23:30:41.287938+00:00",
+        "datetime": "2023-05-23T22:24:17.785420+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2023-05-16T23:30:41.287938+00:00",
-        "latest_version": "1.2.4",
+        "latest_datetime": "2023-05-23T22:24:17.785420+00:00",
+        "latest_version": "1.2.5",
         "name": "calcipy",
-        "version": "1.2.4"
+        "version": "1.2.5"
     },
     "certifi": {
         "datetime": "2023-05-07T07:30:54.402352+00:00",
@@ -664,12 +664,12 @@
         "version": "2.10.0"
     },
     "pydantic": {
-        "datetime": "2023-03-22T20:01:12.931911+00:00",
+        "datetime": "2023-05-23T18:22:09.612022+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2023-04-03T20:45:03.388278+00:00",
-        "latest_version": "2.0a1",
+        "latest_datetime": "2023-06-03T10:08:31.484966+00:00",
+        "latest_version": "2.0b2",
         "name": "pydantic",
-        "version": "1.10.7"
+        "version": "1.10.8"
     },
     "pygments": {
         "datetime": "2023-04-18T18:49:18.695613+00:00",
@@ -984,12 +984,12 @@
         "version": "67.8.0.0"
     },
     "typing-extensions": {
-        "datetime": "2023-02-15T00:17:53.726117+00:00",
+        "datetime": "2023-05-23T00:14:22.372532+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2023-02-15T00:17:53.726117+00:00",
-        "latest_version": "4.5.0",
+        "latest_datetime": "2023-06-01T23:55:34.451414+00:00",
+        "latest_version": "4.6.3",
         "name": "typing-extensions",
-        "version": "4.5.0"
+        "version": "4.6.0"
     },
     "tzdata": {
         "datetime": "2023-03-29T01:41:02.776275+00:00",
@@ -1008,12 +1008,12 @@
         "version": "5.7.0"
     },
     "urllib3": {
-        "datetime": "2023-03-11T00:01:39.031079+00:00",
+        "datetime": "2023-05-23T12:18:41.548302+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2023-03-11T00:01:39.031079+00:00",
-        "latest_version": "1.26.15",
+        "latest_datetime": "2023-05-23T12:18:41.548302+00:00",
+        "latest_version": "1.26.16",
         "name": "urllib3",
-        "version": "1.26.15"
+        "version": "1.26.16"
     },
     "virtualenv": {
         "datetime": "2023-04-27T23:37:54.268249+00:00",
