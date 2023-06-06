@@ -109,6 +109,7 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs.setdefault('defaults', True)
     kwargs.setdefault('overwrite', True)
     kwargs.setdefault('quiet', False)
+    kwargs.setdefault('unsafe', True)
     kwargs.setdefault('vcs_ref', 'HEAD')
     copier.run_copy(str(src_path), dst_path, **kwargs)
 
