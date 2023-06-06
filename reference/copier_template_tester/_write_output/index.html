@@ -798,21 +798,22 @@
 <span class="linenos" data-linenos="109 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="linenos" data-linenos="110 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;overwrite&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="linenos" data-linenos="111 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;quiet&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="linenos" data-linenos="112 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;vcs_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="113 "></span>    <span class="n">copier</span><span class="o">.</span><span class="n">run_copy</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">src_path</span><span class="p">),</span> <span class="n">dst_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="linenos" data-linenos="114 "></span>
-<span class="linenos" data-linenos="115 "></span>    <span class="c1"># Remove any .git directory created by copier script</span>
-<span class="linenos" data-linenos="116 "></span>    <span class="n">git_path</span> <span class="o">=</span> <span class="n">dst_path</span> <span class="o">/</span> <span class="s1">&#39;.git&#39;</span>
-<span class="linenos" data-linenos="117 "></span>    <span class="k">if</span> <span class="n">git_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="118 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Removing git created by copier&#39;</span><span class="p">,</span> <span class="n">git_path</span><span class="o">=</span><span class="n">git_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="119 "></span>        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">git_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="120 "></span>
-<span class="linenos" data-linenos="121 "></span>    <span class="c1"># Reduce variability in the output</span>
-<span class="linenos" data-linenos="122 "></span>    <span class="k">try</span><span class="p">:</span>
-<span class="linenos" data-linenos="123 "></span>        <span class="n">_stabilize_answers_file</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">dst_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="124 "></span>    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="125 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>  <span class="c1"># noqa: TRY400</span>
-<span class="linenos" data-linenos="126 "></span>        <span class="k">raise</span>
+<span class="linenos" data-linenos="112 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;unsafe&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="linenos" data-linenos="113 "></span>    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;vcs_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="114 "></span>    <span class="n">copier</span><span class="o">.</span><span class="n">run_copy</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">src_path</span><span class="p">),</span> <span class="n">dst_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="linenos" data-linenos="115 "></span>
+<span class="linenos" data-linenos="116 "></span>    <span class="c1"># Remove any .git directory created by copier script</span>
+<span class="linenos" data-linenos="117 "></span>    <span class="n">git_path</span> <span class="o">=</span> <span class="n">dst_path</span> <span class="o">/</span> <span class="s1">&#39;.git&#39;</span>
+<span class="linenos" data-linenos="118 "></span>    <span class="k">if</span> <span class="n">git_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="119 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Removing git created by copier&#39;</span><span class="p">,</span> <span class="n">git_path</span><span class="o">=</span><span class="n">git_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="120 "></span>        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">git_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="121 "></span>
+<span class="linenos" data-linenos="122 "></span>    <span class="c1"># Reduce variability in the output</span>
+<span class="linenos" data-linenos="123 "></span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="124 "></span>        <span class="n">_stabilize_answers_file</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">dst_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="125 "></span>    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="126 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>  <span class="c1"># noqa: TRY400</span>
+<span class="linenos" data-linenos="127 "></span>        <span class="k">raise</span>
 </code></pre></div>
       </details>
   </div>
