@@ -17,10 +17,10 @@ logger = get_logger()
 def test_main_with_copier_mock(monkeypatch) -> None:
     """Only necessary for coverage metrics."""
     @beartype
-    def _run_auto(src_path: str, dst_path: Path, **kwargs) -> None:  # noqa: ARG001
+    def _run_copy(src_path: str, dst_path: Path, **kwargs) -> None:  # noqa: ARG001
         pass
 
-    monkeypatch.setattr(copier, 'run_auto', _run_auto)
+    monkeypatch.setattr(copier, 'run_copy', _run_copy)
 
     run(base_dir=DEMO_DIR)
 

@@ -110,7 +110,7 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs.setdefault('overwrite', True)
     kwargs.setdefault('quiet', False)
     kwargs.setdefault('vcs_ref', 'HEAD')
-    copier.run_auto(str(src_path), dst_path, **kwargs)
+    copier.run_copy(str(src_path), dst_path, **kwargs)
 
     # Remove any .git directory created by copier script
     git_path = dst_path / '.git'

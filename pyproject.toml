@@ -28,7 +28,7 @@ version = "1.2.4"
 
 [tool.poetry.dependencies]
 python = "^3.10.5"
-copier = ">=7.0.1"
+copier = ">=8.0.0"
 corallium = ">=0.2.2"
 
 [tool.poetry.group.dev.dependencies]

@@ -65,7 +65,7 @@ repos:
           # Note: this version must be the same as the hook revision
           - "prettier@3.0.0-alpha.9-for-vscode"
           - "prettier-plugin-sh"
-        exclude: \.copier-answers\.yml|.*/cassettes/.*\.yaml|tests/.*assert-cache.*/.+\.json
+        exclude: \.copier-answers\.yml|.*/cassettes/.*\.yaml|tests/.*assert-cache.*/.+\.json|tests/data/.*/\.ctt/.*\.ya?ml
         types_or: [html, javascript, json, shell, yaml]
   - repo: https://github.com/pappasam/toml-sort
     rev: v0.23.1
