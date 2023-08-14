@@ -3,11 +3,11 @@
 name: github_labeler
 
 # Will only be run each push or PR merge to the main branch
-on: # yamllint disable-line rule:truthy
+"on":
   push:
     branches: [main]
     paths: [.github/labels.yml, .github/workflows/labeler.yml]
-  workflow_dispatch: # For manual runs
+  workflow_dispatch: null # For manual runs
 
 permissions:
   # Issues and related comments, assignees, labels, and milestones.

@@ -65,7 +65,6 @@ disable=
     broad-except,
     fixme,
     import-outside-toplevel,
-    invalid-name,
     line-too-long,
     logging-format-interpolation,
     logging-fstring-interpolation,
@@ -83,6 +82,13 @@ disable=
     wrong-import-order
 # Include some helpful details on errors messages for naming rules:
 include-naming-hint = yes
+
+# Slight modifications
+# - Default: i,j,k,ex,Run,_ (prefer "__" over "_")
+# - Use "exc" instead of e, ex,or err for exceptions (i.e. "except RuntimeError as err:")
+# - ns for Invoke namespace
+# - dt,tz,ix
+good-names=i,j,k,Run,__,exc,ns,dt,tz,ix
 
 [REFACTORING]
 max-nested-blocks=3

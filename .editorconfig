@@ -1,13 +1,21 @@
 root = true
 
 [*]
+indent_size = 4
+insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 
 [**.{toml,yml,yaml}]
 indent_size = 2
 
-[**.{js,jsx,ts,tsx,json}]
+[**.{js,jsx,ts,tsx,html}]
+indent_size = 2
+
+[**.{json,jsonc}]
+indent_size = 4
+
+[*.lua]
 indent_size = 4
 
 [*.md]
@@ -16,3 +24,6 @@ indent_size = 4
 [*.py]
 indent_size = 4
 max_line_length = 120
+
+[*.sh]
+indent_size = 4

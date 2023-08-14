@@ -6,17 +6,23 @@ ignore = [
   'ANN003', # Missing type annotation for `**kwargs`
   'ANN101', # Missing type annotation for `self` in method
   'ANN102', # Missing type annotation for `cls` in classmethod
+  'ANN401', # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
   'BLE001', # Do not catch blind exception: `Exception`
   'D203', # "1 blank line required before class docstring" (Conflicts with D211)
   'D213', # "Multi-line docstring summary should start at the second line" (Conflicts with D212)
   'D4', # Numpy-Style Docstrings (e.g. "Section name should end with a newline ("Returns")")
   'EM101', # Exception must not use a string literal, assign to variable first
   'FBT002', # Boolean default value in function definition
+  'FIX001', # Line contains FIXME
+  'FIX002', # Line contains TODO
+  'FIX004', # Line contains HACK
   'N999', # Invalid module name: '_noxfile'
+  'RUF013', # PEP 484 prohibits implicit `Optional`
   'RUF100', # Unused noqa directive (remove once flake8 is fully replaced)
   'TCH001', # Move application import `{}` into a type-checking block
   'TCH002', # Move third-party import `{}` into a type-checking block
   'TCH003', # Move standard library import `pathlib.Path` into a type-checking block
+  'TD001', # Invalid TODO tag: `FIXME`
   'TD002', # Missing author in TODO; try: `# TODO(<author_name>): ...`
   'TD003', # Missing issue link on the line following this TODO
   'TID252', # Relative imports from parent modules are banned
@@ -24,7 +30,7 @@ ignore = [
 ]
 line-length = 120
 select = ['ALL']
-target-version = 'py38'
+target-version = 'py310'
 unfixable = [
   'ERA001', # Commented out code
 ]
@@ -33,8 +39,8 @@ unfixable = [
 inline-quotes = 'single'
 
 [flake8-tidy-imports.banned-api]
-'invoke.task'.msg = 'Use shoal.cli.task instead.'
-'typing.Any'.msg = 'Use beartype.typing.* instead.'
+'invoke.collection.Collection'.msg = 'Use calcipy.cli.Collection instead.'
+'invoke.tasks.task'.msg = 'Use calcipy.cli.task instead.'
 'typing.Callable'.msg = 'Use beartype.typing.* instead.'
 'typing.Dict'.msg = 'Use beartype.typing.* instead.'
 'typing.List'.msg = 'Use beartype.typing.* instead.'

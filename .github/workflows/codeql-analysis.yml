@@ -2,14 +2,14 @@
 # Based on the Github-recommended CodeQL Action
 name: CodeQL
 
-on: # yamllint disable-line rule:truthy
+"on":
   push:
     branches: [main]
   pull_request:
     branches: [main]
   schedule:
     - cron: 34 21 * * 6
-  workflow_dispatch: # For manual runs
+  workflow_dispatch: null # For manual runs
 
 jobs:
   analyze:

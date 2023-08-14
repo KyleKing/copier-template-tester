@@ -1,13 +1,13 @@
 ---
 name: Update Docs
 
-on: # yamllint disable-line rule:truthy
+"on":
   push:
     branches: [main]
     paths:
       - docs/**
       - mkdocs.yml
-  workflow_dispatch: # For manual runs
+  workflow_dispatch: null # For manual runs
 
 # Docs: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
 permissions:
