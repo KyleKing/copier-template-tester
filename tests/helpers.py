@@ -1,8 +1,8 @@
 import shutil
 import tempfile
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Generator
 
 from beartype import beartype
 from corallium.log import get_logger

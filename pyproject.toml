@@ -28,11 +28,11 @@ version = "1.2.6"
 
 [tool.poetry.dependencies]
 python = "^3.10.5"
-copier = ">=8.0.0"
-corallium = ">=0.2.2"
+copier = ">=8.2.0" # FIXME: Pending Pydantic v2 support
+corallium = ">=0.3.3"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.2.4"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=1.6.3"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
