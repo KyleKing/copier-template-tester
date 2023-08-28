@@ -46,12 +46,12 @@ poetry config pypi-token.pypi ...
 <!-- {cts} COVERAGE -->
 | File                                            |   Statements |   Missing |   Excluded | Coverage   |
 |-------------------------------------------------|--------------|-----------|------------|------------|
-| `copier_template_tester/__init__.py`            |            2 |         0 |          0 | 100.0%     |
-| `copier_template_tester/_config.py`             |           17 |         0 |          3 | 100.0%     |
-| `copier_template_tester/_pre_commit_support.py` |           19 |         0 |          0 | 100.0%     |
-| `copier_template_tester/_write_output.py`       |           67 |         8 |         13 | 89.0%      |
-| `copier_template_tester/main.py`                |           28 |         0 |         15 | 100.0%     |
-| **Totals**                                      |          133 |         8 |         31 | 94.4%      |
+| `copier_template_tester/__init__.py`            |           32 |         4 |          0 | 80.0%      |
+| `copier_template_tester/_config.py`             |           17 |         0 |          3 | 92.0%      |
+| `copier_template_tester/_pre_commit_support.py` |           19 |         0 |          0 | 84.4%      |
+| `copier_template_tester/_write_output.py`       |           68 |         7 |         13 | 84.8%      |
+| `copier_template_tester/main.py`                |           28 |         0 |         15 | 96.7%      |
+| **Totals**                                      |          164 |        11 |         31 | 86.3%      |
 
-Generated on: 2023-06-05
+Generated on: 2023-08-28
 <!-- {cte} -->

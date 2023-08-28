@@ -1,5 +1,20 @@
 ## Unreleased
 
+
+- pending pydantic v2 support
+
+## 1.2.6 (2023-06-05)
+
+### Fix
+
+- support unsafe templates that utilize tasks
+
+## 1.2.5 (2023-06-05)
+
+### Fix
+
+- support copier 8
+
 ## 1.2.4 (2023-05-22)
 
 ### Fix

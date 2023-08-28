@@ -28,7 +28,7 @@ version = "1.2.6"
 
 [tool.poetry.dependencies]
 python = "^3.10.5"
-copier = ">=8.2.0" # FIXME: Pending Pydantic v2 support
+copier = ">=8.2.0"
 corallium = ">=0.3.3"
 
 [tool.poetry.group.dev.dependencies]
