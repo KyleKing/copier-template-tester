@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Fix
+
+- update copier to latest to unblock pydantic v2 upgrade
+
 
 - pending pydantic v2 support
 

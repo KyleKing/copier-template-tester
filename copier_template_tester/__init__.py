@@ -22,7 +22,7 @@ class _RuntimeTypeCheckingModes(Enum):
     OFF = None
 
     @classmethod
-    def from_environment(cls) -> Self:
+    def from_environment(cls) -> Self:  # pragma: no cover
         """Return the configured mode."""
         rtc_mode = getenv('RUNTIME_TYPE_CHECKING_MODE') or None
         try:
@@ -33,7 +33,7 @@ class _RuntimeTypeCheckingModes(Enum):
             raise ValueError(msg) from None
 
 
-def configure_runtime_type_checking_mode() -> None:
+def configure_runtime_type_checking_mode() -> None:  # pragma: no cover
     """Optionally configure runtime type checking mode globally."""
     rtc_mode = _RuntimeTypeCheckingModes.from_environment()
 
@@ -48,7 +48,7 @@ def configure_runtime_type_checking_mode() -> None:
 
 
 _PEP585_DATE = 2025
-if datetime.now(tz=timezone.utc).year <= _PEP585_DATE:
+if datetime.now(tz=timezone.utc).year <= _PEP585_DATE:  # pragma: no cover
     filterwarnings('ignore', category=BeartypeDecorHintPep585DeprecationWarning)
 configure_runtime_type_checking_mode()
 
