@@ -1,4 +1,3 @@
-# noqa: INP001
 """Generate the code reference pages and navigation.
 
 Copied from:
