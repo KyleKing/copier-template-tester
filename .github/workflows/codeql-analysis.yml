@@ -1,5 +1,5 @@
 ---
-# Based on the Github-recommended CodeQL Action
+# Based on the GitHub-recommended CodeQL Action
 name: CodeQL
 
 "on":
@@ -29,7 +29,7 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           os: ubuntu-latest

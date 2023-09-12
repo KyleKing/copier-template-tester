@@ -57,14 +57,14 @@ repos:
       - id: shellcheck
         args: [--severity=warning]
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.1"
+    rev: "v3.0.3"
     hooks:
       - id: prettier
         additional_dependencies:
           # Note: this version must be the same as the hook revision
-          - "prettier@3.0.0"
+          - "prettier@3.0.3"
           - "prettier-plugin-sh"
-        exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|tests/.*assert-cache.*/.+\.json|tests/data/.*/\.ctt/.*\.ya?ml
+        exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|tests/data/.*/\.ctt/.*\.ya?ml
         types_or: [html, javascript, json, shell, yaml]
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.32.0
@@ -90,7 +90,7 @@ repos:
         args: [--never]
         files: copier_template_tester/.*\.py
   - repo: https://github.com/KyleKing/calcipy
-    rev: 1.6.2
+    rev: 2.0.0
     hooks:
       - id: copier-forbidden-files
       - id: lint-fix

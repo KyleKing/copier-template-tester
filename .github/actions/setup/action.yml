@@ -1,12 +1,14 @@
 ---
 name: Setup Action
-description: Run "poetry install"
+description: Install requested pipx dependencies, configure the system python, and install poetry and the package dependencies
 
 inputs:
   os:
     default: ubuntu-22.04
+  pipx-packages:
+    default: ""
   poetry-version:
-    default: 1.5.1
+    default: 1.6.1
   python-version:
     required: true
 
@@ -17,8 +19,42 @@ env:
 runs:
   using: composite
   steps:
-    - name: Install Poetry ${{ inputs.poetry-version }}
-      run: pipx install poetry==${{ inputs.poetry-version }}
+    - name: Setup Local Variables
+      id: variable-setup
+      run: |
+        echo "pipx-home=$PIPX_HOME" >> $GITHUB_OUTPUT
+        echo "pipx-bin-dir=$PIPX_BIN_DIR" >> $GITHUB_OUTPUT
+
+        export BASE64_PIPX_ID=$(echo -n 'poetry==${{ inputs.poetry-version }} ${{ inputs.pipx-packages }}' | base64)
+        echo "cache-key-pipx=pipx-${{ inputs.os }}-${{ inputs.python-version }}-$BASE64_PIPX_ID" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Cache pipx
+      id: cache-pipx
+      # cache doesn't have permission to extract to "opt/"
+      if: ${{ inputs.os != 'macos-latest' }}
+      uses: actions/cache@v3
+      with:
+        # https://pypa.github.io/pipx/how-pipx-works
+        path: |
+          ${{ steps.variable-setup.outputs.pipx-home }}
+          ${{ steps.variable-setup.outputs.pipx-bin-dir }}
+        key: ${{ steps.variable-setup.outputs.cache-key-pipx }}
+
+    - name: Install Poetry ${{ inputs.poetry-version }} and '${{ inputs.pipx-packages }}'
+      if: ${{ steps.cache-pipx.outputs.cache-hit != 'true' }}
+      run: |
+        for tool in "poetry==${{ inputs.poetry-version }}" ${{ inputs.pipx-packages }}; do
+          pipx install $tool
+        done
+        # Resolves https://github.com/python-poetry/poetry/issues/7611
+        poetry self add setuptools==68.1.2
+      shell: bash
+
+    - name: Debug pipx
+      run: |
+        pipx ensurepath
+        pipx list
       shell: bash
 
     - name: Setup Python ${{ inputs.python-version }}
@@ -27,20 +63,13 @@ runs:
         python-version: ${{ inputs.python-version }}
         cache: poetry
 
-    - name: Cache Nox
-      uses: actions/cache@v3
-      id: cache
-      with:
-        path: .nox
-        key: ${{ inputs.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
     - name: Poetry Debug Info
-      run: |-
+      run: |
         poetry debug info
         poetry config --list
       shell: bash
 
-    - name: Install Project and Dependencies
-      run: |-
+    - name: Install Project and Minimum Subset of Dependencies
+      run: |
         poetry install
       shell: bash
