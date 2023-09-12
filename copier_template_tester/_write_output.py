@@ -65,7 +65,7 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
 
 
 @beartype
-def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
+def _stabilize(line: str, answers_path: Path) -> str:
     # Convert _src_path to a deterministic relative path
     if line.startswith('_src_path'):
         logger.info('Replacing with deterministic value', line=line)
@@ -84,7 +84,7 @@ def _stabilize(line: str, answers_path: Path) -> str:  # noqa: CFQ004
 
 
 @beartype
-def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:  # noqa: CFQ004
+def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
     lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip())
@@ -123,5 +123,5 @@ def write_output(  # type: ignore[no-untyped-def]
     try:
         _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
     except FileNotFoundError as exc:  # pragma: no cover
-        logger.warning(str(exc))  # noqa: TRY400
+        logger.warning(str(exc))
         raise
