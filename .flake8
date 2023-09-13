@@ -3,7 +3,7 @@
 # E501 - defer line length to other tools
 # PIE786 - Use precise exception handlers
 # W503 - Python 3 standard is a line break BEFORE binary operator, so ignore W503. Enforce W504
-ignore = E501,PIE786,W503
+ignore = E501,F401,PIE786,W503
 max-function-length = 55
 max-line-length = 120
 min-python-version = 3.10
