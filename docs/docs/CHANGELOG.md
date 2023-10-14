@@ -8,6 +8,11 @@
 - remove unused F401 and H303
 - update copier to latest to unblock pydantic v2 upgrade
 
+### Refactor
+
+- remove optional beartype
+- use literal to try to fix pyright errors
+
 
 - pending pydantic v2 support
 
