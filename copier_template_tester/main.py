@@ -5,7 +5,6 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 """
 
 import logging
-import shutil
 from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
 
@@ -22,16 +21,6 @@ logger = get_logger()
 
 
 @beartype
-def is_updateable(base_dir: Path) -> bool:
-    """Check if the copier template is updateable or not.
-
-    Addresses: https://github.com/KyleKing/copier-template-tester/issues/24
-
-    """
-    return any(base_dir.rglob('{{ _copier_conf.answers_file }}.jinja'))
-
-
-@beartype
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
@@ -45,9 +34,6 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     paths = set()
     for key, data in config['output'].items():
         output_path = base_dir / key
-        if not is_updateable(base_dir):
-            shutil.rmtree(output_path)
-        output_path.mkdir(parents=True, exist_ok=True)
         paths.add(output_path)
         logger.text(f'Using `copier` to create: {key}')
         write_output(src_path=input_path, dst_path=base_dir / output_path, data=defaults | data)

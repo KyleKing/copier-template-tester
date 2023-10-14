@@ -2,6 +2,8 @@
 
 import re
 import shutil
+from collections.abc import Generator
+from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
 
@@ -39,6 +41,7 @@ def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     return yaml.safe_load(copier_path.read_text())  # type: ignore[no-any-return]
 
 
+@lru_cache(maxsize=1)
 @beartype
 def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     """Locate the copier answers file based on the copier template."""
@@ -87,10 +90,37 @@ def _stabilize(line: str, answers_path: Path) -> str:
 def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    if lines := (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip()):
-        answers_path.write_text('\n'.join(lines) + '\n')
+    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip())
+    answers_path.write_text('\n'.join(lines) + '\n')
+
+
+@contextmanager
+def _output_dir(*, src_path: Path, dst_path: Path) -> Generator[None, None, None]:
+    """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
+
+    Addresses: https://github.com/KyleKing/copier-template-tester/issues/24
+
+    """
+    template_name = '{{ _copier_conf.answers_file }}.jinja'
+    has_answers_template = any(src_path.rglob(template_name))
+
+    if not has_answers_template and dst_path.is_dir():
+        shutil.rmtree(dst_path)
+    dst_path.mkdir(parents=True, exist_ok=True)
+
+    yield
+
+    if has_answers_template:
+        # Reduce variability in the output
+        try:
+            _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
+        except FileNotFoundError as exc:  # pragma: no cover
+            logger.warning(str(exc))
+            raise
     else:
-        answers_path.unlink()
+        with suppress(FileNotFoundError):
+            answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
+            answers_path.unlink()
 
 
 @beartype
@@ -106,24 +136,18 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    kwargs.setdefault('cleanup_on_error', False)
-    kwargs.setdefault('data', data or {})
-    kwargs.setdefault('defaults', True)
-    kwargs.setdefault('overwrite', True)
-    kwargs.setdefault('quiet', False)
-    kwargs.setdefault('unsafe', True)
-    kwargs.setdefault('vcs_ref', 'HEAD')
-    copier.run_copy(str(src_path), dst_path, **kwargs)
+    with _output_dir(src_path=src_path, dst_path=dst_path):
+        kwargs.setdefault('cleanup_on_error', False)
+        kwargs.setdefault('data', data or {})
+        kwargs.setdefault('defaults', True)
+        kwargs.setdefault('overwrite', True)
+        kwargs.setdefault('quiet', False)
+        kwargs.setdefault('unsafe', True)
+        kwargs.setdefault('vcs_ref', 'HEAD')
+        copier.run_copy(str(src_path), dst_path, **kwargs)
 
-    # Remove any .git directory created by copier script
-    git_path = dst_path / '.git'
-    if git_path.is_dir():  # pragma: no cover
-        logger.info('Removing git created by copier', git_path=git_path)
-        shutil.rmtree(git_path)
-
-    # Reduce variability in the output
-    try:
-        _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
-    except FileNotFoundError as exc:  # pragma: no cover
-        logger.warning(str(exc))
-        raise
+        # Remove any .git directory created by copier script
+        git_path = dst_path / '.git'
+        if git_path.is_dir():  # pragma: no cover
+            logger.info('Removing git created by copier', git_path=git_path)
+            shutil.rmtree(git_path)
