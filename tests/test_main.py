@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import copier
+import pytest
 from beartype import beartype
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
@@ -13,8 +14,9 @@ from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
 logger = get_logger()
 
 
+@pytest.mark.parametrize('base_dir', [DEMO_DIR, NO_ANSWER_FILE_DIR])
 @beartype
-def test_main_with_copier_mock(monkeypatch) -> None:
+def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     """Only necessary for coverage metrics."""
     @beartype
     def _run_copy(src_path: str, dst_path: Path, **kwargs) -> None:  # noqa: ARG001
@@ -22,14 +24,14 @@ def test_main_with_copier_mock(monkeypatch) -> None:
 
     monkeypatch.setattr(copier, 'run_copy', _run_copy)
 
-    run(base_dir=DEMO_DIR)
+    run(base_dir=base_dir)
 
 
 @beartype
 def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> set[Path]:
     ret = run_ctt(shell, cwd=cwd)
 
-    assert ret.returncode == 0, ret
+    assert ret.returncode == 0, ret.stderr
     # Check output from ctt and copier (where order can vary on Windows)
     ret.stdout.matcher.fnmatch_lines([
         'Starting Copier Template Tester for *',
