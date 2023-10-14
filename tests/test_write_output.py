@@ -3,7 +3,9 @@ from pathlib import Path
 import pytest
 from beartype import beartype
 
-from copier_template_tester._write_output import DEFAULT_ANSWER_FILE_NAME, _stabilize
+from copier_template_tester._write_output import DEFAULT_ANSWER_FILE_NAME, _resolve_git_root_dir, _stabilize
+
+from .helpers import TEST_DATA_DIR
 
 _ANSWERS_PATH = Path('project-subdir').absolute() / DEFAULT_ANSWER_FILE_NAME
 
@@ -27,3 +29,8 @@ _ANSWERS_PATH = Path('project-subdir').absolute() / DEFAULT_ANSWER_FILE_NAME
 @beartype
 def test_stabilize(line: str, expected: str) -> None:
     assert _stabilize(line, _ANSWERS_PATH) == expected
+
+
+@beartype
+def test_resolve_git_root_dir() -> None:
+    assert _resolve_git_root_dir(TEST_DATA_DIR) == TEST_DATA_DIR.parents[1]
