@@ -2,7 +2,16 @@
 
 ### Fix
 
+- specifically handle templates that can't be updated
+- check for answers file template
+- **#24**: only write an answers file if there is content
+- remove unused F401 and H303
 - update copier to latest to unblock pydantic v2 upgrade
+
+### Refactor
+
+- remove optional beartype
+- use literal to try to fix pyright errors
 
 
 - pending pydantic v2 support

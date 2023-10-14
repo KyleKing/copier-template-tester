@@ -2,12 +2,12 @@
 
 import re
 import shutil
+from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
 
 import copier
 import yaml
-from beartype import beartype
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
@@ -26,7 +26,6 @@ https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146
 """
 
 
-@beartype
 def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     """Locate and read the copier configuration file."""
     copier_path = base_dir / DEFAULT_TEMPLATE_FILE_NAME
@@ -39,7 +38,7 @@ def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     return yaml.safe_load(copier_path.read_text())  # type: ignore[no-any-return]
 
 
-@beartype
+@lru_cache(maxsize=1)
 def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     """Locate the copier answers file based on the copier template."""
     copier_config = _read_copier_template(src_path)
@@ -56,7 +55,6 @@ def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
 
 
 @lru_cache(maxsize=3)
-@beartype
 def _resolve_git_root_dir(base_dir: Path) -> Path:
     """Use git to list all untracked files."""
     cmd = 'git rev-parse --show-toplevel'
@@ -64,7 +62,6 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
     return Path(output.strip())
 
 
-@beartype
 def _stabilize(line: str, answers_path: Path) -> str:
     # Convert _src_path to a deterministic relative path
     if line.startswith('_src_path'):
@@ -83,7 +80,6 @@ def _stabilize(line: str, answers_path: Path) -> str:
     return line
 
 
-@beartype
 def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
@@ -91,7 +87,37 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     answers_path.write_text('\n'.join(lines) + '\n')
 
 
-@beartype
+@contextmanager
+# PLANNED: In python 3.10, there is a Beartype error for this return annotation:
+#   -> Generator[None, None, None]
+def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-def]  # noqa: ANN202
+    """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
+
+    Addresses: https://github.com/KyleKing/copier-template-tester/issues/24
+
+    """
+    template_name = '{{ _copier_conf.answers_file }}.jinja'
+    has_answers_template = any(src_path.rglob(template_name))
+
+    if not has_answers_template and dst_path.is_dir():
+        shutil.rmtree(dst_path)
+    dst_path.mkdir(parents=True, exist_ok=True)
+
+    yield
+
+    if has_answers_template:
+        # Reduce variability in the output
+        try:
+            _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
+        except FileNotFoundError as exc:  # pragma: no cover
+            logger.warning(str(exc))
+            raise
+    else:
+        with suppress(FileNotFoundError):
+            answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
+            answers_path.unlink()
+
+
 def write_output(  # type: ignore[no-untyped-def]
     *,
     src_path: Path,
@@ -104,24 +130,18 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    kwargs.setdefault('cleanup_on_error', False)
-    kwargs.setdefault('data', data or {})
-    kwargs.setdefault('defaults', True)
-    kwargs.setdefault('overwrite', True)
-    kwargs.setdefault('quiet', False)
-    kwargs.setdefault('unsafe', True)
-    kwargs.setdefault('vcs_ref', 'HEAD')
-    copier.run_copy(str(src_path), dst_path, **kwargs)
+    with _output_dir(src_path=src_path, dst_path=dst_path):
+        kwargs.setdefault('cleanup_on_error', False)
+        kwargs.setdefault('data', data or {})
+        kwargs.setdefault('defaults', True)
+        kwargs.setdefault('overwrite', True)
+        kwargs.setdefault('quiet', False)
+        kwargs.setdefault('unsafe', True)
+        kwargs.setdefault('vcs_ref', 'HEAD')
+        copier.run_copy(str(src_path), dst_path, **kwargs)
 
-    # Remove any .git directory created by copier script
-    git_path = dst_path / '.git'
-    if git_path.is_dir():  # pragma: no cover
-        logger.info('Removing git created by copier', git_path=git_path)
-        shutil.rmtree(git_path)
-
-    # Reduce variability in the output
-    try:
-        _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
-    except FileNotFoundError as exc:  # pragma: no cover
-        logger.warning(str(exc))
-        raise
+        # Remove any .git directory created by copier script
+        git_path = dst_path / '.git'
+        if git_path.is_dir():  # pragma: no cover
+            logger.info('Removing git created by copier', git_path=git_path)
+            shutil.rmtree(git_path)

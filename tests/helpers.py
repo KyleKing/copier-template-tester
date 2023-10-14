@@ -3,8 +3,8 @@ import tempfile
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
-from beartype import beartype
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import ProcessResult
@@ -15,19 +15,18 @@ logger = get_logger()
 
 CTT_CMD = ['poetry', 'run', 'ctt']
 DEMO_DIR = TEST_DATA_DIR / 'copier_demo'
+NO_ANSWER_FILE_DIR = TEST_DATA_DIR / 'no_answers_file_demo'
 
 
 class ExpectedError(Exception):
     """Test-only exception."""
 
 
-@beartype
-def _format_ret_kwargs(ret: ProcessResult) -> dict[str, str]:
+def _format_ret_kwargs(ret: ProcessResult) -> dict[Literal['stdout', 'stderr'], str]:
     """Cleanup the shell output for printing."""
     return {'stdout': f'`{ret.stdout.strip()}`', 'stderr': f'`{ret.stderr.strip()}`'}
 
 
-@beartype
 def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> ProcessResult:
     """Run `ctt` in the specified directory."""
     ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd)
@@ -35,7 +34,6 @@ def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> Proc
     return ret
 
 
-@beartype
 def run_check(shell: Subprocess, *args, **kwargs) -> ProcessResult:
     """Check that the shell process completed with exit code 0."""
     ret = shell.run(*args, **kwargs)
@@ -45,7 +43,6 @@ def run_check(shell: Subprocess, *args, **kwargs) -> ProcessResult:
     return ret
 
 
-@beartype
 def add_commit(shell: Subprocess, cwd: Path) -> None:
     """Add and commit all files within the specified directory."""
     assert not cwd.is_relative_to(TEST_DIR.parent)  # Prevent accidents!
@@ -54,7 +51,6 @@ def add_commit(shell: Subprocess, cwd: Path) -> None:
 
 
 @contextmanager
-@beartype
 def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> Generator[Path, None, None]:
     """Initialize a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmp_dir:

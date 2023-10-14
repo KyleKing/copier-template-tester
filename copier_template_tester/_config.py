@@ -2,14 +2,12 @@
 
 from pathlib import Path
 
-from beartype import beartype
 from corallium.log import get_logger
 from corallium.tomllib import tomllib
 
 logger = get_logger()
 
 
-@beartype
 def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
     if 'defaults' not in config:
         logger.text('Warning: You probably want a section: [defaults]')
@@ -17,7 +15,6 @@ def _validate_config(config: dict) -> None:  # type: ignore[type-arg]
         raise RuntimeError('CTT expected headers like: [output."<something>"]')
 
 
-@beartype
 def load_config(base_dir: Path) -> dict:  # type: ignore[type-arg]
     """Read the ctt config from `CWD`."""
     cfg_path = base_dir / 'ctt.toml'
