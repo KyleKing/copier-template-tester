@@ -2,7 +2,6 @@
 
 import re
 import shutil
-from collections.abc import Generator
 from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
@@ -28,7 +27,6 @@ https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146
 """
 
 
-@beartype
 def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
     """Locate and read the copier configuration file."""
     copier_path = base_dir / DEFAULT_TEMPLATE_FILE_NAME
@@ -42,7 +40,6 @@ def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
 
 
 @lru_cache(maxsize=1)
-@beartype
 def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     """Locate the copier answers file based on the copier template."""
     copier_config = _read_copier_template(src_path)
@@ -59,7 +56,6 @@ def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
 
 
 @lru_cache(maxsize=3)
-@beartype
 def _resolve_git_root_dir(base_dir: Path) -> Path:
     """Use git to list all untracked files."""
     cmd = 'git rev-parse --show-toplevel'
@@ -67,7 +63,6 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
     return Path(output.strip())
 
 
-@beartype
 def _stabilize(line: str, answers_path: Path) -> str:
     # Convert _src_path to a deterministic relative path
     if line.startswith('_src_path'):
@@ -86,7 +81,6 @@ def _stabilize(line: str, answers_path: Path) -> str:
     return line
 
 
-@beartype
 def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     """Ensure that the answers file is deterministic."""
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
@@ -95,7 +89,9 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
 
 
 @contextmanager
-def _output_dir(*, src_path: Path, dst_path: Path) -> Generator[None, None, None]:
+# PLANNED: In python 3.10, there is a Beartype error for this return annotation:
+#   -> Generator[None, None, None]
+def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-def]  # noqa: ANN202
     """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
 
     Addresses: https://github.com/KyleKing/copier-template-tester/issues/24
