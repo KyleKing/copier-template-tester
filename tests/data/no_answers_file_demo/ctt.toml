@@ -1,7 +1,4 @@
 # Configuration for: https://github.com/KyleKing/copier-template-tester
 
-[defaults]
-project_name = "Testing No Answers File"
-
 [output.".ctt/no_answers_file"]
 copyright_date = "2023"

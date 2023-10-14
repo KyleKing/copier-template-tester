@@ -8,7 +8,6 @@ from pathlib import Path
 
 import copier
 import yaml
-from beartype import beartype
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
@@ -119,7 +118,6 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-d
             answers_path.unlink()
 
 
-@beartype
 def write_output(  # type: ignore[no-untyped-def]
     *,
     src_path: Path,

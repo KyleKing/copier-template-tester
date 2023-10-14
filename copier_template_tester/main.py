@@ -8,7 +8,6 @@ import logging
 from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
 
-from beartype import beartype
 from corallium.log import configure_logger, get_logger
 from corallium.loggers.plain_printer import plain_printer
 
@@ -20,7 +19,6 @@ configure_logger(log_level=logging.INFO, logger=plain_printer)
 logger = get_logger()
 
 
-@beartype
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
@@ -42,10 +40,8 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         check_for_untracked(paths, base_dir)
 
 
-@beartype
 def run_cli() -> None:  # pragma: no cover
     """Accept CLI configuration for running ctt."""
-    @beartype
     def dir_path(pth: str | None) -> Path:
         if pth and Path(pth).is_dir():
             return Path(pth).resolve()
