@@ -18,7 +18,7 @@
         <link rel="prev" href="../Advanced_Documentation/">
       
       
-        <link rel="next" href="../DEVELOPER_GUIDE/">
+        <link rel="next" href="../CODE_TAG_SUMMARY/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -367,6 +367,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    Refactor
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -441,7 +448,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#refactor" class="md-nav__link">
+  <a href="#refactor_1" class="md-nav__link">
     Refactor
   </a>
   
@@ -508,7 +515,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_1" class="md-nav__link">
+  <a href="#refactor_2" class="md-nav__link">
     Refactor
   </a>
   
@@ -575,7 +582,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_2" class="md-nav__link">
+  <a href="#refactor_3" class="md-nav__link">
     Refactor
   </a>
   
@@ -609,7 +616,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_3" class="md-nav__link">
+  <a href="#refactor_4" class="md-nav__link">
     Refactor
   </a>
   
@@ -691,6 +698,26 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CODE_TAG_SUMMARY/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Collected Code Tags
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1020,6 +1047,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    Refactor
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1094,7 +1128,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#refactor" class="md-nav__link">
+  <a href="#refactor_1" class="md-nav__link">
     Refactor
   </a>
   
@@ -1161,7 +1195,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_1" class="md-nav__link">
+  <a href="#refactor_2" class="md-nav__link">
     Refactor
   </a>
   
@@ -1228,7 +1262,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_2" class="md-nav__link">
+  <a href="#refactor_3" class="md-nav__link">
     Refactor
   </a>
   
@@ -1262,7 +1296,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#refactor_3" class="md-nav__link">
+  <a href="#refactor_4" class="md-nav__link">
     Refactor
   </a>
   
@@ -1363,9 +1397,17 @@
 <h2 id="unreleased">Unreleased<a class="headerlink" href="#unreleased" title="Permanent link">⚓︎</a></h2>
 <h3 id="fix">Fix<a class="headerlink" href="#fix" title="Permanent link">⚓︎</a></h3>
 <ul>
+<li>specifically handle templates that can&rsquo;t be updated</li>
+<li>check for answers file template</li>
+<li><strong>#24</strong>: only write an answers file if there is content</li>
 <li>remove unused F401 and H303</li>
+<li>update copier to latest to unblock pydantic v2 upgrade</li>
+</ul>
+<h3 id="refactor">Refactor<a class="headerlink" href="#refactor" title="Permanent link">⚓︎</a></h3>
+<ul>
+<li>remove optional beartype</li>
 <li>
-<p>update copier to latest to unblock pydantic v2 upgrade</p>
+<p>use literal to try to fix pyright errors</p>
 </li>
 <li>
 <p>pending pydantic v2 support</p>
@@ -1387,7 +1429,7 @@
 <li><strong>#20</strong>: set commit to HEAD</li>
 </ul>
 <h2 id="123-2023-05-17">1.2.3 (2023-05-17)<a class="headerlink" href="#123-2023-05-17" title="Permanent link">⚓︎</a></h2>
-<h3 id="refactor">Refactor<a class="headerlink" href="#refactor" title="Permanent link">⚓︎</a></h3>
+<h3 id="refactor_1">Refactor<a class="headerlink" href="#refactor_1" title="Permanent link">⚓︎</a></h3>
 <ul>
 <li>improve log output on post-copier steps</li>
 </ul>
@@ -1407,7 +1449,7 @@
 <ul>
 <li>start implementation to replace the src_path</li>
 </ul>
-<h3 id="refactor_1">Refactor<a class="headerlink" href="#refactor_1" title="Permanent link">⚓︎</a></h3>
+<h3 id="refactor_2">Refactor<a class="headerlink" href="#refactor_2" title="Permanent link">⚓︎</a></h3>
 <ul>
 <li>run calcipy tool suite</li>
 <li>merge stabilization code</li>
@@ -1428,7 +1470,7 @@
 <ul>
 <li>remove _commit from the answers file</li>
 </ul>
-<h3 id="refactor_2">Refactor<a class="headerlink" href="#refactor_2" title="Permanent link">⚓︎</a></h3>
+<h3 id="refactor_3">Refactor<a class="headerlink" href="#refactor_3" title="Permanent link">⚓︎</a></h3>
 <ul>
 <li>experiment with a shadow copy</li>
 <li>use capture_shell</li>
@@ -1445,7 +1487,7 @@
 <li><strong>#3</strong>: return error in pre-commit on new output directories (#5)</li>
 <li><strong>#2</strong>: resolve issues in Github Workflows</li>
 </ul>
-<h3 id="refactor_3">Refactor<a class="headerlink" href="#refactor_3" title="Permanent link">⚓︎</a></h3>
+<h3 id="refactor_4">Refactor<a class="headerlink" href="#refactor_4" title="Permanent link">⚓︎</a></h3>
 <ul>
 <li>switch to the corallium logger</li>
 </ul>
@@ -1477,7 +1519,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 29, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 14, 2023</span>
       
         <br>
         Created:

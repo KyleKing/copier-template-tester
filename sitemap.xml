@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://copier-template-tester.kyleking.me/docs/CODE_TAG_SUMMARY/</loc>
+         <lastmod>2023-10-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://copier-template-tester.kyleking.me/docs/DEVELOPER_GUIDE/</loc>
          <lastmod>2023-10-14</lastmod>
          <changefreq>daily</changefreq>

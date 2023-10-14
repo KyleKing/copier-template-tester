@@ -329,6 +329,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../docs/CODE_TAG_SUMMARY/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Collected Code Tags
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../docs/DEVELOPER_GUIDE/" class="md-nav__link">
         
   
@@ -787,15 +807,14 @@
 
           <details class="quote">
             <summary>Source code in <code>copier_template_tester/_pre_commit_support.py</code></summary>
-            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="27 "></span><span class="nd">@beartype</span>
-<span class="linenos" data-linenos="28 "></span><span class="k">def</span> <span class="nf">check_for_untracked</span><span class="p">(</span><span class="n">output_paths</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos" data-linenos="29 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolves the edge case in #3 by raising when pre-commit won&#39;t error.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="30 "></span>    <span class="k">if</span> <span class="n">untracked_paths</span> <span class="o">:=</span> <span class="p">{</span>
-<span class="linenos" data-linenos="31 "></span>        <span class="n">untracked</span> <span class="k">for</span> <span class="n">untracked</span> <span class="ow">in</span> <span class="n">_ls_untracked_dir</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
-<span class="linenos" data-linenos="32 "></span>        <span class="k">if</span> <span class="n">_is_relative</span><span class="p">(</span><span class="n">untracked</span><span class="p">,</span> <span class="n">output_paths</span><span class="p">)</span>
-<span class="linenos" data-linenos="33 "></span>    <span class="p">}:</span>
-<span class="linenos" data-linenos="34 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;pre-commit error: untracked files must be added&#39;</span><span class="p">,</span> <span class="n">untracked_paths</span><span class="o">=</span><span class="n">untracked_paths</span><span class="p">)</span>
-<span class="linenos" data-linenos="35 "></span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="24 "></span><span class="k">def</span> <span class="nf">check_for_untracked</span><span class="p">(</span><span class="n">output_paths</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos" data-linenos="25 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolves the edge case in #3 by raising when pre-commit won&#39;t error.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="26 "></span>    <span class="k">if</span> <span class="n">untracked_paths</span> <span class="o">:=</span> <span class="p">{</span>
+<span class="linenos" data-linenos="27 "></span>        <span class="n">untracked</span> <span class="k">for</span> <span class="n">untracked</span> <span class="ow">in</span> <span class="n">_ls_untracked_dir</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+<span class="linenos" data-linenos="28 "></span>        <span class="k">if</span> <span class="n">_is_relative</span><span class="p">(</span><span class="n">untracked</span><span class="p">,</span> <span class="n">output_paths</span><span class="p">)</span>
+<span class="linenos" data-linenos="29 "></span>    <span class="p">}:</span>
+<span class="linenos" data-linenos="30 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;pre-commit error: untracked files must be added&#39;</span><span class="p">,</span> <span class="n">untracked_paths</span><span class="o">=</span><span class="n">untracked_paths</span><span class="p">)</span>
+<span class="linenos" data-linenos="31 "></span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
           </details>
   </div>
