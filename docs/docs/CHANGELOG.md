@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Fix
+
+- **#27**: skip running copier when no copier.ya?ml file is present
+
 ## 2.0.0 (2023-10-14)
 
 ### Fix
