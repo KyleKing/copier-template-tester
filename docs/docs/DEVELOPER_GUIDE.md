@@ -49,9 +49,9 @@ poetry config pypi-token.pypi ...
 | `copier_template_tester/__init__.py`            |           17 |         0 |         17 | 100.0%     |
 | `copier_template_tester/_config.py`             |           14 |         0 |          3 | 100.0%     |
 | `copier_template_tester/_pre_commit_support.py` |           15 |         0 |          0 | 100.0%     |
-| `copier_template_tester/_write_output.py`       |           76 |         0 |         13 | 99.0%      |
-| `copier_template_tester/main.py`                |           24 |         0 |         14 | 100.0%     |
-| **Totals**                                      |          146 |         0 |         47 | 99.4%      |
+| `copier_template_tester/_write_output.py`       |           77 |         0 |         13 | 98.0%      |
+| `copier_template_tester/main.py`                |           30 |         4 |         14 | 86.7%      |
+| **Totals**                                      |          153 |         4 |         47 | 96.8%      |
 
-Generated on: 2023-10-14
+Generated on: 2023-11-08
 <!-- {cte} -->

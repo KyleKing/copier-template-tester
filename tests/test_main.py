@@ -64,8 +64,16 @@ def test_no_answer_file_dir(shell: Subprocess) -> None:
 
 
 @beartype
-def test_main_missing_config(shell: Subprocess) -> None:
-    ret = run_ctt(shell, cwd=TEST_DATA_DIR)
+def test_missing_copier_config(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_copier_config')
+
+    assert ret.returncode == 0
+    ret.stdout.matcher.fnmatch_lines(["Please add a 'copier.yaml' file to '*no_copier_config'*"])
+
+
+@beartype
+def test_missing_ctt_config(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_ctt_config')
 
     assert ret.returncode == 1
     ret.stderr.matcher.fnmatch_lines(['*No configuration file found. Expected: *ctt.toml*'])

@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 2.0.0 (2023-10-14)
+
 ### Fix
 
 - specifically handle templates that can't be updated

@@ -13,7 +13,7 @@ from corallium.loggers.plain_printer import plain_printer
 
 from ._config import load_config
 from ._pre_commit_support import check_for_untracked
-from ._write_output import write_output
+from ._write_output import DEFAULT_TEMPLATE_FILE_NAME, read_copier_template, write_output
 
 configure_logger(log_level=logging.INFO, logger=plain_printer)
 logger = get_logger()
@@ -22,6 +22,13 @@ logger = get_logger()
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
     """Main class to run ctt."""
     base_dir = base_dir or Path.cwd()
+    try:
+        read_copier_template(base_dir=base_dir)
+    except FileNotFoundError:
+        message = f"Please add a '{DEFAULT_TEMPLATE_FILE_NAME}' file to '{base_dir}'"
+        logger.warning(message)
+        return
+
     logger.text(f'Starting Copier Template Tester for {base_dir}')
     logger.text('\tNote: If files were modified, pre-commit will report a failure.')
     logger.text('')

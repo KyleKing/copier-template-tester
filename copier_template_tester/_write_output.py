@@ -15,7 +15,7 @@ from corallium.shell import capture_shell
 logger = get_logger()
 
 DEFAULT_TEMPLATE_FILE_NAME = 'copier.yaml'
-"""Default answer file name. Alternative is copier.yml."""
+"""Default answer file name; however, `copier.yml` is also supported through `read_copier_template`."""
 
 
 DEFAULT_ANSWER_FILE_NAME = '.copier-answers.yml'
@@ -26,8 +26,13 @@ https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146
 """
 
 
-def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
-    """Locate and read the copier configuration file."""
+@lru_cache(maxsize=1)
+def read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
+    """Locate the copier file regardless of variation and return the content.
+
+    https://github.com/copier-org/copier/blob/5827d6a6fc6592e64c983bc52a254471ecff7531/docs/creating.md?plain=1#L13-L14
+
+    """
     copier_path = base_dir / DEFAULT_TEMPLATE_FILE_NAME
     if not copier_path.is_file():
         copier_path = copier_path.with_suffix('.yml')
@@ -41,7 +46,7 @@ def _read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
 @lru_cache(maxsize=1)
 def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     """Locate the copier answers file based on the copier template."""
-    copier_config = _read_copier_template(src_path)
+    copier_config = read_copier_template(src_path)
     answers_filename = copier_config.get('_answers_file') or DEFAULT_ANSWER_FILE_NAME
     if '{{' in answers_filename:
         # If the filename is created from the template, just grab the first match

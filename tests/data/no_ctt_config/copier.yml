@@ -1,0 +1,31 @@
+---
+_min_copier_version: 7.0.0
+
+# ====== TEMPLATE ======
+_answers_file: .copier-answers.{{ package_name_py }}.yml
+_subdirectory: template_dir
+
+# ====== QUESTIONS ======
+project_name:
+  type: str
+  help: Your project name (can have spaces and dashes)
+
+package_name_py:
+  type: str
+  help: Your Python package name (should be in `snake_case`)
+  default: "{{ project_name | lower | replace('-', '_') | replace(' ', '_') }}"
+
+copyright_date:
+  type: str
+  help: The copyright year
+  default: "{{ '%Y' | strftime }}"
+
+minimum_python:
+  type: str
+  help: The minimum Python version
+  default: 3.11.0
+
+include_all:
+  type: bool
+  help: If True, include the doc_dir, .github directory, and other optional files
+  default: true
