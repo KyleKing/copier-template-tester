@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35e1ed30.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -650,6 +650,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#copier_template_tester.main-attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#copier_template_tester.main-functions" class="md-nav__link">
     Functions
   </a>
@@ -732,6 +739,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#copier_template_tester.main-attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#copier_template_tester.main-functions" class="md-nav__link">
     Functions
   </a>
@@ -796,7 +810,7 @@
 
 
 
-
+<h2 id="copier_template_tester.main-attributes">Attributes<a href="#copier_template_tester.main-attributes" class="headerlink" title="Permanent link">⚓︎</a></h2>
 
 <h2 id="copier_template_tester.main-functions">Functions<a href="#copier_template_tester.main-functions" class="headerlink" title="Permanent link">⚓︎</a></h2>
 
@@ -823,22 +837,29 @@
             <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="22 "></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check_untracked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="linenos" data-linenos="23 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Main class to run ctt.&quot;&quot;&quot;</span>
 <span class="linenos" data-linenos="24 "></span>    <span class="n">base_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="ow">or</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-<span class="linenos" data-linenos="25 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting Copier Template Tester for </span><span class="si">{</span><span class="n">base_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="26 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Note: If files were modified, pre-commit will report a failure.&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="27 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="28 "></span>    <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
-<span class="linenos" data-linenos="29 "></span>    <span class="n">defaults</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="p">{})</span>
-<span class="linenos" data-linenos="30 "></span>
-<span class="linenos" data-linenos="31 "></span>    <span class="n">input_path</span> <span class="o">=</span> <span class="n">base_dir</span>
-<span class="linenos" data-linenos="32 "></span>    <span class="n">paths</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<span class="linenos" data-linenos="33 "></span>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="linenos" data-linenos="34 "></span>        <span class="n">output_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="n">key</span>
-<span class="linenos" data-linenos="35 "></span>        <span class="n">paths</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="36 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using `copier` to create: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="37 "></span>        <span class="n">write_output</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">base_dir</span> <span class="o">/</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">defaults</span> <span class="o">|</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos" data-linenos="38 "></span>
-<span class="linenos" data-linenos="39 "></span>    <span class="k">if</span> <span class="n">check_untracked</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="40 "></span>        <span class="n">check_for_untracked</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">)</span>
+<span class="linenos" data-linenos="25 "></span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="26 "></span>        <span class="n">read_copier_template</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">base_dir</span><span class="p">)</span>
+<span class="linenos" data-linenos="27 "></span>    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+<span class="linenos" data-linenos="28 "></span>        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Please add a &#39;</span><span class="si">{</span><span class="n">DEFAULT_TEMPLATE_FILE_NAME</span><span class="si">}</span><span class="s2">&#39; file to &#39;</span><span class="si">{</span><span class="n">base_dir</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<span class="linenos" data-linenos="29 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="linenos" data-linenos="30 "></span>        <span class="k">return</span>
+<span class="linenos" data-linenos="31 "></span>
+<span class="linenos" data-linenos="32 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting Copier Template Tester for </span><span class="si">{</span><span class="n">base_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="33 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Note: If files were modified, pre-commit will report a failure.&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="34 "></span>    <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="35 "></span>    <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+<span class="linenos" data-linenos="36 "></span>    <span class="n">defaults</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="linenos" data-linenos="37 "></span>
+<span class="linenos" data-linenos="38 "></span>    <span class="n">input_path</span> <span class="o">=</span> <span class="n">base_dir</span>
+<span class="linenos" data-linenos="39 "></span>    <span class="n">paths</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="linenos" data-linenos="40 "></span>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="linenos" data-linenos="41 "></span>        <span class="n">output_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="n">key</span>
+<span class="linenos" data-linenos="42 "></span>        <span class="n">paths</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="43 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using `copier` to create: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="44 "></span>        <span class="n">write_output</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">base_dir</span> <span class="o">/</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">defaults</span> <span class="o">|</span> <span class="n">data</span><span class="p">)</span>
+<span class="linenos" data-linenos="45 "></span>
+<span class="linenos" data-linenos="46 "></span>    <span class="k">if</span> <span class="n">check_untracked</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="47 "></span>        <span class="n">check_for_untracked</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">)</span>
 </code></pre></div>
           </details>
   </div>
@@ -865,24 +886,24 @@
 
           <details class="quote">
             <summary>Source code in <code>copier_template_tester/main.py</code></summary>
-            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="43 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="44 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept CLI configuration for running ctt.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="45 "></span>    <span class="k">def</span> <span class="nf">dir_path</span><span class="p">(</span><span class="n">pth</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="linenos" data-linenos="46 "></span>        <span class="k">if</span> <span class="n">pth</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-<span class="linenos" data-linenos="47 "></span>            <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-<span class="linenos" data-linenos="48 "></span>        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Expected a path to a directory. Received: `</span><span class="si">{</span><span class="n">pth</span><span class="si">}</span><span class="s1">`&#39;</span>
-<span class="linenos" data-linenos="49 "></span>        <span class="k">raise</span> <span class="n">ArgumentTypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-<span class="linenos" data-linenos="50 "></span>
-<span class="linenos" data-linenos="51 "></span>    <span class="n">cli</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
-<span class="linenos" data-linenos="52 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-<span class="linenos" data-linenos="53 "></span>        <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="54 "></span>        <span class="s1">&#39;--base-dir&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="55 "></span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Specify the path to the directory that contains the configuration file&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="56 "></span>        <span class="nb">type</span><span class="o">=</span><span class="n">dir_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="57 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--check-untracked&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Only used for pre-commit&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="58 "></span>
-<span class="linenos" data-linenos="59 "></span>    <span class="n">args</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-<span class="linenos" data-linenos="60 "></span>    <span class="n">run</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">check_untracked</span><span class="p">)</span>
+            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="50 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="51 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept CLI configuration for running ctt.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="52 "></span>    <span class="k">def</span> <span class="nf">dir_path</span><span class="p">(</span><span class="n">pth</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="linenos" data-linenos="53 "></span>        <span class="k">if</span> <span class="n">pth</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+<span class="linenos" data-linenos="54 "></span>            <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+<span class="linenos" data-linenos="55 "></span>        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Expected a path to a directory. Received: `</span><span class="si">{</span><span class="n">pth</span><span class="si">}</span><span class="s1">`&#39;</span>
+<span class="linenos" data-linenos="56 "></span>        <span class="k">raise</span> <span class="n">ArgumentTypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="linenos" data-linenos="57 "></span>
+<span class="linenos" data-linenos="58 "></span>    <span class="n">cli</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="linenos" data-linenos="59 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos" data-linenos="60 "></span>        <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="61 "></span>        <span class="s1">&#39;--base-dir&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="62 "></span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Specify the path to the directory that contains the configuration file&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="63 "></span>        <span class="nb">type</span><span class="o">=</span><span class="n">dir_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="64 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--check-untracked&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Only used for pre-commit&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="65 "></span>
+<span class="linenos" data-linenos="66 "></span>    <span class="n">args</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos" data-linenos="67 "></span>    <span class="n">run</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">check_untracked</span><span class="p">)</span>
 </code></pre></div>
           </details>
   </div>
@@ -902,11 +923,11 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 14, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 9, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 14, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 9, 2023</span>
       
     
   </small>
@@ -952,7 +973,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["toc.autohide"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
       

@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35e1ed30.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4b4a2bd9.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -749,7 +749,7 @@
 <span class="linenos" data-linenos="38 "></span>    <span class="n">rtc_mode</span> <span class="o">=</span> <span class="n">_RuntimeTypeCheckingModes</span><span class="o">.</span><span class="n">from_environment</span><span class="p">()</span>
 <span class="linenos" data-linenos="39 "></span>
 <span class="linenos" data-linenos="40 "></span>    <span class="k">if</span> <span class="n">rtc_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">_RuntimeTypeCheckingModes</span><span class="o">.</span><span class="n">OFF</span><span class="p">:</span>
-<span class="linenos" data-linenos="41 "></span>        <span class="kn">from</span> <span class="nn">beartype.roar</span> <span class="kn">import</span> <span class="n">BeartypeClawDecorWarning</span>
+<span class="linenos" data-linenos="41 "></span>        <span class="kn">from</span> <span class="nn">beartype.roar</span> <span class="kn">import</span> <span class="n">BeartypeClawDecorWarning</span>  <span class="c1"># noqa: PLC0415</span>
 <span class="linenos" data-linenos="42 "></span>
 <span class="linenos" data-linenos="43 "></span>        <span class="n">beartype_this_package</span><span class="p">(</span><span class="n">conf</span><span class="o">=</span><span class="n">BeartypeConf</span><span class="p">(</span>
 <span class="linenos" data-linenos="44 "></span>            <span class="n">warning_cls_on_decorator_exception</span><span class="o">=</span><span class="p">(</span>
@@ -775,11 +775,11 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 14, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 9, 2023</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 14, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 9, 2023</span>
       
     
   </small>
@@ -825,7 +825,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["toc.autohide"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
       
