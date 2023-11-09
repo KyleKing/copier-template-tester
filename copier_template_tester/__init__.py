@@ -38,7 +38,7 @@ def configure_runtime_type_checking_mode() -> None:  # pragma: no cover
     rtc_mode = _RuntimeTypeCheckingModes.from_environment()
 
     if rtc_mode is not _RuntimeTypeCheckingModes.OFF:
-        from beartype.roar import BeartypeClawDecorWarning
+        from beartype.roar import BeartypeClawDecorWarning  # noqa: PLC0415
 
         beartype_this_package(conf=BeartypeConf(
             warning_cls_on_decorator_exception=(
