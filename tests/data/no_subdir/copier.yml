@@ -2,6 +2,7 @@
 _min_copier_version: 9.0.0
 
 _exclude:
-  - "*.ctt"
+  - ".ctt"
+  - "ctt.toml"
 
 you: Mario

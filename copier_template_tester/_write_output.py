@@ -92,6 +92,20 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     answers_path.write_text('\n'.join(lines) + '\n')
 
 
+OSERROR_MESSAGE = """The CTT output directory must be excluded from copier to avoid recursion.
+
+In `copier.yaml`, add exclusion rules for the files from copier-template tester:
+
+```yaml
+_exclude:
+  - ".ctt"
+  - "ctt.toml"
+```
+
+NOTE: you may have specified a directory other than `.ctt/`. If so please adapt the above example appropriately.
+"""
+
+
 @contextmanager
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
@@ -101,21 +115,8 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-d
     Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
 
     """
-    error_msg = f"""The CTT output directory must be excluded from copier to avoid recursion.
-
-In `copier.yaml`, add the below rule for the output directory ({dst_path}) :
-
-```yaml
-_exclude:
-  - ".ctt"
-```
-
-"""
     template_name = '{{ _copier_conf.answers_file }}.jinja'
-    try:
-        has_answers_template = any(src_path.rglob(template_name))
-    except OSError as exc:
-        raise ValueError(error_msg) from exc
+    has_answers_template = any(src_path.rglob(template_name))
 
     if not has_answers_template and dst_path.is_dir():
         shutil.rmtree(dst_path)
@@ -148,18 +149,21 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    with _output_dir(src_path=src_path, dst_path=dst_path):
-        kwargs.setdefault('cleanup_on_error', False)
-        kwargs.setdefault('data', data or {})
-        kwargs.setdefault('defaults', True)
-        kwargs.setdefault('overwrite', True)
-        kwargs.setdefault('quiet', False)
-        kwargs.setdefault('unsafe', True)
-        kwargs.setdefault('vcs_ref', 'HEAD')
-        copier.run_copy(str(src_path), dst_path, **kwargs)
+    try:
+        with _output_dir(src_path=src_path, dst_path=dst_path):
+            kwargs.setdefault('cleanup_on_error', False)
+            kwargs.setdefault('data', data or {})
+            kwargs.setdefault('defaults', True)
+            kwargs.setdefault('overwrite', True)
+            kwargs.setdefault('quiet', False)
+            kwargs.setdefault('unsafe', True)
+            kwargs.setdefault('vcs_ref', 'HEAD')
+            copier.run_copy(str(src_path), dst_path, **kwargs)
 
-        # Remove any .git directory created by copier script
-        git_path = dst_path / '.git'
-        if git_path.is_dir():  # pragma: no cover
-            logger.info('Removing git created by copier', git_path=git_path)
-            shutil.rmtree(git_path)
+            # Remove any .git directory created by copier script
+            git_path = dst_path / '.git'
+            if git_path.is_dir():  # pragma: no cover
+                logger.info('Removing git created by copier', git_path=git_path)
+                shutil.rmtree(git_path)
+    except OSError as exc:
+        raise ValueError(OSERROR_MESSAGE) from exc
