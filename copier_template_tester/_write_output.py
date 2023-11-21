@@ -98,11 +98,24 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
 def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-def]  # noqa: ANN202
     """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
 
-    Addresses: https://github.com/KyleKing/copier-template-tester/issues/24
+    Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
 
     """
+    error_msg = f"""The CTT output directory must be excluded from copier to avoid recursion.
+
+In `copier.yaml`, add the below rule for the output directory ({dst_path}) :
+
+```yaml
+_exclude:
+  - ".ctt"
+```
+
+"""
     template_name = '{{ _copier_conf.answers_file }}.jinja'
-    has_answers_template = any(src_path.rglob(template_name))
+    try:
+        has_answers_template = any(src_path.rglob(template_name))
+    except OSError as exc:
+        raise ValueError(error_msg) from exc
 
     if not has_answers_template and dst_path.is_dir():
         shutil.rmtree(dst_path)

@@ -77,3 +77,11 @@ def test_missing_ctt_config(shell: Subprocess) -> None:
 
     assert ret.returncode == 1
     ret.stderr.matcher.fnmatch_lines(['*No configuration file found. Expected: *ctt.toml*'])
+
+
+@beartype
+def test_no_subdir(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_subdir')
+
+    assert ret.returncode == 0
+    ret.stdout.matcher.fnmatch_lines(['*Using `copier` to create: .ctt/ctt_no_subdir*'])
