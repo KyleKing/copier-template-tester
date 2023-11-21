@@ -100,6 +100,15 @@ In `copier.yaml`, add exclusion rules for the files from copier-template tester:
 _exclude:
   - ".ctt"
   - "ctt.toml"
+  # Defaults: https://copier.readthedocs.io/en/latest/configuring/#exclude
+  - "copier.yaml"
+  - "copier.yml"
+  - "~*"
+  - "*.py[co]"
+  - "__pycache__"
+  - ".git"
+  - ".DS_Store"
+  - ".svn"
 ```
 
 NOTE: you may have specified a directory other than `.ctt/`. If so please adapt the above example appropriately.

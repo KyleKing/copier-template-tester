@@ -4,5 +4,14 @@ _min_copier_version: 9.0.0
 _exclude:
   - ".ctt"
   - "ctt.toml"
+  # Defaults: https://copier.readthedocs.io/en/latest/configuring/#exclude
+  - "copier.yaml"
+  - "copier.yml"
+  - "~*"
+  - "*.py[co]"
+  - "__pycache__"
+  - ".git"
+  - ".DS_Store"
+  - ".svn"
 
 you: Mario
