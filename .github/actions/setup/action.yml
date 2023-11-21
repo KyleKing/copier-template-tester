@@ -4,11 +4,11 @@ description: Install requested pipx dependencies, configure the system python, a
 
 inputs:
   os:
-    default: ubuntu-22.04
+    default: ubuntu-latest
   pipx-packages:
     default: ""
   poetry-version:
-    default: 1.6.1
+    default: 1.7.1
   python-version:
     required: true
 
@@ -19,36 +19,11 @@ env:
 runs:
   using: composite
   steps:
-    - name: Setup Local Variables
-      id: variable-setup
-      run: |
-        echo "pipx-home=$PIPX_HOME" >> $GITHUB_OUTPUT
-        echo "pipx-bin-dir=$PIPX_BIN_DIR" >> $GITHUB_OUTPUT
-
-        export BASE64_PIPX_ID=$(echo -n 'poetry==${{ inputs.poetry-version }} ${{ inputs.pipx-packages }}' | base64)
-        echo "cache-key-pipx=pipx-${{ inputs.os }}-${{ inputs.python-version }}-$BASE64_PIPX_ID" >> $GITHUB_OUTPUT
-      shell: bash
-
-    - name: Cache pipx
-      id: cache-pipx
-      # cache doesn't have permission to extract to "opt/"
-      if: ${{ inputs.os != 'macos-latest' }}
-      uses: actions/cache@v3
-      with:
-        # https://pypa.github.io/pipx/how-pipx-works
-        path: |
-          ${{ steps.variable-setup.outputs.pipx-home }}
-          ${{ steps.variable-setup.outputs.pipx-bin-dir }}
-        key: ${{ steps.variable-setup.outputs.cache-key-pipx }}
-
     - name: Install Poetry ${{ inputs.poetry-version }} and '${{ inputs.pipx-packages }}'
-      if: ${{ steps.cache-pipx.outputs.cache-hit != 'true' }}
       run: |
         for tool in "poetry==${{ inputs.poetry-version }}" ${{ inputs.pipx-packages }}; do
           pipx install $tool
         done
-        # Resolves https://github.com/python-poetry/poetry/issues/7611
-        poetry self add setuptools==68.1.2
       shell: bash
 
     - name: Debug pipx
