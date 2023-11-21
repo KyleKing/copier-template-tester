@@ -174,5 +174,5 @@ def write_output(  # type: ignore[no-untyped-def]
             if git_path.is_dir():  # pragma: no cover
                 logger.info('Removing git created by copier', git_path=git_path)
                 shutil.rmtree(git_path)
-    except OSError as exc:
+    except (ValueError, OSError) as exc:  # Note: ValueError for Windows
         raise ValueError(OSERROR_MESSAGE) from exc
