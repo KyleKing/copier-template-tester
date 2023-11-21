@@ -1,5 +1,15 @@
 ## Unreleased
 
+### Feat
+
+- improve error handling for recursion
+- **#25**: add test when _subdir is not specified
+
+### Fix
+
+- don't remove the dst_path before copier run (from #24)
+- include defaults in _exclude documentation
+
 ## 2.0.1 (2023-11-08)
 
 ### Fix

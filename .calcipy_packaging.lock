@@ -15,14 +15,6 @@
         "name": "anyio",
         "version": "4.0.0"
     },
-    "appdirs": {
-        "datetime": "2020-05-11T07:59:49.499913+00:00",
-        "domain": "https://pypi.org/pypi/{name}/json",
-        "latest_datetime": "2020-05-11T07:59:49.499913+00:00",
-        "latest_version": "1.4.4",
-        "name": "appdirs",
-        "version": "1.4.4"
-    },
     "argcomplete": {
         "datetime": "2023-11-12T21:29:27.611335+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
@@ -616,12 +608,12 @@
         "version": "2.8.1"
     },
     "platformdirs": {
-        "datetime": "2023-11-10T16:43:06.949502+00:00",
+        "datetime": "2023-10-02T15:16:29.336774+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
         "latest_datetime": "2023-11-10T16:43:06.949502+00:00",
         "latest_version": "4.0.0",
         "name": "platformdirs",
-        "version": "4.0.0"
+        "version": "3.11.0"
     },
     "pluggy": {
         "datetime": "2023-08-26T19:10:18.887822+00:00",
@@ -1008,12 +1000,12 @@
         "version": "2.1.0"
     },
     "virtualenv": {
-        "datetime": "2021-05-24T18:15:38.798779+00:00",
+        "datetime": "2023-10-23T18:22:55.453078+00:00",
         "domain": "https://pypi.org/pypi/{name}/json",
         "latest_datetime": "2023-10-23T18:22:55.453078+00:00",
         "latest_version": "20.24.6",
         "name": "virtualenv",
-        "version": "20.4.7"
+        "version": "20.24.6"
     },
     "watchdog": {
         "datetime": "2023-03-20T09:20:25.047937+00:00",

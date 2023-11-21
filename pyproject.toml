@@ -36,6 +36,7 @@ calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], ve
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
+virtualenv = "^20.24.6"
 
 [tool.poetry.scripts]
 ctt = "copier_template_tester.main:run_cli"
