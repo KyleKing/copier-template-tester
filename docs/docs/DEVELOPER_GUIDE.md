@@ -53,5 +53,5 @@ poetry config pypi-token.pypi ...
 | `copier_template_tester/main.py`                |           30 |         4 |         14 | 86.7%      |
 | **Totals**                                      |          153 |         4 |         47 | 96.8%      |
 
-Generated on: 2023-11-08
+Generated on: 2023-11-21
 <!-- {cte} -->
