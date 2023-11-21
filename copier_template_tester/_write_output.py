@@ -11,6 +11,7 @@ import yaml
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
+from plumbum.commands.processes import ProcessExecutionError
 
 logger = get_logger()
 
@@ -127,10 +128,7 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-d
     template_name = '{{ _copier_conf.answers_file }}.jinja'
     has_answers_template = any(src_path.rglob(template_name))
 
-    if not has_answers_template and dst_path.is_dir():
-        shutil.rmtree(dst_path)
     dst_path.mkdir(parents=True, exist_ok=True)
-
     yield
 
     if has_answers_template:
@@ -174,5 +172,7 @@ def write_output(  # type: ignore[no-untyped-def]
             if git_path.is_dir():  # pragma: no cover
                 logger.info('Removing git created by copier', git_path=git_path)
                 shutil.rmtree(git_path)
+    except ProcessExecutionError:
+        raise
     except (ValueError, OSError) as exc:  # Note: ValueError for Windows
         raise ValueError(OSERROR_MESSAGE) from exc
