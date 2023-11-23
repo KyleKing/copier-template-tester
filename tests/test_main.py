@@ -81,15 +81,7 @@ def test_missing_ctt_config(shell: Subprocess) -> None:
 
 @beartype
 def test_no_subdir(shell: Subprocess) -> None:
-    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_subdir')
+    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_subdir_nor_exclude')
 
     assert ret.returncode == 0
-    ret.stdout.matcher.fnmatch_lines(['*Using `copier` to create: .ctt/no_subdir*'])
-
-
-@beartype
-def test_no_exclude(shell: Subprocess) -> None:
-    ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_exclude')
-
-    assert ret.returncode == 1
-    ret.stderr.matcher.fnmatch_lines(['*The CTT output directory must be excluded from copier to avoid recursion*'])
+    ret.stdout.matcher.fnmatch_lines(['*Using `copier` to create: .ctt/no_subdir_nor_exclude*'])

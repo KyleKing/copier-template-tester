@@ -2,4 +2,4 @@
 
 [defaults]
 
-[output.".ctt/no_subdir"]
+[output.".ctt/no_subdir_nor_exclude"]

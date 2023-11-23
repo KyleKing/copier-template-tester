@@ -11,7 +11,6 @@ import yaml
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
-from plumbum.commands.processes import ProcessExecutionError
 
 logger = get_logger()
 
@@ -93,29 +92,6 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
     answers_path.write_text('\n'.join(lines) + '\n')
 
 
-OSERROR_MESSAGE = """The CTT output directory must be excluded from copier to avoid recursion.
-
-In `copier.yaml`, add exclusion rules for the files from copier-template tester:
-
-```yaml
-_exclude:
-  - ".ctt"
-  - "ctt.toml"
-  # Defaults: https://copier.readthedocs.io/en/latest/configuring/#exclude
-  - "copier.yaml"
-  - "copier.yml"
-  - "~*"
-  - "*.py[co]"
-  - "__pycache__"
-  - ".git"
-  - ".DS_Store"
-  - ".svn"
-```
-
-NOTE: you may have specified a directory other than `.ctt/`. If so please adapt the above example appropriately.
-"""
-
-
 @contextmanager
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
@@ -156,23 +132,19 @@ def write_output(  # type: ignore[no-untyped-def]
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    try:
-        with _output_dir(src_path=src_path, dst_path=dst_path):
-            kwargs.setdefault('cleanup_on_error', False)
-            kwargs.setdefault('data', data or {})
-            kwargs.setdefault('defaults', True)
-            kwargs.setdefault('overwrite', True)
-            kwargs.setdefault('quiet', False)
-            kwargs.setdefault('unsafe', True)
-            kwargs.setdefault('vcs_ref', 'HEAD')
-            copier.run_copy(str(src_path), dst_path, **kwargs)
+    with _output_dir(src_path=src_path, dst_path=dst_path):
+        kwargs.setdefault('cleanup_on_error', False)
+        kwargs.setdefault('data', data or {})
+        kwargs.setdefault('defaults', True)
+        kwargs.setdefault('exclude', ['.ctt', 'ctt.toml'])
+        kwargs.setdefault('overwrite', True)
+        kwargs.setdefault('quiet', False)
+        kwargs.setdefault('unsafe', True)
+        kwargs.setdefault('vcs_ref', 'HEAD')
+        copier.run_copy(str(src_path), dst_path, **kwargs)
 
-            # Remove any .git directory created by copier script
-            git_path = dst_path / '.git'
-            if git_path.is_dir():  # pragma: no cover
-                logger.info('Removing git created by copier', git_path=git_path)
-                shutil.rmtree(git_path)
-    except ProcessExecutionError:
-        raise
-    except (ValueError, OSError) as exc:  # Note: ValueError for Windows
-        raise ValueError(OSERROR_MESSAGE) from exc
+        # Remove any .git directory created by copier script
+        git_path = dst_path / '.git'
+        if git_path.is_dir():  # pragma: no cover
+            logger.info('Removing git created by copier', git_path=git_path)
+            shutil.rmtree(git_path)
