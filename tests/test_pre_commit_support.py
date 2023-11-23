@@ -1,6 +1,4 @@
-
 import sys
-from contextlib import nullcontext as does_not_raise
 from pathlib import Path
 
 import pytest
@@ -14,20 +12,20 @@ from .helpers import DEMO_DIR, ExpectedError, add_commit, run_ctt, temporary_git
 
 
 @pytest.mark.parametrize(
-    ('expect_untracked', 'paths'),
+    'paths',
     [
-        (True, ['out_2/.a']),
-        (True, ['out/a/b/c.txt']),
-        (False, ['a/not-in-out.txt']),
+        ['.ctt'],
+        ['out_2/.a'],
+        ['out/a/b/c.txt'],
     ],
     ids=[
+        'check a top-level directory',
         'check a dotfile',
         'check a nested file',
-        'check file outside of output path',
     ],
 )
 @beartype
-def test_check_for_untracked(*, expect_untracked: bool, paths: list[str], shell: Subprocess, monkeypatch) -> None:
+def test_check_for_untracked(*, paths: list[str], shell: Subprocess, monkeypatch) -> None:
     @beartype
     def raise_int(arg: int) -> None:
         msg = f'arg={arg}'
@@ -42,9 +40,8 @@ def test_check_for_untracked(*, expect_untracked: bool, paths: list[str], shell:
             new_file.parent.mkdir(exist_ok=True, parents=True)
             new_file.write_text(pth)
 
-        output_paths = {copier_dir / 'out', copier_dir / 'out_2'}
-        with pytest.raises(ExpectedError, match=r'^arg=1$') if expect_untracked else does_not_raise():
-            check_for_untracked(output_paths, copier_dir)
+        with pytest.raises(ExpectedError, match=r'^arg=1$'):
+            check_for_untracked(copier_dir)
 
 
 @beartype

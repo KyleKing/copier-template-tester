@@ -44,7 +44,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         write_output(src_path=input_path, dst_path=base_dir / output_path, data=defaults | data)
 
     if check_untracked:  # pragma: no cover
-        check_for_untracked(paths, base_dir)
+        check_for_untracked(base_dir)
 
 
 def run_cli() -> None:  # pragma: no cover
