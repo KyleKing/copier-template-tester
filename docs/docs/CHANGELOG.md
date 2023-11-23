@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Fix
+
+- **#28**: catch untracked .ctt directory
+- **#28**: append ctt-specific exclude rules
+
+## 2.1.0 (2023-11-21)
+
 ### Feat
 
 - improve error handling for recursion
@@ -7,6 +14,7 @@
 
 ### Fix
 
+- patch Nox with Python 3.12
 - don't remove the dst_path before copier run (from #24)
 - include defaults in _exclude documentation
 
