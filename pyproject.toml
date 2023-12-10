@@ -9,11 +9,12 @@ version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.tom
 [tool.poetry]
 authors = ["Kyle King <dev.act.kyle@gmail.com>"]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 6 - Mature",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ] # https://pypi.org/classifiers/
 description = "Test copier templates"
 documentation = "https://copier-template-tester.kyleking.me"
@@ -36,7 +37,6 @@ calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], ve
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
-virtualenv = "^20.24.6"
 
 [tool.poetry.scripts]
 ctt = "copier_template_tester.main:run_cli"

@@ -10,14 +10,12 @@ load-plugins=
     pylint.extensions.broad_try_clause,
     pylint.extensions.check_elif,
     pylint.extensions.code_style,
-    pylint.extensions.comparetozero,
     pylint.extensions.comparison_placement,
     pylint.extensions.confusing_elif,
     pylint.extensions.consider_refactoring_into_while_condition,
     pylint.extensions.consider_ternary_expression,
     pylint.extensions.dunder,
     pylint.extensions.empty_comment,
-    pylint.extensions.emptystring,
     pylint.extensions.eq_without_hash,
     pylint.extensions.for_any_all,
     pylint.extensions.mccabe,
@@ -63,6 +61,7 @@ extension-pkg-whitelist=pydantic
 # Defer to other tools and reduce false positives
 disable=
     broad-except,
+    deprecated-typing-alias,
     fixme,
     import-outside-toplevel,
     line-too-long,
