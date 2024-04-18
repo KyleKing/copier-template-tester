@@ -3,7 +3,11 @@ from pathlib import Path
 import pytest
 from beartype import beartype
 
-from copier_template_tester._write_output import DEFAULT_ANSWER_FILE_NAME, _resolve_git_root_dir, _stabilize
+from copier_template_tester._write_output import (
+    DEFAULT_ANSWER_FILE_NAME,  # noqa: PLC2701
+    _resolve_git_root_dir,  # noqa: PLC2701
+    _stabilize,  # noqa: PLC2701
+)
 
 from .helpers import TEST_DATA_DIR
 

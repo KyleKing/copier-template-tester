@@ -9,51 +9,51 @@ We use [Commitizen](https://github.com/commitizen-tools/commitizen) to manage bo
 > `type(scope): description`
 
 - **Types**
-  - *fix*: A bug fix
-  - *feat*: A new feature
-  - *docs*: Documentation-only changes (code comments, separate docs)
-  - *style*: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons)
-  - *perf*: A code change that improves performance
-  - *refactor*: A change to production code that is not a *fix*, *feat*, or *perf*
-  - *test*: Adding missing or correcting existing tests
-  - *build*: Changes that affect the build system or external dependencies
-  - *ci*: Changes to our CI configuration files and scripts
-  - A `!` can be used to indicate a breaking change (`refactor!: drop support for Node 6`)
-  - **SemVer Rules**
-    - Based on commit type, the version will be auto-incremented: `fix : PATCH // feat : MINOR // BREAKING CHANGE : MAJOR`
+    - *fix*: A bug fix
+    - *feat*: A new feature
+    - *docs*: Documentation-only changes (code comments, separate docs)
+    - *style*: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons)
+    - *perf*: A code change that improves performance
+    - *refactor*: A change to production code that is not a *fix*, *feat*, or *perf*
+    - *test*: Adding missing or correcting existing tests
+    - *build*: Changes that affect the build system or external dependencies
+    - *ci*: Changes to our CI configuration files and scripts
+    - A `!` can be used to indicate a breaking change (`refactor!: drop support for Node 6`)
+    - **SemVer Rules**
+        - Based on commit type, the version will be auto-incremented: `fix : PATCH // feat : MINOR // BREAKING CHANGE : MAJOR`
 - **Scopes**
-  - A Class, File name, Issue Number, other appropriate noun. As examples: `build(poetry): bump requests to v3` or `style(#32): add missing type annotations`
+    - A Class, File name, Issue Number, other appropriate noun. As examples: `build(poetry): bump requests to v3` or `style(#32): add missing type annotations`
 - **Tips**
-  - What if a commit fits multiple types?
-    - Go back and make multiple commits whenever possible. Part of the benefit of Conventional Commits is the focus on more organized and intentional changes
-  - Use `git rebase -i` to fix commit names prior to merging if incorrect types/scopes are used
+    - What if a commit fits multiple types?
+        - Go back and make multiple commits whenever possible. Part of the benefit of Conventional Commits is the focus on more organized and intentional changes
+    - Use `git rebase -i` to fix commit names prior to merging if incorrect types/scopes are used
 
 ### Git Description Guidelines
 
 - [Commit message guidelines](https://writingfordevelopers.substack.com/p/how-to-write-a-commit-message)
-  - Full sentence with verb (*lowercase*) and concise description. Below are modified examples for Conventional Commits
-    - `fix(roles): bug in admin role permissions`
-    - `feat(ui): implement new button design`
-    - `build(pip): upgrade package to remove vulnerabilities`
-    - `refactor: file structure to improve code readability`
-    - `perf(cli): rewrite methods`
-    - `feat(api): endpoints to implement new customer dashboard`
+    - Full sentence with verb (*lowercase*) and concise description. Below are modified examples for Conventional Commits
+        - `fix(roles): bug in admin role permissions`
+        - `feat(ui): implement new button design`
+        - `build(pip): upgrade package to remove vulnerabilities`
+        - `refactor: file structure to improve code readability`
+        - `perf(cli): rewrite methods`
+        - `feat(api): endpoints to implement new customer dashboard`
 - [How to write a good commit message](https://chris.beams.io/posts/git-commit/)
-  - A diff will tell you what changed, but only the commit message can properly tell you why.
-  - Keep in mind: [This](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) [has](https://www.git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines) [all](https://github.com/torvalds/subsurface-for-dirk/blob/master/README.md#contributing) [been](http://who-t.blogspot.co.at/2009/12/on-commit-messages.html) [said](https://github.com/erlang/otp/wiki/writing-good-commit-messages) [before](https://github.com/spring-projects/spring-framework/blob/30bce7/CONTRIBUTING.md#format-commit-messages).
-  - From the seven rules of a great Git commit message:
-    - 2. [Try for 50 characters, but consider 72 the hard limit](https://chris.beams.io/posts/git-commit/#limit-50)
-    - 7. [Use the body to explain what and why vs. how](https://chris.beams.io/posts/git-commit/#why-not-how)
+    - A diff will tell you what changed, but only the commit message can properly tell you why.
+    - Keep in mind: [This](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) [has](https://www.git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines) [all](https://github.com/torvalds/subsurface-for-dirk/blob/master/README.md#contributing) [been](http://who-t.blogspot.co.at/2009/12/on-commit-messages.html) [said](https://github.com/erlang/otp/wiki/writing-good-commit-messages) [before](https://github.com/spring-projects/spring-framework/blob/30bce7/CONTRIBUTING.md#format-commit-messages).
+    - From the seven rules of a great Git commit message:
+        - (2) [Try for 50 characters, but consider 72 the hard limit](https://chris.beams.io/posts/git-commit/#limit-50)
+        - (7) [Use the body to explain what and why vs. how](https://chris.beams.io/posts/git-commit/#why-not-how)
 
 ### Issue Labels and Milestones
 
 Personal Guide
 
-- For Issue Labels, see [labels.yml][labels]
+- For Issue Labels, see \[labels.yml\]\[labels\]
 - Milestones
-  - **Current Tasks**: main milestone (*name could change based on a specific project, sprint, or month*)
-  - **Next Tasks**
-  - **Blue Sky**
+    - **Current Tasks**: main milestone (*name could change based on a specific project, sprint, or month*)
+    - **Next Tasks**
+    - **Blue Sky**
 
 <details>
 <summary>Research</summary>
@@ -127,25 +127,25 @@ Personal Guide
 
 <!-- Revisit -->
 
-- [Git: The Simple Guide][simple_git]
-- [Commit Messages][gcmsg] and [why use the present tense](https://news.ycombinator.com/item?id=8874177)
+- \[Git: The Simple Guide\]\[simple_git\]
+- \[Commit Messages\]\[gcmsg\] and [why use the present tense](https://news.ycombinator.com/item?id=8874177)
 - [GitHub's Advice on GitHub](https://github.com/erlang/otp/wiki/Writing-good-commit-messages)
 - [Most Comprehensive Guide](https://chris.beams.io/posts/git-commit/)
 - [Git Pro Book (free)](https://git-scm.com/book/en/v2)
-  - [Bash Tab-Completion Snippet](https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash)
+    - [Bash Tab-Completion Snippet](https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash)
 
 ## Python
 
 <!-- Revisit -->
 
 - Python Style Guides
-  - <https://gist.github.com/sloria/7001839>
-  - <http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/>
-  - <https://innoq.github.io/cards42org_en/>
-  - <https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide>
-  - <https://www.python.org/doc/humor/>
-  - <https://docs.python-guide.org/writing/reading/>
-  - <https://realpython.com/python-refactoring/>
+    - <https://gist.github.com/sloria/7001839>
+    - <http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/>
+    - <https://innoq.github.io/cards42org_en/>
+    - <https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide>
+    - <https://www.python.org/doc/humor/>
+    - <https://docs.python-guide.org/writing/reading/>
+    - <https://realpython.com/python-refactoring/>
 
 ## ADRs
 

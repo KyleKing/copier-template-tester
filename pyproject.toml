@@ -29,11 +29,11 @@ version = "2.1.1"
 
 [tool.poetry.dependencies]
 python = "^3.10.5"
-copier = ">=8.2.0"
-corallium = ">=0.3.3"
+copier = ">=9.2.0"
+corallium = ">=1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=2.0.1"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=2.1.0"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
@@ -48,3 +48,9 @@ ctt = "copier_template_tester.main:run_cli"
 [tool.pyright]
 include = ["copier_template_tester"]
 pythonVersion = "3.10"
+
+[tool.tomlsort]
+all = true
+in_place = true
+sort_first = ["python"]
+trailing_comma_inline_array = true

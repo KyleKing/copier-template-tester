@@ -1,6 +1,10 @@
 # Docs: https://github.com/charliermarsh/ruff
 # Tip: poetry run python -m ruff --explain RUF100
 
+line-length = 120
+target-version = 'py310'
+
+[lint]
 external = [
   'CAC001', # <func> is too complex (8 > 7)
   'ECE001', # Expression is too complex (8 > 7)
@@ -32,18 +36,16 @@ ignore = [
   'TID252', # Relative imports from parent modules are banned
   'TRY003', # Avoid specifying long messages outside the exception class
 ]
-line-length = 120
 preview = true
 select = ['ALL']
-target-version = 'py310'
 unfixable = [
   'ERA001', # Commented out code
 ]
 
-[flake8-quotes]
+[lint.flake8-quotes]
 inline-quotes = 'single'
 
-[flake8-tidy-imports.banned-api]
+[lint.flake8-tidy-imports.banned-api]
 'invoke.collection.Collection'.msg = 'Use calcipy.cli.Collection instead.'
 'invoke.tasks.task'.msg = 'Use calcipy.cli.task instead.'
 'typing.Callable'.msg = 'Use beartype.typing.* instead.'
@@ -53,10 +55,10 @@ inline-quotes = 'single'
 'typing.Protocol'.msg = 'Use beartype.typing.* instead.'
 'typing.TypeVar'.msg = 'Use beartype.typing.* instead.'
 
-[isort]
+[lint.isort]
 known-first-party = ['copier_template_tester']
 
-[per-file-ignores]
+[lint.per-file-ignores]
 './copier_template_tester/../*.py' = [
   'INP001', # File `/<>.py` is part of an implicit namespace package. Add an `__init__.py`.
 ]
@@ -81,5 +83,5 @@ known-first-party = ['copier_template_tester']
   'S101', # Use of `assert` detected
 ]
 
-[pylint]
+[lint.pylint]
 max-args = 6
