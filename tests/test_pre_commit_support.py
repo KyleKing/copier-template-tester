@@ -5,7 +5,7 @@ import pytest
 from beartype import beartype
 from pytestshellutils.shell import Subprocess
 
-from copier_template_tester._pre_commit_support import check_for_untracked  # noqa: PLC2701
+from copier_template_tester._pre_commit_support import check_for_untracked
 
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, ExpectedError, add_commit, run_ctt, temporary_git_dir
