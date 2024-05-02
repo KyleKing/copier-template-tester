@@ -1,0 +1,9 @@
+# yamllint disable-file
+# Answer file maintained by Copier for: https://github.com/KyleKing/calcipy_template
+# Check into version control. Edit by re-running copier and changing responses to the questions
+_src_path: ../../copier_include
+common_1: common 1
+common_2: common 2
+custom_question: default answer
+package_name_py: with_include
+version: 1.2.3

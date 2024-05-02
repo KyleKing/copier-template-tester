@@ -1,0 +1,27 @@
+# Adapted from: https://copier.readthedocs.io/en/stable/configuring/#conditional-files-and-directories
+---
+# Copier will load all these files
+!include shared-conf/common.*.yml
+# These 3 lines split the several YAML documents
+---
+# These two documents include common questions for these kind of projects
+!include common-questions/web-app.yml
+---
+!include common-questions/python-project.yml
+---
+# Here you can specify any settings or questions specific for your template
+_skip_if_exists:
+  - .password.txt
+custom_question: default answer
+
+---
+_min_copier_version: 7.0.0
+
+# ====== TEMPLATE ======
+_answers_file: .copier-answers.{{ package_name_py }}.yml
+_subdirectory: template_dir
+
+# ====== QUESTIONS ======
+package_name_py:
+  type: str
+  help: Your snake_case Python package name

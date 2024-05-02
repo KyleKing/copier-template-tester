@@ -13,11 +13,13 @@ from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
 
 logger = get_logger()
 
+WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
+
 
 @pytest.mark.parametrize('base_dir', [DEMO_DIR, NO_ANSWER_FILE_DIR])
 @beartype
 def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
-    """Only necessary for coverage metrics."""
+    """Only necessary for coverage metrics, but the .ctt/* files must exist."""
     @beartype
     def _run_copy(src_path: str, dst_path: Path, **kwargs) -> None:  # noqa: ARG001
         pass
@@ -61,6 +63,13 @@ def test_no_answer_file_dir(shell: Subprocess) -> None:
 
     assert Path('.ctt/no_answers_file/README.md') in paths
     assert not [*Path('.ctt/no_answers_file').rglob('.copier-answers*')]
+
+
+@beartype
+def test_with_include_dir(shell: Subprocess) -> None:
+    paths = check_run_ctt(shell=shell, cwd=WITH_INCLUDE_DIR, subdirname='copier_include')
+
+    assert Path('.ctt/copier_include/script.py') in paths
 
 
 @beartype

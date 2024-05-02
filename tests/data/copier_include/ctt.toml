@@ -1,0 +1,7 @@
+# Configuration for: https://github.com/KyleKing/copier-template-tester
+
+[defaults]
+package_name_py = "with_include"
+
+[output.".ctt/copier_include"]
+version = "1.2.3"

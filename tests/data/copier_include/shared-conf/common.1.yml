@@ -1,0 +1,4 @@
+---
+common_1:
+  type: str
+  default: "common 1"
