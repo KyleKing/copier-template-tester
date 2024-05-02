@@ -7,7 +7,7 @@ from functools import lru_cache
 from pathlib import Path
 
 import copier
-import yaml
+from copier.template import load_template_config
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
@@ -40,7 +40,7 @@ def read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
         msg = f"Can't find the copier template file. Expected: {copier_path} (or .yaml)"
         raise FileNotFoundError(msg)
 
-    return yaml.safe_load(copier_path.read_text())  # type: ignore[no-any-return]
+    return load_template_config(conf_path=copier_path)
 
 
 @lru_cache(maxsize=1)
