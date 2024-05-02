@@ -10,7 +10,7 @@ from beartype.claw import beartype_this_package
 from beartype.roar import BeartypeDecorHintPep585DeprecationWarning
 from typing_extensions import Self
 
-__version__ = '2.1.1'
+__version__ = '2.1.2'
 __pkg_name__ = 'copier_template_tester'
 
 

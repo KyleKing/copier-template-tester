@@ -1,5 +1,13 @@
 ## Unreleased
 
+### Fix
+
+- **#31**: defer to copier for template loading logic
+
+### Refactor
+
+- update ruff
+
 ## 2.1.1 (2023-11-23)
 
 ### Fix
