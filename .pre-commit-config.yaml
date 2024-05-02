@@ -32,7 +32,7 @@ repos:
       - id: detect-private-key
       - id: double-quote-string-fixer
       - id: end-of-file-fixer
-        exclude: \.copier-answers\.yml
+        exclude: \.copier-answers\.yml|__snapshots__/.*\.ambr
       - id: fix-byte-order-marker
       - id: fix-encoding-pragma
         args: [--remove]
