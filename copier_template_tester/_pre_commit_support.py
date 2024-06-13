@@ -17,7 +17,7 @@ def _ls_untracked_dir(base_dir: Path) -> set[Path]:
 
 
 def check_for_untracked(base_dir: Path) -> None:
-    """Resolves the edge case in #3 by raising when pre-commit won't error."""
+    """Resolve edge case in #3 by raising when pre-commit won't error."""
     if untracked_paths := _ls_untracked_dir(base_dir):
         logger.text('pre-commit error: untracked files must be added', untracked_paths=untracked_paths)
         sys.exit(1)

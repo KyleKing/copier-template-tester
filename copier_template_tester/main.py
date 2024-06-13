@@ -20,7 +20,7 @@ logger = get_logger()
 
 
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
-    """Main class to run ctt."""
+    """Entry point."""
     base_dir = base_dir or Path.cwd()
     try:
         read_copier_template(base_dir=base_dir)

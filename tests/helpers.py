@@ -39,7 +39,8 @@ def run_check(shell: Subprocess, *args, **kwargs) -> ProcessResult:
     ret = shell.run(*args, **kwargs)
     logger.text('run_check', _args=args, _kwargs=kwargs, **_format_ret_kwargs(ret))
     if ret.returncode != 0:
-        raise RuntimeError(f'Failed to run {args} with {kwargs}')
+        msg = f'Failed to run {args} with {kwargs}'
+        raise RuntimeError(msg)
     return ret
 
 
