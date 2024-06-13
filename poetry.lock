@@ -115,13 +115,13 @@ dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
 
 [[package]]
 name = "basedpyright"
-version = "1.12.5"
+version = "1.12.6"
 description = "static type checking for Python (but based)"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "basedpyright-1.12.5-py3-none-any.whl", hash = "sha256:ccfb19c35de47028919b46ed35304497e2d85aaa73c298ab1212674fd0d40a6b"},
-    {file = "basedpyright-1.12.5.tar.gz", hash = "sha256:b7e1dcd87b5b6194bb3957cef79471d87c4943db386d7dd3adda02b2508d7052"},
+    {file = "basedpyright-1.12.6-py3-none-any.whl", hash = "sha256:5e8efcd8660db912ca4e0ecbd39f20b9252ddc97d221a969e052ff5fce3e30d3"},
+    {file = "basedpyright-1.12.6.tar.gz", hash = "sha256:f18cd5e76bec382578e0a88478f39c436180827ff7b161502dcf48f50595beea"},
 ]
 
 [package.dependencies]
@@ -169,13 +169,13 @@ files = [
 
 [[package]]
 name = "calcipy"
-version = "3.0.0"
+version = "3.0.1"
 description = "Python package to simplify development"
 optional = false
 python-versions = "<4.0.0,>=3.9.13"
 files = [
-    {file = "calcipy-3.0.0-py3-none-any.whl", hash = "sha256:d5ecbc0ce316e427faa793d485eb9bb40f508b1fe6b4b958ee9d55b61a99cf68"},
-    {file = "calcipy-3.0.0.tar.gz", hash = "sha256:dd659742707261e21be367047a53bf7e62d9b88949eb2e8fb4448a078e829ed8"},
+    {file = "calcipy-3.0.1-py3-none-any.whl", hash = "sha256:2fedc6564ad4b2d16c02c8bd8571732688fe76ed102b80a3da05e86be8918993"},
+    {file = "calcipy-3.0.1.tar.gz", hash = "sha256:f9e409dbfda2c6e9fbc379958dc547bafbf8a883e8676f7b5fd3a8f6c5db8680"},
 ]
 
 [package.dependencies]
@@ -588,18 +588,18 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "filelock"
-version = "3.14.0"
+version = "3.15.1"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "filelock-3.14.0-py3-none-any.whl", hash = "sha256:43339835842f110ca7ae60f1e1c160714c5a6afd15a2873419ab185334975c0f"},
-    {file = "filelock-3.14.0.tar.gz", hash = "sha256:6ea72da3be9b8c82afd3edcf99f2fffbb5076335a5ae4d03248bb5b6c3eae78a"},
+    {file = "filelock-3.15.1-py3-none-any.whl", hash = "sha256:71b3102950e91dfc1bb4209b64be4dc8854f40e5f534428d8684f953ac847fac"},
+    {file = "filelock-3.15.1.tar.gz", hash = "sha256:58a2549afdf9e02e10720eaa4d4470f56386d7a6f72edd7d0596337af8ed7ad8"},
 ]
 
 [package.extras]
 docs = ["furo (>=2023.9.10)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
-testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", "pytest (>=7.4.3)", "pytest-asyncio (>=0.21)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)"]
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
@@ -664,13 +664,13 @@ test = ["coverage[toml]", "ddt (>=1.1.1,!=1.4.3)", "mock", "mypy", "pre-commit",
 
 [[package]]
 name = "griffe"
-version = "0.45.2"
+version = "0.45.3"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "griffe-0.45.2-py3-none-any.whl", hash = "sha256:297ec8530d0c68e5b98ff86fb588ebc3aa3559bb5dc21f3caea8d9542a350133"},
-    {file = "griffe-0.45.2.tar.gz", hash = "sha256:83ce7dcaafd8cb7f43cbf1a455155015a1eb624b1ffd93249e5e1c4a22b2fdb2"},
+    {file = "griffe-0.45.3-py3-none-any.whl", hash = "sha256:ed1481a680ae3e28f91a06e0d8a51a5c9b97555aa2527abc2664447cc22337d6"},
+    {file = "griffe-0.45.3.tar.gz", hash = "sha256:02ee71cc1a5035864b97bd0dbfff65c33f6f2c8854d3bd48a791905c2b8a44b9"},
 ]
 
 [package.dependencies]
@@ -1098,13 +1098,13 @@ pytz = "*"
 
 [[package]]
 name = "mkdocs-include-markdown-plugin"
-version = "6.1.1"
+version = "6.2.0"
 description = "Mkdocs Markdown includer plugin."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_include_markdown_plugin-6.1.1-py3-none-any.whl", hash = "sha256:b05dc442bd5ffc34694e96c41ee23f7cea0d34f11bdbe0186f8a3a4407e8ddd4"},
-    {file = "mkdocs_include_markdown_plugin-6.1.1.tar.gz", hash = "sha256:5f1d6e4a49e43a4d0139e5a20a74caccc390fb65f24f7616d960211502a548d5"},
+    {file = "mkdocs_include_markdown_plugin-6.2.0-py3-none-any.whl", hash = "sha256:32f03b127369b79df803eca2490e5564e38ae72108d6a4292f3717ca684ed1fc"},
+    {file = "mkdocs_include_markdown_plugin-6.2.0.tar.gz", hash = "sha256:c9f63eeebc0e34d64236c88f3cf6696c03ca99d74e4b57fe86701e8942d53ba5"},
 ]
 
 [package.dependencies]
@@ -1383,13 +1383,13 @@ files = [
 
 [[package]]
 name = "packaging"
-version = "24.0"
+version = "24.1"
 description = "Core utilities for Python packages"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
-    {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
+    {file = "packaging-24.1-py3-none-any.whl", hash = "sha256:5b8f2217dbdbd2f7f384c41c628544e6d52f2d0f53c6d0c3ea61aa5d1d7ff124"},
+    {file = "packaging-24.1.tar.gz", hash = "sha256:026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002"},
 ]
 
 [[package]]
@@ -1580,13 +1580,13 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [[package]]
 name = "pydantic"
-version = "2.7.3"
+version = "2.7.4"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pydantic-2.7.3-py3-none-any.whl", hash = "sha256:ea91b002777bf643bb20dd717c028ec43216b24a6001a280f83877fd2655d0b4"},
-    {file = "pydantic-2.7.3.tar.gz", hash = "sha256:c46c76a40bb1296728d7a8b99aa73dd70a48c3510111ff290034f860c99c419e"},
+    {file = "pydantic-2.7.4-py3-none-any.whl", hash = "sha256:ee8538d41ccb9c0a9ad3e0e5f07bf15ed8015b481ced539a1759d8cc89ae90d0"},
+    {file = "pydantic-2.7.4.tar.gz", hash = "sha256:0c84efd9548d545f63ac0060c1e4d39bb9b14db8b3c0652338aecc07b5adec52"},
 ]
 
 [package.dependencies]
@@ -2329,13 +2329,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.12.1"
+version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.12.1-py3-none-any.whl", hash = "sha256:6024b58b69089e5a89c347397254e35f1bf02a907728ec7fee9bf0fe837d203a"},
-    {file = "typing_extensions-4.12.1.tar.gz", hash = "sha256:915f5e35ff76f56588223f15fdd5938f9a1cf9195c0de25130c627e4d597f6d1"},
+    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
+    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
 ]
 
 [[package]]
@@ -2473,4 +2473,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.5"
-content-hash = "c233af0e018eec61f466480acb022f310a1b2adad0c948cce050800d4301b815"
+content-hash = "ef5fd5e4a61b91744c12d349dc7bcc51674cea4ceb4a62a4c2c13ef891759aac"

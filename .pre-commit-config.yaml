@@ -2,7 +2,7 @@
 # Common commands:
 # pre-commit install
 # pre-commit autoupdate
-# pre-commit run --all-files absolufy-imports
+# pre-commit run --all-files mdformat
 # pre-commit run --all-files --hook-stage commit
 # pre-commit run --all-files --hook-stage push
 # poetry run calcipy lint.pre-commit --no-update
@@ -16,7 +16,7 @@ default_install_hook_types: ["commit-msg", "pre-commit", "pre-push"]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-added-large-files
       - id: check-executables-have-shebangs
@@ -42,7 +42,7 @@ repos:
       - id: trailing-whitespace
         exclude: __snapshots__/.*\.ambr
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.20.0
+    rev: v3.27.0
     hooks:
       - id: commitizen
   - repo: https://github.com/executablebooks/mdformat
@@ -50,14 +50,17 @@ repos:
     hooks:
       - id: mdformat
         additional_dependencies:
-          - "mdformat-mkdocs[recommended]>=2.0.6"
+          - "mdformat-mkdocs[recommended]>=2.1.0"
+          - "mdformat-gfm-alerts>=1.0.1"
         args: [--wrap=no]
         exclude: _.+\.md|CHANGELOG\.md|CODE_TAG_SUMMARY\.md
+        stages: ["pre-commit"]
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
         args: [--severity=warning]
+        stages: ["pre-commit"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v4.0.0-alpha.8"
     hooks:
@@ -68,26 +71,24 @@ repos:
           - "prettier-plugin-sh"
         exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|tests/data/.*/\.ctt/.*\.ya?ml
         types_or: [html, javascript, json, shell, yaml]
+        stages: ["pre-commit"]
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.35.1
     hooks:
       - id: yamllint
         exclude: tests/.*/cassettes/.*\.yaml
+        stages: ["pre-commit"]
   - repo: https://github.com/pappasam/toml-sort
     rev: v0.23.1
     hooks:
       - id: toml-sort-fix
         exclude: poetry\.lock
-  - repo: https://github.com/MarcoGorelli/absolufy-imports
-    rev: v0.3.1
-    hooks:
-      - id: absolufy-imports
-        args: [--never]
-        files: copier_template_tester/.*\.py
+        stages: ["pre-commit"]
   - repo: https://github.com/KyleKing/calcipy
-    rev: 2.0.4
+    rev: 2.1.0
     hooks:
       - id: copier-forbidden-files
       - id: lint-fix
-      - id: flake8
+        stages: ["pre-commit"]
       - id: tags
+        stages: ["pre-push"]

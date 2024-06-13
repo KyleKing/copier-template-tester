@@ -6,6 +6,22 @@ requires = ["poetry-core"]
 version = "2.1.2"
 version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
+[tool.mypy]
+disallow_any_generics = true
+enable_error_code = ["ignore-without-code", "possibly-undefined", "redundant-expr", "truthy-bool"]
+no_implicit_reexport = true
+plugins = [
+  "pydantic.mypy", # Most settings are from: https://pydantic-docs.helpmanual.io/mypy_plugin
+]
+python_version = "3.9"
+show_column_numbers = true
+show_error_codes = true
+strict_equality = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
+
 [tool.poetry]
 authors = ["Kyle King <dev.act.kyle@gmail.com>"]
 classifiers = [
@@ -19,7 +35,7 @@ classifiers = [
 description = "Test copier templates"
 documentation = "https://copier-template-tester.kyleking.me"
 include = ["LICENSE"]
-keywords = []
+keywords = ["calcipy_template"]
 license = "MIT"
 maintainers = []
 name = "copier_template_tester"
@@ -30,10 +46,10 @@ version = "2.1.2"
 [tool.poetry.dependencies]
 python = "^3.10.5"
 copier = ">=9.2.0"
-corallium = ">=1.0.0"
+corallium = ">=2.0.0"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=2.1.0"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=3.0.1"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
@@ -45,9 +61,86 @@ ctt = "copier_template_tester.main:run_cli"
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
 "Changelog" = "https://github.com/kyleking/copier-template-tester/blob/main/docs/docs/CHANGELOG.md"
 
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
 [tool.pyright]
 include = ["copier_template_tester"]
 pythonVersion = "3.10"
+
+[tool.ruff]
+# Docs: https://github.com/charliermarsh/ruff
+# Tip: poetry run python -m ruff --explain RUF100
+line-length = 120
+target-version = 'py310'
+
+[tool.ruff.lint]
+ignore = [
+  'ANN002', # Missing type annotation for `*args`
+  'ANN003', # Missing type annotation for `**kwargs`
+  'ANN101', # Missing type annotation for `self` in method (automatically inferred)
+  'ANN102', # Missing type annotation for `cls` in classmethod (automatically inferred)
+  'BLE001', # Do not catch blind exception: `Exception`
+  'CPY001', # Missing copyright notice at top of file
+  'D203', # "1 blank line required before class docstring" (Conflicts with D211)
+  'D213', # "Multi-line docstring summary should start at the second line" (Conflicts with D212)
+  'EM101', # Exception must not use a string literal, assign to variable first
+  'FIX001', # Line contains FIXME
+  'FIX002', # Line contains TODO
+  'FIX004', # Line contains HACK
+  'PLR0913', # Too many arguments in function definition (6 > 5)
+  'TD001', # Invalid TODO tag: `FIXME`
+  'TD002', # Missing author in TODO; try: `# TODO(<author_name>): ...`
+  'TD003', # Missing issue link on the line following this TODO
+  'TRY003', # Avoid specifying long messages outside the exception class
+]
+preview = true
+select = ['ALL']
+unfixable = [
+  'ERA001', # Commented out code
+]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = 'single'
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+'invoke.collection.Collection'.msg = 'Use calcipy.cli.Collection instead.'
+'invoke.tasks.task'.msg = 'Use calcipy.cli.task instead.'
+'typing.Callable'.msg = 'Use beartype.typing.* instead.'
+'typing.Dict'.msg = 'Use beartype.typing.* instead.'
+'typing.List'.msg = 'Use beartype.typing.* instead.'
+'typing.Optional'.msg = 'Use beartype.typing.* instead.'
+'typing.Protocol'.msg = 'Use beartype.typing.* instead.'
+'typing.TypeVar'.msg = 'Use beartype.typing.* instead.'
+
+[tool.ruff.lint.isort]
+known-first-party = ['copier_template_tester']
+
+[tool.ruff.lint.per-file-ignores]
+'./copier_template_tester/../*.py' = [
+  'INP001', # File `/<>.py` is part of an implicit namespace package. Add an `__init__.py`.
+]
+'__init__.py' = [
+  'D104', # Missing docstring in public package
+]
+'scripts/*.py' = [
+  'INP001', # File `scripts/*.py` is part of an implicit namespace package. Add an `__init__.py`.
+]
+'scripts/check_imports.py' = [
+  'F401', # imported but unused; consider adding to __all__ or using a redundant alias
+]
+'tests/*.py' = [
+  'ANN001', # Missing type annotation for function argument
+  'ANN201', # Missing return type annotation for public function
+  'ANN202', # Missing return type annotation for private function `test_make_diffable`
+  'D100', # Missing docstring in public module
+  'D103', # Missing docstring in public function
+  'PLC2701', # Private name import `_<>` from external module
+  'PT004', # flake8-pytest-style: fixture does not return
+  'S101', # Use of `assert` detected
+]
 
 [tool.tomlsort]
 all = true
