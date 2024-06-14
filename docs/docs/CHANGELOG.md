@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 2.1.2 (2024-05-02)
+
 ### Fix
 
 - **#31**: defer to copier for template loading logic

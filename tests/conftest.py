@@ -13,7 +13,8 @@ from .configuration import TEST_TMP_CACHE, clear_test_cache
 def fix_test_cache() -> Path:
     """Fixture to clear and return the test cache directory for use.
 
-    Returns:
+    Returns
+    -------
         Path: Path to the test cache directory
 
     """

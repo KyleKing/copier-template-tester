@@ -8,7 +8,7 @@ inputs:
   pipx-packages:
     default: ""
   poetry-version:
-    default: 1.7.1
+    default: 1.8.3
   python-version:
     required: true
 
@@ -46,5 +46,5 @@ runs:
 
     - name: Install Project and Minimum Subset of Dependencies
       run: |
-        poetry install
+        poetry install && poetry run calcipy-pack pack.install-extras
       shell: bash
