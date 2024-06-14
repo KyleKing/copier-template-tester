@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.20">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -165,7 +165,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -823,12 +823,12 @@
 
 
 <a id="copier_template_tester.main"></a>
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Copier Template Tester.</p>
 <p>Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf067493665aa15d07c/tests/helpers.py#L20-L81</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -840,27 +840,25 @@
 
 <h2 id="copier_template_tester.main-functions">Functions<a href="#copier_template_tester.main-functions" class="headerlink" title="Permanent link">⚓︎</a></h2>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h3 id="copier_template_tester.main.run" class="doc doc-heading">
-          <span class="doc doc-object-name doc-function-name">run</span>
+            <span class="doc doc-object-name doc-function-name">run</span>
 
 
 <a href="#copier_template_tester.main.run" class="headerlink" title="Permanent link">⚓︎</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="nf">run</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
-      <p>Main class to run ctt.</p>
+    <div class="doc doc-contents ">
 
-          <details class="quote">
-            <summary>Source code in <code>copier_template_tester/main.py</code></summary>
-            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="22 "></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check_untracked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos" data-linenos="23 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Main class to run ctt.&quot;&quot;&quot;</span>
+      <p>Entry point.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>copier_template_tester/main.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="22 "></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check_untracked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos" data-linenos="23 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Entry point.&quot;&quot;&quot;</span>
 <span class="linenos" data-linenos="24 "></span>    <span class="n">base_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="ow">or</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
 <span class="linenos" data-linenos="25 "></span>    <span class="k">try</span><span class="p">:</span>
 <span class="linenos" data-linenos="26 "></span>        <span class="n">read_copier_template</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">base_dir</span><span class="p">)</span>
@@ -886,31 +884,29 @@
 <span class="linenos" data-linenos="46 "></span>    <span class="k">if</span> <span class="n">check_untracked</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="linenos" data-linenos="47 "></span>        <span class="n">check_for_untracked</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
 </code></pre></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
-
 <h3 id="copier_template_tester.main.run_cli" class="doc doc-heading">
-          <span class="doc doc-object-name doc-function-name">run_cli</span>
+            <span class="doc doc-object-name doc-function-name">run_cli</span>
 
 
 <a href="#copier_template_tester.main.run_cli" class="headerlink" title="Permanent link">⚓︎</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="nf">run_cli</span><span class="p">()</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Accept CLI configuration for running ctt.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>copier_template_tester/main.py</code></summary>
-            <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="50 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <details class="quote">
+              <summary>Source code in <code>copier_template_tester/main.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="50 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="linenos" data-linenos="51 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept CLI configuration for running ctt.&quot;&quot;&quot;</span>
 <span class="linenos" data-linenos="52 "></span>    <span class="k">def</span> <span class="nf">dir_path</span><span class="p">(</span><span class="n">pth</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="linenos" data-linenos="53 "></span>        <span class="k">if</span> <span class="n">pth</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
@@ -929,8 +925,8 @@
 <span class="linenos" data-linenos="66 "></span>    <span class="n">args</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 <span class="linenos" data-linenos="67 "></span>    <span class="n">run</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">check_untracked</span><span class="p">)</span>
 </code></pre></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -938,7 +934,7 @@
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
@@ -963,7 +959,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 2, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 14, 2024</span>
   </span>
 
     
@@ -973,7 +969,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 2, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 14, 2024</span>
   </span>
 
     
@@ -1022,7 +1018,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["toc.autohide"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
       
