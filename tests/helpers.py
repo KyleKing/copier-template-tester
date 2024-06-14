@@ -3,7 +3,6 @@ import tempfile
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Literal
 
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
@@ -22,22 +21,22 @@ class ExpectedError(Exception):
     """Test-only exception."""
 
 
-def _format_ret_kwargs(ret: ProcessResult) -> dict[Literal['stdout', 'stderr'], str]:
+def _log_shell(message: str, ret: ProcessResult, *args, **kwargs) -> None:
     """Cleanup the shell output for printing."""
-    return {'stdout': f'`{ret.stdout.strip()}`', 'stderr': f'`{ret.stderr.strip()}`'}
+    logger.text(message, stdout=f'`{ret.stdout.strip()}`', stderr=f'`{ret.stderr.strip()}`', args=args, _kwargs=kwargs)
 
 
 def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> ProcessResult:
     """Run `ctt` in the specified directory."""
     ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd)
-    logger.text('ran ctt', **_format_ret_kwargs(ret))
+    _log_shell('ran ctt', ret)
     return ret
 
 
 def run_check(shell: Subprocess, *args, **kwargs) -> ProcessResult:
     """Check that the shell process completed with exit code 0."""
     ret = shell.run(*args, **kwargs)
-    logger.text('run_check', _args=args, _kwargs=kwargs, **_format_ret_kwargs(ret))
+    _log_shell('run_check', ret, args, kwargs=kwargs)
     if ret.returncode != 0:
         msg = f'Failed to run {args} with {kwargs}'
         raise RuntimeError(msg)

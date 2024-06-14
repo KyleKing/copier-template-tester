@@ -9,7 +9,7 @@ from copier_template_tester._write_output import (
     _stabilize,
 )
 
-from .helpers import TEST_DATA_DIR
+from .configuration import TEST_DATA_DIR
 
 _ANSWERS_PATH = Path('project-subdir').absolute() / DEFAULT_ANSWER_FILE_NAME
 

@@ -95,7 +95,7 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
 @contextmanager
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
-def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-def]  # noqa: ANN202
+def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
     """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
 
     Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
@@ -120,13 +120,7 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # type: ignore[no-untyped-d
             answers_path.unlink()
 
 
-def write_output(  # type: ignore[no-untyped-def]
-    *,
-    src_path: Path,
-    dst_path: Path,
-    data: dict[str, bool | int | float | str | None],
-    **kwargs,
-) -> None:
+def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int | float | str | None], **kwargs) -> None:
     """Copy the specified directory to the target location with provided data.
 
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173

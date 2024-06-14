@@ -30,6 +30,6 @@ logger = get_logger()
     ],
 )
 @beartype
-def test_validate_config(config: dict, expectation) -> None:
+def test_validate_config(config: dict, expectation) -> None:  # type: ignore[type-arg]
     with expectation:
         _validate_config(config)
