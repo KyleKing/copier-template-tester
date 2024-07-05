@@ -2,7 +2,7 @@
 
 from ._runtime_type_check_setup import configure_runtime_type_checking_mode
 
-__version__ = '2.1.2'
+__version__ = '2.1.3rc0'
 __pkg_name__ = 'copier_template_tester'
 
 configure_runtime_type_checking_mode()
