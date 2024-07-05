@@ -38,7 +38,6 @@ classifiers = [
 ] # https://pypi.org/classifiers/
 description = "Test copier templates"
 documentation = "https://copier-template-tester.kyleking.me"
-include = ["LICENSE"]
 keywords = ["calcipy_template"]
 license = "MIT"
 maintainers = []
