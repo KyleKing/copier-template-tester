@@ -2,7 +2,6 @@ import sys
 from pathlib import Path
 
 import pytest
-from beartype import beartype
 from pytestshellutils.shell import Subprocess
 
 from copier_template_tester._pre_commit_support import check_for_untracked
@@ -24,9 +23,8 @@ from .helpers import DEMO_DIR, ExpectedError, add_commit, run_ctt, temporary_git
         'check a nested file',
     ],
 )
-@beartype
 def test_check_for_untracked(*, paths: list[str], shell: Subprocess, monkeypatch) -> None:
-    @beartype
+
     def raise_int(arg: int) -> None:
         msg = f'arg={arg}'
         raise ExpectedError(msg)
@@ -44,7 +42,6 @@ def test_check_for_untracked(*, paths: list[str], shell: Subprocess, monkeypatch
             check_for_untracked(copier_dir)
 
 
-@beartype
 def test_ctt_with_untracked_files(shell: Subprocess) -> None:
     untracked_file = Path('template_dir/untracked_file.txt')
     with temporary_git_dir(shell, source_dir=DEMO_DIR) as copier_dir:

@@ -23,25 +23,9 @@ watch:
   - copier_template_tester
 
 plugins:
-  - build_plantuml:
-      render: server # or "local"
-      bin_path: /usr/local/bin/plantuml # ignored when render: server
-      server: http://www.plantuml.com/plantuml # official plantuml server
-      output_format: svg
-      diagram_root: docs/diagrams
-      output_folder: out
-      input_folder: src
-      input_extensions: puml
   - gen-files:
       scripts:
         - docs/gen_ref_nav.py
-  - git-revision-date-localized:
-      enable_creation_date: true
-      fallback_to_build_date: true
-      strict: false
-      type: date
-  - literate-nav:
-      nav_file: SUMMARY.md
   - mkdocstrings:
       handlers:
         python:
@@ -51,7 +35,6 @@ plugins:
             separate_signature: true
             show_category_heading: true
   - search
-  - section-index
 
 markdown_extensions:
   - abbr

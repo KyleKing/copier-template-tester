@@ -45,14 +45,15 @@ poetry config pypi-token.pypi ...
 ## Current Status
 
 <!-- {cts} COVERAGE -->
-| File                                            |   Statements |   Missing |   Excluded | Coverage   |
-|-------------------------------------------------|--------------|-----------|------------|------------|
-| `copier_template_tester/__init__.py`            |           16 |         0 |         24 | 100.0%     |
-| `copier_template_tester/_config.py`             |           14 |         0 |          3 | 100.0%     |
-| `copier_template_tester/_pre_commit_support.py` |           13 |         0 |          0 | 93.3%      |
-| `copier_template_tester/_write_output.py`       |           76 |         0 |         13 | 96.9%      |
-| `copier_template_tester/main.py`                |           30 |         4 |         20 | 86.7%      |
-| **Totals**                                      |          149 |         4 |         60 | 95.5%      |
+| File                                                  | Statements | Missing | Excluded | Coverage |
+|-------------------------------------------------------|------------|---------|----------|----------|
+| `copier_template_tester/__init__.py`                  | 4          | 0       | 0        | 100.0%   |
+| `copier_template_tester/_config.py`                   | 14         | 0       | 3        | 100.0%   |
+| `copier_template_tester/_pre_commit_support.py`       | 13         | 0       | 0        | 93.3%    |
+| `copier_template_tester/_runtime_type_check_setup.py` | 13         | 0       | 28       | 100.0%   |
+| `copier_template_tester/_write_output.py`             | 76         | 0       | 13       | 96.9%    |
+| `copier_template_tester/main.py`                      | 30         | 4       | 20       | 86.7%    |
+| **Totals**                                            | 150        | 4       | 64       | 95.5%    |
 
-Generated on: 2024-06-13
+Generated on: 2024-07-05
 <!-- {cte} -->

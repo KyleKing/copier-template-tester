@@ -52,7 +52,7 @@ copier = ">=9.2.0"
 corallium = ">=2.0.0"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=3.0.1"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.0.0rc2"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"
@@ -109,7 +109,7 @@ unfixable = [
 inline-quotes = 'single'
 
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
-'invoke.collection.Collection'.msg = 'Use calcipy.cli.Collection instead.'
+'invoke.collection.Collection'.msg = 'Use calcipy.collection.Collection instead.'
 'invoke.tasks.task'.msg = 'Use calcipy.cli.task instead.'
 'typing.Callable'.msg = 'Use beartype.typing.* instead.'
 'typing.Dict'.msg = 'Use beartype.typing.* instead.'
@@ -138,12 +138,16 @@ known-first-party = ['copier_template_tester']
   'ANN001', # Missing type annotation for function argument
   'ANN201', # Missing return type annotation for public function
   'ANN202', # Missing return type annotation for private function `test_make_diffable`
+  'ARG001', # Unused function argument: `line`
   'D100', # Missing docstring in public module
   'D103', # Missing docstring in public function
   'PLC2701', # Private name import `_<>` from external module
   'PT004', # flake8-pytest-style: fixture does not return
   'S101', # Use of `assert` detected
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.tomlsort]
 all = true
