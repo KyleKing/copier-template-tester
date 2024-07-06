@@ -49,10 +49,10 @@ version = "2.1.3rc0"
 [tool.poetry.dependencies]
 python = "^3.10.5"
 copier = ">=9.2.0"
-corallium = ">=2.0.0"
+corallium = ">=2.0.1"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.0.0rc2"}
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.0.0"}
 pytest-shell-utilities = ">=1.7.0"
 types-pyyaml = ">=6.0.12.9"
 types-setuptools = ">=67.6.0.8"

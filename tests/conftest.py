@@ -7,7 +7,7 @@ import pytest
 from .configuration import TEST_TMP_CACHE, clear_test_cache
 
 
-@pytest.fixture()
+@pytest.fixture
 def fix_test_cache() -> Path:
     """Fixture to clear and return the test cache directory for use.
 
