@@ -3,7 +3,7 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
 
 [tool.commitizen]
-version = "2.1.3rc0"
+version = "2.1.3"
 version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
 [tool.mypy]
@@ -44,7 +44,7 @@ maintainers = []
 name = "copier_template_tester"
 readme = "docs/README.md"
 repository = "https://github.com/kyleking/copier-template-tester"
-version = "2.1.3rc0"
+version = "2.1.3"
 
 [tool.poetry.dependencies]
 python = "^3.10.9"
