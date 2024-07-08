@@ -47,7 +47,7 @@ repository = "https://github.com/kyleking/copier-template-tester"
 version = "2.1.3rc0"
 
 [tool.poetry.dependencies]
-python = "^3.10.5"
+python = "^3.10.9"
 copier = ">=9.2.0"
 corallium = ">=2.0.1"
 

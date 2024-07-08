@@ -12,7 +12,7 @@ copyright_date: '2022'
 development_branch: main
 doc_dir: docs
 extends_calcipy: false
-minimum_python: 3.10.5
+minimum_python: 3.10.9
 minimum_python_short: '3.10'
 package_name_py: copier_template_tester
 project_description: Test copier templates
