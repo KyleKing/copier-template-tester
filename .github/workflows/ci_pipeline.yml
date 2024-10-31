@@ -12,9 +12,6 @@ name: CI Pipeline
       - poetry.lock
       - pyproject.toml
 
-env:
-  COLUMNS: 120
-
 jobs:
   lint:
     runs-on: ${{ matrix.os }}

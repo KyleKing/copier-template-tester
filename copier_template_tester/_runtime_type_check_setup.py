@@ -20,7 +20,12 @@ class _RuntimeTypeCheckingModes(Enum):
 
     @classmethod
     def from_environment(cls) -> Self:  # pragma: no cover
-        """Return the configured mode."""
+        """Return the configured mode.
+
+        Raises:
+            ValueError: if environment variable is configured incorrectly
+
+        """
         rtc_mode = getenv('RUNTIME_TYPE_CHECKING_MODE') or None
         try:
             return cls(rtc_mode)

@@ -1,8 +1,6 @@
 ---
 name: Feature request
 about: Please share your ideas for copier_template_tester!
-title: ''
-labels: 'Type: Feature'
 assignees: kyleking
 ---
 

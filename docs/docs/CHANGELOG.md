@@ -1,5 +1,11 @@
 ## Unreleased
 
+## 2.1.3 (2024-07-08)
+
+### Fix
+
+- update minimum Python version to 3.10.9
+
 ## 2.1.3rc0 (2024-07-05)
 
 ### Fix

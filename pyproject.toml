@@ -52,10 +52,10 @@ copier = ">=9.2.0"
 corallium = ">=2.0.1"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.0.0"}
-pytest-shell-utilities = ">=1.7.0"
-types-pyyaml = ">=6.0.12.9"
-types-setuptools = ">=67.6.0.8"
+calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.1.0"}
+pytest-shell-utilities = ">=1.9.7"
+types-pyyaml = ">=6.0.12.20240917"
+types-setuptools = ">=75.2.0.20241025"
 
 [tool.poetry.scripts]
 ctt = "copier_template_tester.main:run_cli"
@@ -75,7 +75,7 @@ pythonVersion = "3.10"
 
 [tool.ruff]
 # Docs: https://github.com/charliermarsh/ruff
-# Tip: poetry run python -m ruff --explain RUF100
+# Tip: poetry run python -m ruff rule RUF100
 line-length = 120
 target-version = 'py310'
 
@@ -85,6 +85,7 @@ ignore = [
   'ANN003', # Missing type annotation for `**kwargs`
   'ANN101', # Missing type annotation for `self` in method (automatically inferred)
   'ANN102', # Missing type annotation for `cls` in classmethod (automatically inferred)
+  'ANN401', # Dynamically typed expressions (typing.Any) are disallowed in `pop_key`
   'BLE001', # Do not catch blind exception: `Exception`
   'CPY001', # Missing copyright notice at top of file
   'D203', # "1 blank line required before class docstring" (Conflicts with D211)
@@ -94,6 +95,9 @@ ignore = [
   'FIX002', # Line contains TODO
   'FIX004', # Line contains HACK
   'PLR0913', # Too many arguments in function definition (6 > 5)
+  'TCH001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
+  'TCH002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
+  'TCH003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
   'TD001', # Invalid TODO tag: `FIXME`
   'TD002', # Missing author in TODO; try: `# TODO(<author_name>): ...`
   'TD003', # Missing issue link on the line following this TODO
