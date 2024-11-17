@@ -14,7 +14,6 @@ extra_checks = true
 files = ["copier_template_tester", "tests"]
 no_implicit_reexport = true
 plugins = [
-  "pydantic.mypy", # Most settings are from: https://pydantic-docs.helpmanual.io/mypy_plugin
 ]
 python_version = "3.10"
 show_column_numbers = true
@@ -64,11 +63,6 @@ ctt = "copier_template_tester.main:run_cli"
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
 "Changelog" = "https://github.com/kyleking/copier-template-tester/blob/main/docs/docs/CHANGELOG.md"
 
-[tool.pydantic-mypy]
-init_forbid_extra = true
-init_typed = true
-warn_required_dynamic_aliases = true
-
 [tool.pyright]
 include = ["copier_template_tester", "tests"]
 pythonVersion = "3.10"
@@ -115,12 +109,11 @@ inline-quotes = 'single'
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
 'invoke.collection.Collection'.msg = 'Use calcipy.collection.Collection instead.'
 'invoke.tasks.task'.msg = 'Use calcipy.cli.task instead.'
-'typing.Callable'.msg = 'Use beartype.typing.* instead.'
-'typing.Dict'.msg = 'Use beartype.typing.* instead.'
-'typing.List'.msg = 'Use beartype.typing.* instead.'
-'typing.Optional'.msg = 'Use beartype.typing.* instead.'
-'typing.Protocol'.msg = 'Use beartype.typing.* instead.'
-'typing.TypeVar'.msg = 'Use beartype.typing.* instead.'
+'typing.Callable'.msg = 'Use "from collections.abc" instead.'
+'typing.Dict'.msg = 'Use "from __future__ import annotations"'
+'typing.List'.msg = 'Use "from __future__ import annotations"'
+'typing.Optional'.msg = 'Use "from __future__ import annotations"'
+'typing.Protocol'.msg = 'Use "from beartype.typing" instead.'
 
 [tool.ruff.lint.isort]
 known-first-party = ['copier_template_tester']

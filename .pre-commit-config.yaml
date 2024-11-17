@@ -79,7 +79,7 @@ repos:
         exclude: poetry\.lock
         stages: ["pre-commit"]
   - repo: https://github.com/KyleKing/calcipy
-    rev: 4.1.0
+    rev: 5.0.0
     hooks:
       - id: copier-forbidden-files
       - id: lint-fix
