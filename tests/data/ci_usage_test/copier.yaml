@@ -1,0 +1,5 @@
+_subdirectory: template
+# questionnaire here...
+_tasks:
+  - git init
+  - git add .

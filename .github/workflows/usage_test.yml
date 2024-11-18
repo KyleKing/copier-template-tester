@@ -1,0 +1,35 @@
+---
+name: CI Pipeline
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/usage_test.yml
+      - copier_template_tester/**
+      - tests/**
+      - poetry.lock
+      - pyproject.toml
+
+jobs:
+  lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          os: ${{ matrix.os }}
+          python-version: ${{ matrix.python-version }}
+
+      - name: "Run Usage Test (Specifically addresses #34 for Windows)"
+        run: |
+          poetry run ctt --base-dir="$TEST_DIR"
+          cat "$TEST_DIR/.ctt/README.md"
+        env:
+          TEST_DIR: tests/data/ci_usage_test
