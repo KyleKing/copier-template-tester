@@ -48,13 +48,13 @@ version = "2.1.3"
 [tool.poetry.dependencies]
 python = "^3.10.9"
 copier = ">=9.2.0"
-corallium = ">=2.0.1"
+corallium = ">=2.1.1"
 
 [tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "stale", "tags", "test", "types"], version = ">=4.1.0"}
+calcipy = {extras = ["doc", "lint", "nox", "tags", "test", "types"], version = ">=5.0.0"}
 pytest-shell-utilities = ">=1.9.7"
 types-pyyaml = ">=6.0.12.20240917"
-types-setuptools = ">=75.2.0.20241025"
+types-setuptools = ">=75.5.0.20241116"
 
 [tool.poetry.scripts]
 ctt = "copier_template_tester.main:run_cli"
@@ -84,6 +84,9 @@ ignore = [
   'CPY001', # Missing copyright notice at top of file
   'D203', # "1 blank line required before class docstring" (Conflicts with D211)
   'D213', # "Multi-line docstring summary should start at the second line" (Conflicts with D212)
+  'DOC201', # PLANNED: document
+  'DOC402', # PLANNED: document
+  'DOC501', # PLANNED: document
   'EM101', # Exception must not use a string literal, assign to variable first
   'FIX001', # Line contains FIXME
   'FIX002', # Line contains TODO
