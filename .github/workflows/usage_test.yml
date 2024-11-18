@@ -1,5 +1,5 @@
 ---
-name: CI Pipeline
+name: CTT Usage Test
 
 "on":
   push:
@@ -14,7 +14,7 @@ name: CI Pipeline
       - pyproject.toml
 
 jobs:
-  lint:
+  usage-test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -29,7 +29,5 @@ jobs:
 
       - name: "Run Usage Test (Specifically addresses #34 for Windows)"
         run: |
-          poetry run ctt --base-dir="$TEST_DIR"
-          cat "$TEST_DIR/.ctt/README.md"
-        env:
-          TEST_DIR: tests/data/ci_usage_test
+          poetry run ctt --base-dir="tests/data/ci_usage_test"
+          cat "tests/data/ci_usage_test/.ctt/README.md"
