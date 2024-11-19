@@ -122,7 +122,7 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
             answers_path.unlink()
 
 
-def _remove_readonly(func, path, _excinfo) -> None:  # noqa: ANN001
+def _remove_readonly(func, path: str, _excinfo) -> None:  # noqa: ANN001
     """Clear the readonly bit for `shutil.rmtree(..., onexc=_remove_readonly)`.
 
     Adapted from: https://docs.python.org/3/library/shutil.html#rmtree-example
@@ -134,7 +134,7 @@ def _remove_readonly(func, path, _excinfo) -> None:  # noqa: ANN001
     excinfo, is the exception that was raised. Exceptions raised by onexc will not be caught.
 
     """
-    Path.chmod(path, stat.S_IWRITE)
+    Path.chmod(Path(path), stat.S_IWRITE)
     func(path)
 
 
