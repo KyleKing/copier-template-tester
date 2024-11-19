@@ -1,3 +1,5 @@
 # Minimal Configuration
 
+[defaults]
+
 [output.".ctt"]
