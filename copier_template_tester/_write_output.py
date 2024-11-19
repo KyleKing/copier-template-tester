@@ -2,6 +2,8 @@
 
 import re
 import shutil
+import stat
+import sys
 from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
@@ -120,6 +122,22 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
             answers_path.unlink()
 
 
+def _remove_readonly(func, path, _excinfo) -> None:  # noqa: ANN001
+    """Clear the readonly bit for `shutil.rmtree(..., onexc=_remove_readonly)`.
+
+    Adapted from: https://docs.python.org/3/library/shutil.html#rmtree-example
+
+    Resolves: https://github.com/KyleKing/copier-template-tester/issues/34
+
+    The first parameter, function, is the function which raised the exception; it depends on the platform and
+    implementation. The second parameter, path, will be the path name passed to function. The third parameter,
+    excinfo, is the exception that was raised. Exceptions raised by onexc will not be caught.
+
+    """
+    Path.chmod(path, stat.S_IWRITE)
+    func(path)
+
+
 def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int | float | str | None], **kwargs) -> None:
     """Copy the specified directory to the target location with provided data.
 
@@ -141,4 +159,7 @@ def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int |
         git_path = dst_path / '.git'
         if git_path.is_dir():  # pragma: no cover
             logger.info('Removing git created by copier', git_path=git_path)
-            shutil.rmtree(git_path)
+            if sys.version_info >= (3, 12, 0):
+                shutil.rmtree(git_path, onexc=_remove_readonly)  # type: ignore[call-arg]
+            else:
+                shutil.rmtree(git_path, onerror=_remove_readonly)
