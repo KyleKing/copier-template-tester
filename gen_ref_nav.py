@@ -12,7 +12,12 @@ from corallium.tomllib import tomllib
 
 
 def has_public_code(line: str) -> bool:
-    """Determine if a given line contains code that will be documented."""
+    """Determine if a given line contains code that will be documented.
+
+    Returns:
+        bool: True if line appears to be a public function, class, or method
+
+    """
     for key in ('def', 'async def', 'class'):
         starts = line.startswith(f'{key} ')
         if starts and not line.startswith(f'{key} _'):
