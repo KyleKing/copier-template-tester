@@ -37,6 +37,22 @@ package_name = "testing-no-all"
 include_all = false
 ```
 
+#### Extra tasks
+
+Anything in the `_extra_tasks` key will be run after that project is generated. This is useful for running tests or other tasks that are not part of the copier template.
+
+```toml
+[defaults]
+_extra_tasks = [
+  "pre-commit run --all-files",
+]
+
+[output.".ctt/also-run-pytest-here"]
+_extra_tasks = [
+  "poetry run pytest",
+]
+```
+
 ### Pre-Commit Hook
 
 First, add this section to your `.pre-commit-config.yml` file:

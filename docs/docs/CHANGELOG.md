@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Feat
+
+- add option to run extra tasks in each generated project
+
 ## 2.1.3 (2024-07-08)
 
 ### Fix
