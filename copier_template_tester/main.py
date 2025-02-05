@@ -41,7 +41,11 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         output_path = base_dir / key
         paths.add(output_path)
         logger.text(f'Using `copier` to create: {key}')
-        write_output(src_path=input_path, dst_path=base_dir / output_path, data=defaults | data)
+        data_with_defaults = defaults | data
+        extra_tasks = data_with_defaults.pop('_extra_tasks', [])
+        write_output(
+            src_path=input_path, dst_path=base_dir / output_path, data=data_with_defaults, extra_tasks=extra_tasks,
+        )
 
     if check_untracked:  # pragma: no cover
         check_for_untracked(base_dir)

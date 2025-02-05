@@ -138,7 +138,13 @@ def _remove_readonly(func, path: str, _excinfo) -> None:  # noqa: ANN001
     func(path)
 
 
-def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int | float | str | None], **kwargs) -> None:
+def write_output(
+    *,
+    src_path: Path,
+    dst_path: Path, data: dict[str, bool | int | float | str | None],
+    extra_tasks: list[str | list[str] | dict] | None = None,
+    **kwargs,
+) -> None:
     """Copy the specified directory to the target location with provided data.
 
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
@@ -155,6 +161,7 @@ def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int |
         kwargs.setdefault('vcs_ref', 'HEAD')
 
         with copier.Worker(src_path=str(src_path), dst_path=Path(dst_path), **kwargs) as worker:
+            worker.template.config_data['tasks'] = worker.template.config_data.get('tasks', []) + extra_tasks
             worker.run_copy()
 
         # Remove any .git directory created by copier script
