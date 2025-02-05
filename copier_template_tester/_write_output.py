@@ -153,7 +153,9 @@ def write_output(*, src_path: Path, dst_path: Path, data: dict[str, bool | int |
         kwargs.setdefault('quiet', False)
         kwargs.setdefault('unsafe', True)
         kwargs.setdefault('vcs_ref', 'HEAD')
-        copier.run_copy(str(src_path), dst_path, **kwargs)
+
+        with copier.Worker(src_path=str(src_path), dst_path=Path(dst_path), **kwargs) as worker:
+            worker.run_copy()
 
         # Remove any .git directory created by copier script
         git_path = dst_path / '.git'

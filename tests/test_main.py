@@ -19,10 +19,10 @@ WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     """Only necessary for coverage metrics, but the .ctt/* files must exist."""
 
-    def _run_copy(src_path: str, dst_path: Path, **kwargs) -> None:
+    def _run_copy(worker) -> None:
         pass
 
-    monkeypatch.setattr(copier, 'run_copy', _run_copy)
+    monkeypatch.setattr(copier.Worker, 'run_copy', _run_copy)
 
     run(base_dir=base_dir)
 
