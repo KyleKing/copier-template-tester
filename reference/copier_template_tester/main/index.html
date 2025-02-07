@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://copier-template-tester.kyleking.me/reference/copier_template_tester/main/">
       
       
-        <link rel="prev" href="../../../modules/copier_template_tester/_code_diagrams/">
+        <link rel="prev" href="../../../docs/STYLE_GUIDE/">
       
       
       
@@ -388,112 +388,6 @@
       
   
   
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Modules
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Modules
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Copier template tester
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1">
-            <span class="md-nav__icon md-icon"></span>
-            Copier template tester
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../modules/copier_template_tester/_code_diagrams/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Code Diagrams
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -506,10 +400,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -520,8 +414,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Reference
           </label>
@@ -543,10 +437,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -557,8 +451,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
             Copier template tester
           </label>
@@ -848,10 +742,14 @@
 <span class="linenos" data-linenos="41 "></span>        <span class="n">output_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="n">key</span>
 <span class="linenos" data-linenos="42 "></span>        <span class="n">paths</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
 <span class="linenos" data-linenos="43 "></span>        <span class="n">logger</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using `copier` to create: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="44 "></span>        <span class="n">write_output</span><span class="p">(</span><span class="n">src_path</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">base_dir</span> <span class="o">/</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">defaults</span> <span class="o">|</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos" data-linenos="45 "></span>
-<span class="linenos" data-linenos="46 "></span>    <span class="k">if</span> <span class="n">check_untracked</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="47 "></span>        <span class="n">check_for_untracked</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+<span class="linenos" data-linenos="44 "></span>        <span class="n">data_with_defaults</span> <span class="o">=</span> <span class="n">defaults</span> <span class="o">|</span> <span class="n">data</span>
+<span class="linenos" data-linenos="45 "></span>        <span class="n">extra_tasks</span> <span class="o">=</span> <span class="n">data_with_defaults</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_extra_tasks&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="linenos" data-linenos="46 "></span>        <span class="n">write_output</span><span class="p">(</span>
+<span class="linenos" data-linenos="47 "></span>            <span class="n">src_path</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">dst_path</span><span class="o">=</span><span class="n">base_dir</span> <span class="o">/</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_with_defaults</span><span class="p">,</span> <span class="n">extra_tasks</span><span class="o">=</span><span class="n">extra_tasks</span><span class="p">,</span>
+<span class="linenos" data-linenos="48 "></span>        <span class="p">)</span>
+<span class="linenos" data-linenos="49 "></span>
+<span class="linenos" data-linenos="50 "></span>    <span class="k">if</span> <span class="n">check_untracked</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="51 "></span>        <span class="n">check_for_untracked</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -875,24 +773,24 @@
 
             <details class="quote">
               <summary>Source code in <code>copier_template_tester/main.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="50 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<span class="linenos" data-linenos="51 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept CLI configuration for running ctt.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="52 "></span>    <span class="k">def</span> <span class="nf">dir_path</span><span class="p">(</span><span class="n">pth</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="linenos" data-linenos="53 "></span>        <span class="k">if</span> <span class="n">pth</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-<span class="linenos" data-linenos="54 "></span>            <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-<span class="linenos" data-linenos="55 "></span>        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Expected a path to a directory. Received: `</span><span class="si">{</span><span class="n">pth</span><span class="si">}</span><span class="s1">`&#39;</span>
-<span class="linenos" data-linenos="56 "></span>        <span class="k">raise</span> <span class="n">ArgumentTypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-<span class="linenos" data-linenos="57 "></span>
-<span class="linenos" data-linenos="58 "></span>    <span class="n">cli</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
-<span class="linenos" data-linenos="59 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-<span class="linenos" data-linenos="60 "></span>        <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="61 "></span>        <span class="s1">&#39;--base-dir&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="62 "></span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Specify the path to the directory that contains the configuration file&#39;</span><span class="p">,</span>
-<span class="linenos" data-linenos="63 "></span>        <span class="nb">type</span><span class="o">=</span><span class="n">dir_path</span><span class="p">)</span>
-<span class="linenos" data-linenos="64 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--check-untracked&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Only used for pre-commit&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
-<span class="linenos" data-linenos="65 "></span>
-<span class="linenos" data-linenos="66 "></span>    <span class="n">args</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-<span class="linenos" data-linenos="67 "></span>    <span class="n">run</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">check_untracked</span><span class="p">)</span>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="54 "></span><span class="k">def</span> <span class="nf">run_cli</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="linenos" data-linenos="55 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept CLI configuration for running ctt.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="56 "></span>    <span class="k">def</span> <span class="nf">dir_path</span><span class="p">(</span><span class="n">pth</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="linenos" data-linenos="57 "></span>        <span class="k">if</span> <span class="n">pth</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+<span class="linenos" data-linenos="58 "></span>            <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pth</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+<span class="linenos" data-linenos="59 "></span>        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Expected a path to a directory. Received: `</span><span class="si">{</span><span class="n">pth</span><span class="si">}</span><span class="s1">`&#39;</span>
+<span class="linenos" data-linenos="60 "></span>        <span class="k">raise</span> <span class="n">ArgumentTypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="linenos" data-linenos="61 "></span>
+<span class="linenos" data-linenos="62 "></span>    <span class="n">cli</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="linenos" data-linenos="63 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos" data-linenos="64 "></span>        <span class="s1">&#39;-b&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="65 "></span>        <span class="s1">&#39;--base-dir&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="66 "></span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Specify the path to the directory that contains the configuration file&#39;</span><span class="p">,</span>
+<span class="linenos" data-linenos="67 "></span>        <span class="nb">type</span><span class="o">=</span><span class="n">dir_path</span><span class="p">)</span>
+<span class="linenos" data-linenos="68 "></span>    <span class="n">cli</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--check-untracked&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Only used for pre-commit&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+<span class="linenos" data-linenos="69 "></span>
+<span class="linenos" data-linenos="70 "></span>    <span class="n">args</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos" data-linenos="71 "></span>    <span class="n">run</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">check_untracked</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">check_untracked</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
