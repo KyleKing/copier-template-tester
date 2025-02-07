@@ -19,10 +19,10 @@ WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     """Only necessary for coverage metrics, but the .ctt/* files must exist."""
 
-    def _run_copy(src_path: str, dst_path: Path, **kwargs) -> None:
+    def _run_copy(worker) -> None:
         pass
 
-    monkeypatch.setattr(copier, 'run_copy', _run_copy)
+    monkeypatch.setattr(copier.Worker, 'run_copy', _run_copy)
 
     run(base_dir=base_dir)
 
@@ -42,26 +42,31 @@ def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> set[Path]
         '*Copying from template*',
     ])
     # Check a few of the created files:
-    return {pth.relative_to(cwd) for pth in (cwd / '.ctt').rglob('*.*') if pth.is_file()}
+    return {pth.relative_to(cwd) for pth in (cwd / '.ctt').rglob('*.*') if pth.is_file()}, ret.stdout
 
 
 def test_main(shell: Subprocess) -> None:
-    paths = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='no_all')
+    paths, stdout = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='no_all')
 
     assert Path('.ctt/no_all/README.md') in paths
     assert Path('.ctt/no_all/.copier-answers.testing_no_all.yml') in paths
     assert Path('.ctt/no_all/.copier-answers.yml') not in paths
+    stdout.matcher.fnmatch_lines_random([
+        'task_string',
+        'task_list',
+        'task_dict',
+    ])
 
 
 def test_no_answer_file_dir(shell: Subprocess) -> None:
-    paths = check_run_ctt(shell=shell, cwd=NO_ANSWER_FILE_DIR, subdirname='no_answers_file')
+    paths, _stdout = check_run_ctt(shell=shell, cwd=NO_ANSWER_FILE_DIR, subdirname='no_answers_file')
 
     assert Path('.ctt/no_answers_file/README.md') in paths
     assert not [*Path('.ctt/no_answers_file').rglob('.copier-answers*')]
 
 
 def test_with_include_dir(shell: Subprocess) -> None:
-    paths = check_run_ctt(shell=shell, cwd=WITH_INCLUDE_DIR, subdirname='copier_include')
+    paths, _stdout = check_run_ctt(shell=shell, cwd=WITH_INCLUDE_DIR, subdirname='copier_include')
 
     assert Path('.ctt/copier_include/script.py') in paths
 

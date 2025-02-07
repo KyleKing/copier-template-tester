@@ -1,6 +1,11 @@
 # Configuration for: https://github.com/KyleKing/copier-template-tester
 
 [defaults]
+_extra_tasks = [
+  "echo task_string",
+  ["echo", "task_list"],
+  {command = "echo task_dict"},
+]
 project_name = "placeholder"
 
 [output.".ctt/no_all"]
