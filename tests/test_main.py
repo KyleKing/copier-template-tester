@@ -4,6 +4,7 @@ import copier
 import pytest
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
+from pytestshellutils.utils.processes import MatchString
 
 from copier_template_tester.main import run
 
@@ -27,20 +28,24 @@ def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     run(base_dir=base_dir)
 
 
-def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> set[Path]:
+def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> tuple[set[Path], MatchString]:
     ret = run_ctt(shell, cwd=cwd)
 
     assert ret.returncode == 0, ret.stderr
     # Check output from ctt and copier (where order can vary on Windows)
-    ret.stdout.matcher.fnmatch_lines([
-        'Starting Copier Template Tester for *',
-        '*Note: If files were modified, pre-commit will report a failure.',
-        '',
-        f'Using `copier` to create: .ctt/{subdirname}',
-    ])
-    ret.stderr.matcher.fnmatch_lines_random([
-        '*Copying from template*',
-    ])
+    ret.stdout.matcher.fnmatch_lines(
+        [
+            'Starting Copier Template Tester for *',
+            '*Note: If files were modified, pre-commit will report a failure.',
+            '',
+            f'Using `copier` to create: .ctt/{subdirname}',
+        ],
+    )
+    ret.stderr.matcher.fnmatch_lines_random(
+        [
+            '*Copying from template*',
+        ],
+    )
     # Check a few of the created files:
     return {pth.relative_to(cwd) for pth in (cwd / '.ctt').rglob('*.*') if pth.is_file()}, ret.stdout
 
@@ -51,11 +56,13 @@ def test_main(shell: Subprocess) -> None:
     assert Path('.ctt/no_all/README.md') in paths
     assert Path('.ctt/no_all/.copier-answers.testing_no_all.yml') in paths
     assert Path('.ctt/no_all/.copier-answers.yml') not in paths
-    stdout.matcher.fnmatch_lines_random([
-        'task_string',
-        'task_list',
-        'task_dict',
-    ])
+    stdout.matcher.fnmatch_lines_random(
+        [
+            'task_string',
+            'task_list',
+            'task_dict',
+        ],
+    )
 
 
 def test_no_answer_file_dir(shell: Subprocess) -> None:

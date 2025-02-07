@@ -141,8 +141,9 @@ def _remove_readonly(func, path: str, _excinfo) -> None:  # noqa: ANN001
 def write_output(
     *,
     src_path: Path,
-    dst_path: Path, data: dict[str, bool | int | float | str | None],
-    extra_tasks: list[str | list[str] | dict] | None = None,
+    dst_path: Path,
+    data: dict[str, bool | int | float | str | None],
+    extra_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     **kwargs,
 ) -> None:
     """Copy the specified directory to the target location with provided data.

@@ -2,7 +2,13 @@
 
 ### Feat
 
-- add option to run extra tasks in each generated project
+- add support for `_extra_tasks` in CTT TOML configuration (#36)
+
+## 2.1.4 (2024-11-19)
+
+### Fix
+
+- **#34**: support `git init` on Windows (#35)
 
 ## 2.1.3 (2024-07-08)
 
