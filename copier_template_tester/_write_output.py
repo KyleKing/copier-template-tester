@@ -7,6 +7,7 @@ import sys
 from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 import copier
 from copier.template import load_template_config
@@ -29,7 +30,7 @@ https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146
 
 
 @lru_cache(maxsize=1)
-def read_copier_template(base_dir: Path) -> dict:  # type: ignore[type-arg]
+def read_copier_template(base_dir: Path) -> dict[str, Any]:
     """Locate the copier file regardless of variation and return the content.
 
     https://github.com/copier-org/copier/blob/5827d6a6fc6592e64c983bc52a254471ecff7531/docs/creating.md?plain=1#L13-L14
@@ -52,6 +53,7 @@ def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
     answers_filename = copier_config.get('_answers_file') or DEFAULT_ANSWER_FILE_NAME
     if '{{' in answers_filename:
         # If the filename is created from the template, just grab the first match
+        # Replace Jinja2 template variables (e.g., {{project_name}}) with glob wildcards
         search_name = re.sub(r'{{[^}]+}}', '*', answers_filename)
         matches = [*dst_path.glob(search_name)]
         if len(matches) != 1:  # pragma: no cover
@@ -70,6 +72,23 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
 
 
 def _stabilize(line: str, answers_path: Path) -> str:
+    """Stabilize copier answers file values for deterministic output.
+
+    Converts variable values in the copier answers file to deterministic forms:
+    - _src_path: Converts absolute paths to relative paths from the answers file
+    - _commit: Converts specific commit hashes to 'HEAD' reference
+
+    This ensures that generated templates produce consistent, reproducible output
+    regardless of the absolute file system paths or git commit states.
+
+    Args:
+        line: A line from the copier answers file
+        answers_path: Path to the copier answers file being processed
+
+    Returns:
+        The stabilized line with deterministic values, or the original line if no changes needed
+
+    """
     # Convert _src_path to a deterministic relative path
     if line.startswith('_src_path'):
         logger.info('Replacing with deterministic value', line=line)
@@ -98,7 +117,26 @@ def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
 def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
-    """Manage the output directory and handle templates that cannot be updated (i.e. not answers file).
+    """Context manager to prepare output directory and handle copier answers file cleanup.
+
+    This context manager ensures proper setup and teardown of the copier output directory:
+    1. Pre-yield: Creates the destination directory if it doesn't exist
+    2. Post-yield: Handles the copier answers file based on template configuration
+       - If template has a custom answers file template, stabilizes it for deterministic output
+       - If template has no custom answers template, removes the default answers file
+
+    Templates with custom answer file templates (e.g., `{{ _copier_conf.answers_file }}.jinja`)
+    need stabilization to ensure reproducible output across different environments.
+
+    Args:
+        src_path: Path to the source copier template directory
+        dst_path: Path to the destination output directory
+
+    Yields:
+        None
+
+    Raises:
+        FileNotFoundError: If expected answers file cannot be found (re-raised after logging)
 
     Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
 
