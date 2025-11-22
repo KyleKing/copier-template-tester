@@ -39,19 +39,81 @@ include_all = false
 
 #### Extra tasks
 
-Anything in the `_extra_tasks` key will be run after that project is generated. This is useful for running tests or other tasks that are not part of the copier template.
+> **Added in version 2.2.0**
+
+The `_extra_tasks` key allows you to run additional commands after a copier template is generated. These tasks are appended to the template's existing tasks and executed in the generated project directory. This feature is particularly useful for:
+
+- Running linters and formatters (e.g., `pre-commit`, `ruff`)
+- Executing test suites to validate generated code
+- Performing project initialization steps
+- Verifying the generated output
+
+**Task formats:**
+
+CTT supports the same task formats as copier templates:
+
+```toml
+# String format: simple command
+_extra_tasks = ["poetry run pytest"]
+
+# List format: command with arguments
+_extra_tasks = [["poetry", "run", "pytest", "-v"]]
+
+# Dict format: command with conditions
+_extra_tasks = [
+  {cmd = "pre-commit run --all-files", when = "{{ python_version >= '3.10' }}"},
+]
+
+# Mixed formats
+_extra_tasks = [
+  "pre-commit run --all-files",
+  ["poetry", "run", "pytest"],
+  {cmd = "echo 'Done!'"},
+]
+```
+
+**Merging behavior:**
+
+Tasks defined in `[defaults]` are merged with output-specific `_extra_tasks`:
 
 ```toml
 [defaults]
 _extra_tasks = [
+  "pre-commit run --all-files",  # Runs for all outputs
+]
+
+[output.".ctt/defaults"]
+# Inherits default tasks only
+
+[output.".ctt/with-tests"]
+_extra_tasks = [
+  "poetry run pytest",  # Runs AFTER pre-commit for this output only
+]
+```
+
+**Example use case:**
+
+```toml
+[defaults]
+project_name = "my-project"
+_extra_tasks = [
+  "pre-commit install",
   "pre-commit run --all-files",
 ]
 
-[output.".ctt/also-run-pytest-here"]
+[output.".ctt/python310"]
+python_version = "3.10"
+
+[output.".ctt/python312"]
+python_version = "3.12"
 _extra_tasks = [
-  "poetry run pytest",
+  "poetry run pytest",  # Only runs for python312 output
 ]
 ```
+
+In this example:
+- Both outputs run `pre-commit install` and `pre-commit run --all-files`
+- Only `.ctt/python312` additionally runs `poetry run pytest`
 
 ### Pre-Commit Hook
 

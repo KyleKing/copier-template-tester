@@ -63,6 +63,8 @@ def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> G
         # Required for Windows CI and works without issue everywhere else
         run_check(shell, 'git', 'config', '--local', 'user.email', 'tester@py.test', cwd=working_dir)
         run_check(shell, 'git', 'config', '--local', 'user.name', 'Pytest', cwd=working_dir)
+        # Disable commit signing for test repos to avoid environment-specific failures
+        run_check(shell, 'git', 'config', '--local', 'commit.gpgsign', 'false', cwd=working_dir)
         if source_dir:
             add_commit(shell, cwd=working_dir)
 
