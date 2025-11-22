@@ -1,116 +1,39 @@
-"""Template Directory Writer."""
+"""Template Directory Writer.
 
-import re
+Main module for writing copier template output. Orchestrates template loading,
+answers file stabilization, and output directory management.
+"""
+
 import shutil
 import stat
 import sys
 from contextlib import contextmanager, suppress
-from functools import lru_cache
 from pathlib import Path
-from typing import Any
 
 import copier
-from copier.template import load_template_config
-from corallium.file_helpers import read_lines
 from corallium.log import get_logger
-from corallium.shell import capture_shell
+
+# Import from refactored modules
+from ._answers_stabilizer import (
+    DEFAULT_ANSWER_FILE_NAME,
+    find_answers_file,
+    stabilize_answers_file,
+    stabilize_line as _stabilize,
+)
+from ._git_utils import resolve_git_root_dir as _resolve_git_root_dir
+from ._template_config import DEFAULT_TEMPLATE_FILE_NAME, read_copier_template
+
+# Re-export for backward compatibility with existing imports
+__all__ = [
+    'DEFAULT_ANSWER_FILE_NAME',
+    'DEFAULT_TEMPLATE_FILE_NAME',
+    'read_copier_template',
+    'write_output',
+    '_resolve_git_root_dir',
+    '_stabilize',
+]
 
 logger = get_logger()
-
-DEFAULT_TEMPLATE_FILE_NAME = 'copier.yaml'
-"""Default answer file name; however, `copier.yml` is also supported through `read_copier_template`."""
-
-
-DEFAULT_ANSWER_FILE_NAME = '.copier-answers.yml'
-"""Default answer file name.
-
-https://github.com/copier-org/copier/blob/7f05baf4f004a4876fb6158e1c532b28290146a4/copier/subproject.py#L39
-
-"""
-
-
-@lru_cache(maxsize=1)
-def read_copier_template(base_dir: Path) -> dict[str, Any]:
-    """Locate the copier file regardless of variation and return the content.
-
-    https://github.com/copier-org/copier/blob/5827d6a6fc6592e64c983bc52a254471ecff7531/docs/creating.md?plain=1#L13-L14
-
-    """
-    copier_path = base_dir / DEFAULT_TEMPLATE_FILE_NAME
-    if not copier_path.is_file():
-        copier_path = copier_path.with_suffix('.yml')
-    if not copier_path.is_file():  # pragma: no cover
-        msg = f"Can't find the copier template file. Expected: {copier_path} (or .yaml)"
-        raise FileNotFoundError(msg)
-
-    return load_template_config(conf_path=copier_path)
-
-
-@lru_cache(maxsize=1)
-def _find_answers_file(*, src_path: Path, dst_path: Path) -> Path:
-    """Locate the copier answers file based on the copier template."""
-    copier_config = read_copier_template(src_path)
-    answers_filename = copier_config.get('_answers_file') or DEFAULT_ANSWER_FILE_NAME
-    if '{{' in answers_filename:
-        # If the filename is created from the template, just grab the first match
-        # Replace Jinja2 template variables (e.g., {{project_name}}) with glob wildcards
-        search_name = re.sub(r'{{[^}]+}}', '*', answers_filename)
-        matches = [*dst_path.glob(search_name)]
-        if len(matches) != 1:  # pragma: no cover
-            msg = f"Can't find just one copier answers file matching {dst_path / search_name}. Found: {matches}"
-            raise ValueError(msg)
-        return matches[0]
-    return dst_path / answers_filename  # pragma: no cover
-
-
-@lru_cache(maxsize=3)
-def _resolve_git_root_dir(base_dir: Path) -> Path:
-    """Use git to list all untracked files."""
-    cmd = 'git rev-parse --show-toplevel'
-    output = capture_shell(cmd=cmd, cwd=base_dir)
-    return Path(output.strip())
-
-
-def _stabilize(line: str, answers_path: Path) -> str:
-    """Stabilize copier answers file values for deterministic output.
-
-    Converts variable values in the copier answers file to deterministic forms:
-    - _src_path: Converts absolute paths to relative paths from the answers file
-    - _commit: Converts specific commit hashes to 'HEAD' reference
-
-    This ensures that generated templates produce consistent, reproducible output
-    regardless of the absolute file system paths or git commit states.
-
-    Args:
-        line: A line from the copier answers file
-        answers_path: Path to the copier answers file being processed
-
-    Returns:
-        The stabilized line with deterministic values, or the original line if no changes needed
-
-    """
-    # Convert _src_path to a deterministic relative path
-    if line.startswith('_src_path'):
-        logger.info('Replacing with deterministic value', line=line)
-        raw_path = Path(line.split('_src_path:')[-1].strip())
-        ans_dir = answers_path.parent
-        if ans_dir.is_relative_to(raw_path):
-            count_rel = len(ans_dir.relative_to(raw_path).parts)
-            rel_path = '/'.join([*(['..'] * count_rel), raw_path.name])
-            return f'_src_path: {rel_path}'
-        return line
-    # Create a stable tag for '_commit' that copier will still utilize
-    if line.startswith('_commit'):
-        logger.info('Replacing with deterministic value', line=line)
-        return '_commit: HEAD'
-    return line
-
-
-def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
-    """Ensure that the answers file is deterministic."""
-    answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (_stabilize(_l, answers_path) for _l in read_lines(answers_path) if _l.strip())
-    answers_path.write_text('\n'.join(lines) + '\n')
 
 
 @contextmanager
@@ -150,13 +73,13 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
     if has_answers_template:
         # Reduce variability in the output
         try:
-            _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
+            stabilize_answers_file(src_path=src_path, dst_path=dst_path)
         except FileNotFoundError as exc:  # pragma: no cover
             logger.warning(str(exc))
             raise
     else:
         with suppress(FileNotFoundError):
-            answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
+            answers_path = find_answers_file(src_path=src_path, dst_path=dst_path)
             answers_path.unlink()
 
 
@@ -186,7 +109,26 @@ def write_output(
 ) -> None:
     """Copy the specified directory to the target location with provided data.
 
-    kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
+    Orchestrates the complete copier template copying process including:
+    1. Output directory preparation
+    2. Template rendering with provided data
+    3. Extra tasks execution
+    4. Git directory cleanup
+    5. Answers file stabilization
+
+    Args:
+        src_path: Path to the source copier template directory
+        dst_path: Path to the destination output directory
+        data: Template variable values to use during rendering
+        extra_tasks: Additional tasks to run after template generation (appended to template's tasks)
+        **kwargs: Additional arguments passed to copier.Worker
+
+    Raises:
+        FileNotFoundError: If template or required files are not found
+        Various copier exceptions during template processing
+
+    References:
+        Copier Worker kwargs: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
     with _output_dir(src_path=src_path, dst_path=dst_path):
