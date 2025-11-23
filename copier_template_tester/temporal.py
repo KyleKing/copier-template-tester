@@ -8,6 +8,7 @@ before applying them to production.
 import shutil
 import subprocess
 import tempfile
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -318,21 +319,93 @@ class TemporalTester:
             removed=removed,
         )
 
-    def run_all(self, snapshots: list[TemporalSnapshot]) -> list[TemporalTestResult]:
-        """Run all temporal tests serially.
+    def run_all(
+        self,
+        snapshots: list[TemporalSnapshot],
+        parallel: bool = False,
+        max_workers: int | None = None,
+    ) -> list[TemporalTestResult]:
+        """Run all temporal tests.
 
         Args:
             snapshots: List of snapshots to test
+            parallel: Run tests in parallel using ProcessPoolExecutor
+            max_workers: Maximum number of parallel workers (defaults to CPU count)
 
         Returns:
-            List of test results
+            List of test results in the same order as snapshots
 
         """
-        logger.text('Running temporal tests', count=len(snapshots))
+        if not snapshots:
+            return []
 
-        results = []
-        for snapshot in snapshots:
-            result = self.run_snapshot(snapshot)
-            results.append(result)
+        logger.text(
+            'Running temporal tests',
+            count=len(snapshots),
+            mode='parallel' if parallel else 'serial',
+            max_workers=max_workers if parallel else 1,
+        )
 
-        return results
+        if not parallel:
+            # Serial execution
+            results = []
+            for snapshot in snapshots:
+                result = self.run_snapshot(snapshot)
+                results.append(result)
+            return results
+
+        # Parallel execution
+        return self._run_parallel(snapshots, max_workers)
+
+    def _run_parallel(
+        self,
+        snapshots: list[TemporalSnapshot],
+        max_workers: int | None = None,
+    ) -> list[TemporalTestResult]:
+        """Run temporal tests in parallel.
+
+        Args:
+            snapshots: List of snapshots to test
+            max_workers: Maximum number of parallel workers
+
+        Returns:
+            List of test results in the same order as snapshots
+
+        """
+        # Use ProcessPoolExecutor for true parallelism
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all tasks
+            future_to_snapshot = {
+                executor.submit(self.run_snapshot, snapshot): snapshot
+                for snapshot in snapshots
+            }
+
+            # Collect results in original order
+            results_dict: dict[str, TemporalTestResult] = {}
+            for future in as_completed(future_to_snapshot):
+                snapshot = future_to_snapshot[future]
+                try:
+                    result = future.result()
+                    results_dict[snapshot.name] = result
+                    logger.text(
+                        'Snapshot completed',
+                        name=snapshot.name,
+                        success=result.success,
+                        has_differences=result.has_differences,
+                    )
+                except Exception as e:
+                    logger.error('Snapshot failed with exception', name=snapshot.name, error=str(e))
+                    # Create error result
+                    results_dict[snapshot.name] = TemporalTestResult(
+                        snapshot_name=snapshot.name,
+                        success=False,
+                        has_differences=False,
+                        diff_path=None,
+                        error=str(e),
+                        files_changed=[],
+                        files_added=[],
+                        files_removed=[],
+                    )
+
+            # Return results in original order
+            return [results_dict[snapshot.name] for snapshot in snapshots]

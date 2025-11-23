@@ -244,6 +244,88 @@ class TestTemporalTester:
         results = tester.run_all([])
         assert results == []
 
+    def test_run_all_serial(self, tmp_path: Path) -> None:
+        """Test run_all in serial mode."""
+        template_path = tmp_path / 'template'
+        source_project = tmp_path / 'project'
+        output_dir = tmp_path / 'output'
+
+        tester = TemporalTester(
+            template_path=template_path,
+            source_project=source_project,
+            output_dir=output_dir,
+        )
+
+        snapshots = [
+            TemporalSnapshot(name='test1', ref='v1.0'),
+            TemporalSnapshot(name='test2', ref='v2.0'),
+        ]
+
+        # Mock run_snapshot to avoid actual git operations
+        call_count: list[str] = []
+
+        def mock_run_snapshot(snapshot: TemporalSnapshot) -> TemporalTestResult:
+            call_count.append(snapshot.name)
+            return TemporalTestResult(
+                snapshot_name=snapshot.name,
+                success=True,
+                has_differences=False,
+                diff_path=None,
+            )
+
+        original_run_snapshot = tester.run_snapshot
+        tester.run_snapshot = mock_run_snapshot  # type: ignore[method-assign]
+
+        results = tester.run_all(snapshots, parallel=False)
+
+        # Verify results
+        assert len(results) == 2
+        assert results[0].snapshot_name == 'test1'
+        assert results[1].snapshot_name == 'test2'
+        assert call_count == ['test1', 'test2']
+
+        tester.run_snapshot = original_run_snapshot  # type: ignore[method-assign]
+
+    def test_run_all_parallel(self, tmp_path: Path) -> None:
+        """Test run_all in parallel mode."""
+        template_path = tmp_path / 'template'
+        source_project = tmp_path / 'project'
+        output_dir = tmp_path / 'output'
+
+        tester = TemporalTester(
+            template_path=template_path,
+            source_project=source_project,
+            output_dir=output_dir,
+        )
+
+        snapshots = [
+            TemporalSnapshot(name='test1', ref='v1.0'),
+            TemporalSnapshot(name='test2', ref='v2.0'),
+            TemporalSnapshot(name='test3', ref='v3.0'),
+        ]
+
+        # Mock run_snapshot to avoid actual git operations
+        def mock_run_snapshot(snapshot: TemporalSnapshot) -> TemporalTestResult:
+            return TemporalTestResult(
+                snapshot_name=snapshot.name,
+                success=True,
+                has_differences=False,
+                diff_path=None,
+            )
+
+        original_run_snapshot = tester.run_snapshot
+        tester.run_snapshot = mock_run_snapshot  # type: ignore[method-assign]
+
+        results = tester.run_all(snapshots, parallel=True, max_workers=2)
+
+        # Verify results are in original order
+        assert len(results) == 3
+        assert results[0].snapshot_name == 'test1'
+        assert results[1].snapshot_name == 'test2'
+        assert results[2].snapshot_name == 'test3'
+
+        tester.run_snapshot = original_run_snapshot  # type: ignore[method-assign]
+
     @pytest.fixture
     def git_test_repo(self, tmp_path: Path) -> Path:
         """Create a git test repository."""
