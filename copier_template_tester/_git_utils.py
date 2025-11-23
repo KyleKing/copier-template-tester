@@ -1,29 +1,29 @@
-"""Git repository utilities."""
+"""Git repository utilities with VCS abstraction support."""
 
 from functools import lru_cache
 from pathlib import Path
 
-from corallium.shell import capture_shell
+from ._vcs_utils import get_vcs
 
 
 @lru_cache(maxsize=3)
-def resolve_git_root_dir(base_dir: Path) -> Path:
-    """Resolve the git repository root directory.
+def resolve_git_root_dir(base_dir: Path, vcs_type: str = 'auto') -> Path:
+    """Resolve the VCS repository root directory.
 
-    Uses `git rev-parse --show-toplevel` to find the root directory of the
-    git repository containing the specified directory. Result is cached for
-    performance.
+    Uses VCS abstraction layer to support multiple version control systems.
+    Defaults to auto-detection but can be explicitly specified.
 
     Args:
-        base_dir: Directory within a git repository
+        base_dir: Directory within a VCS repository
+        vcs_type: VCS type ('auto', 'git', 'jj'). Defaults to 'auto'.
 
     Returns:
-        Path to the git repository root directory
+        Path to the VCS repository root directory
 
     Raises:
-        RuntimeError: If git command fails (e.g., not in a git repository)
+        RuntimeError: If VCS command fails (e.g., not in a repository)
+        ValueError: If vcs_type is invalid
 
     """
-    cmd = 'git rev-parse --show-toplevel'
-    output = capture_shell(cmd=cmd, cwd=base_dir)
-    return Path(output.strip())
+    vcs = get_vcs(base_dir, vcs_type=vcs_type)
+    return vcs.get_root_dir(base_dir)
