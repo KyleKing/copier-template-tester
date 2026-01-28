@@ -1,4 +1,4 @@
-# noqa: RUF067
+# ruff: noqa: RUF067
 
 import sys
 from os import environ, getenv

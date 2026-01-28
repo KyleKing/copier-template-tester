@@ -4,6 +4,10 @@ requires = ["uv_build>=0.9.26"]
 
 [dependency-groups]
 dev = [
+  "calcipy[doc,lint,nox,tags,test,types]>=5.0.0",
+  "pytest-shell-utilities>=1.9.7",
+  "types-pyyaml>=6.0.12.20240917",
+  "types-setuptools>=75.5.0.20241116",
 ]
 
 [project]
@@ -21,7 +25,8 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ] # https://pypi.org/classifiers/
 dependencies = [
-  "corallium>=2.0.1",
+  "copier>=9.7.0",
+  "corallium>=2.1.1",
 ]
 description = "Test copier templates"
 keywords = ["calcipy_template"]
@@ -39,7 +44,7 @@ version = "2.2.0"
 "Repository" = "https://github.com/kyleking/copier-template-tester"
 
 [tool.commitizen]
-version_files = ["pyproject.toml:^version", "copier_template_tester/__init__.py:^__version"]
+version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -60,16 +65,6 @@ warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
 
-[tool.poetry.dependencies]
-python = "^3.10.9"
-copier = ">=9.7.0"
-corallium = ">=2.1.1"
-
-[tool.poetry.group.dev.dependencies]
-calcipy = {extras = ["doc", "lint", "nox", "tags", "test", "types"], version = ">=5.0.0"}
-pytest-shell-utilities = ">=1.9.7"
-types-pyyaml = ">=6.0.12.20240917"
-types-setuptools = ">=75.5.0.20241116"
 [tool.pyright]
 include = ["copier_template_tester", "tests"]
 pythonVersion = "3.10"
