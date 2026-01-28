@@ -7,6 +7,7 @@ name: CI Pipeline
   pull_request:
     branches: [main]
     paths:
+      - .github/workflows/ci_pipeline.yml
       - copier_template_tester/**
       - tests/**
       - poetry.lock

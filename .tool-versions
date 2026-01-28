@@ -1,1 +1,2 @@
-python 3.12.5 3.10.9
+python      3.12.5 3.10.9
+pipx:poetry latest

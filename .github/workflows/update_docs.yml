@@ -5,6 +5,7 @@ name: Update Docs
   push:
     branches: [main]
     paths:
+      - .github/workflows/update_docs.yml
       - docs/**
       - mkdocs.yml
   workflow_dispatch: null # For manual runs
