@@ -128,6 +128,8 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
     Templates with custom answer file templates (e.g., `{{ _copier_conf.answers_file }}.jinja`)
     need stabilization to ensure reproducible output across different environments.
 
+    Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
+
     Args:
         src_path: Path to the source copier template directory
         dst_path: Path to the destination output directory
@@ -137,8 +139,6 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
 
     Raises:
         FileNotFoundError: If expected answers file cannot be found (re-raised after logging)
-
-    Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
 
     """
     template_name = '{{ _copier_conf.answers_file }}.jinja'
@@ -199,7 +199,7 @@ def write_output(
         kwargs.setdefault('unsafe', True)
         kwargs.setdefault('vcs_ref', 'HEAD')
 
-        with copier.Worker(src_path=str(src_path), dst_path=Path(dst_path), **kwargs) as worker:
+        with copier.Worker(src_path=str(src_path), dst_path=Path(dst_path), **kwargs) as worker:  # type: ignore[attr-defined]
             worker.template.config_data['tasks'] = worker.template.config_data.get('tasks', []) + extra_tasks
             worker.run_copy()
 
