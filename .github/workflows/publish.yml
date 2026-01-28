@@ -3,7 +3,9 @@ name: Publish to PyPI
 
 "on":
   push:
+    branches: [main]
     tags: ["*"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -30,7 +32,7 @@ jobs:
 
   publish-testpypi:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch'
     needs: build
     environment: testpypi
     permissions:
