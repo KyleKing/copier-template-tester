@@ -1,14 +1,16 @@
 ---
 # Common commands:
-# pre-commit install
-# pre-commit autoupdate
-# pre-commit run --all-files mdformat
-# pre-commit run --all-files --hook-stage commit
-# pre-commit run --all-files --hook-stage push
-# poetry run calcipy lint.pre-commit --no-update
+# prek install -f
+# prek autoupdate
+# prek run --all-files mdformat
+# prek run --all-files --hook-stage commit
+# prek run --all-files --hook-stage push
+# prek run --last-commit
+# uv run calcipy lint.prek --no-update
 #
 # See https://pre-commit.com for more information
 #  and https://pre-commit.com/hooks.html for more hooks
+# And: https://prek.j178.dev/builtin
 
 # Only commit is installed by default: https://pre-commit.com/#pre-commit-install
 # Pending rename of pre-push from: https://github.com/pre-commit/pre-commit/issues/2732
@@ -16,7 +18,7 @@ default_install_hook_types: ["commit-msg", "pre-commit", "pre-push"]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
       - id: check-executables-have-shebangs
@@ -34,19 +36,17 @@ repos:
       - id: end-of-file-fixer
         exclude: \.copier-answers\.yml|__snapshots__/.*\.ambr
       - id: fix-byte-order-marker
-      - id: fix-encoding-pragma
-        args: [--remove]
       - id: forbid-new-submodules
       - id: mixed-line-ending
         args: [--fix=auto]
       - id: trailing-whitespace
         exclude: __snapshots__/.*\.ambr
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.29.0
+    rev: v4.12.1
     hooks:
       - id: commitizen
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.17
+    rev: 1.0.0
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -56,10 +56,11 @@ repos:
         exclude: _.+\.md|CHANGELOG\.md|CODE_TAG_SUMMARY\.md
         stages: ["pre-commit"]
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
         args: [--severity=warning]
+        exclude: \.jinja$
         stages: ["pre-commit"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: "v4.0.0-alpha.8"
@@ -69,17 +70,17 @@ repos:
           # Note: this version must be the same as the hook revision
           - "prettier@4.0.0-alpha.8"
           - "prettier-plugin-sh"
-        exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|__snapshots__/.*\.json|tests/data/.*/\.ctt/.*\.ya?ml
-        types_or: [html, javascript, json, shell, yaml]
+        exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|__snapshots__/.*\.json
+        types_or: [css, html, javascript, json, shell, yaml]
         stages: ["pre-commit"]
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.23.1
+    rev: v0.24.3
     hooks:
       - id: toml-sort-fix
-        exclude: poetry\.lock
+        exclude: uv\.lock
         stages: ["pre-commit"]
   - repo: https://github.com/KyleKing/calcipy
-    rev: 5.0.0
+    rev: 6.0.0b0
     hooks:
       - id: copier-forbidden-files
       - id: lint-fix

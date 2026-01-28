@@ -22,7 +22,7 @@ We use [Commitizen](https://github.com/commitizen-tools/commitizen) to manage bo
     - **SemVer Rules**
         - Based on commit type, the version will be auto-incremented: `fix : PATCH // feat : MINOR // BREAKING CHANGE : MAJOR`
 - **Scopes**
-    - A Class, File name, Issue Number, other appropriate noun. As examples: `build(poetry): bump requests to v3` or `style(#32): add missing type annotations`
+    - A Class, File name, Issue Number, other appropriate noun. As examples: `build(uv): bump requests to v3` or `style(#32): add missing type annotations`
 - **Tips**
     - What if a commit fits multiple types?
         - Go back and make multiple commits whenever possible. Part of the benefit of Conventional Commits is the focus on more organized and intentional changes

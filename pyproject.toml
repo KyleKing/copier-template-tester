@@ -1,10 +1,45 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
+build-backend = "uv_build"
+requires = ["uv_build>=0.9.26"]
+
+[dependency-groups]
+dev = [
+]
+
+[project]
+authors = [
+  {email = "dev.act.kyle@gmail.com", name = "Kyle King"},
+]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+] # https://pypi.org/classifiers/
+dependencies = [
+  "corallium>=2.0.1",
+]
+description = "Test copier templates"
+keywords = ["calcipy_template"]
+license = "MIT"
+maintainers = []
+name = "copier_template_tester"
+readme = "docs/README.md"
+requires-python = ">=3.10.9"
+version = "2.2.0"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
+"Changelog" = "https://github.com/kyleking/copier-template-tester/blob/main/docs/docs/CHANGELOG.md"
+"Documentation" = "https://copier-template-tester.kyleking.me"
+"Repository" = "https://github.com/kyleking/copier-template-tester"
 
 [tool.commitizen]
-version = "2.2.0"
-version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
+version_files = ["pyproject.toml:^version", "copier_template_tester/__init__.py:^__version"]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -25,26 +60,6 @@ warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
 
-[tool.poetry]
-authors = ["Kyle King <dev.act.kyle@gmail.com>"]
-classifiers = [
-  "Development Status :: 6 - Mature",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-] # https://pypi.org/classifiers/
-description = "Test copier templates"
-documentation = "https://copier-template-tester.kyleking.me"
-keywords = ["calcipy_template"]
-license = "MIT"
-maintainers = []
-name = "copier_template_tester"
-readme = "docs/README.md"
-repository = "https://github.com/kyleking/copier-template-tester"
-version = "2.2.0"
-
 [tool.poetry.dependencies]
 python = "^3.10.9"
 copier = ">=9.7.0"
@@ -55,46 +70,39 @@ calcipy = {extras = ["doc", "lint", "nox", "tags", "test", "types"], version = "
 pytest-shell-utilities = ">=1.9.7"
 types-pyyaml = ">=6.0.12.20240917"
 types-setuptools = ">=75.5.0.20241116"
-
-[tool.poetry.scripts]
-ctt = "copier_template_tester.main:run_cli"
-
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
-"Changelog" = "https://github.com/kyleking/copier-template-tester/blob/main/docs/docs/CHANGELOG.md"
-
 [tool.pyright]
 include = ["copier_template_tester", "tests"]
 pythonVersion = "3.10"
 
 [tool.ruff]
 # Docs: https://github.com/charliermarsh/ruff
-# Tip: poetry run python -m ruff rule RUF100
+# Tip: uv run ruff rule RUF100
 line-length = 120
 target-version = 'py310'
+
+[tool.ruff.format]
+quote-style = 'single'
 
 [tool.ruff.lint]
 ignore = [
   'ANN002', # Missing type annotation for `*args`
   'ANN003', # Missing type annotation for `**kwargs`
-  'ANN101', # Missing type annotation for `self` in method (automatically inferred)
-  'ANN102', # Missing type annotation for `cls` in classmethod (automatically inferred)
   'ANN401', # Dynamically typed expressions (typing.Any) are disallowed in `pop_key`
   'BLE001', # Do not catch blind exception: `Exception`
+  'COM812', # Conflicts with formatter
   'CPY001', # Missing copyright notice at top of file
   'D203', # "1 blank line required before class docstring" (Conflicts with D211)
   'D213', # "Multi-line docstring summary should start at the second line" (Conflicts with D212)
-  'DOC201', # PLANNED: document
-  'DOC402', # PLANNED: document
-  'DOC501', # PLANNED: document
+  'DOC201', # Missing "Returns" in docstring; prefer minimal docstrings
+  'DOC501', # Raised exception `RuntimeError` missing from docstring
   'EM101', # Exception must not use a string literal, assign to variable first
   'FIX001', # Line contains FIXME
   'FIX002', # Line contains TODO
   'FIX004', # Line contains HACK
   'PLR0913', # Too many arguments in function definition (6 > 5)
-  'TCH001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
-  'TCH002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
-  'TCH003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
+  'TC001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
+  'TC002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
+  'TC003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
   'TD001', # Invalid TODO tag: `FIXME`
   'TD002', # Missing author in TODO; try: `# TODO(<author_name>): ...`
   'TD003', # Missing issue link on the line following this TODO
@@ -152,5 +160,12 @@ convention = "google"
 [tool.tomlsort]
 all = true
 in_place = true
-sort_first = ["python"]
 trailing_comma_inline_array = true
+
+[tool.uv]
+default-groups = ["dev"]
+required-version = ">=0.9.0"
+
+[tool.uv.build-backend]
+module-name = "copier_template_tester"
+module-root = ""

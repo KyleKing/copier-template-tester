@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-# shellcheck disable=SC2048
-poetry run calcipy -v $*
+# shellcheck disable=SC2048,SC2086
+uv run calcipy -v $*

@@ -1,18 +1,10 @@
 # `.github` README
 
-## References
-
-- `act`, a local GHA runner: <https://github.com/nektos/act>
-- [abatilo/actions-poetry](https://github.com/abatilo/actions-poetry)
-- [actions/cache](https://github.com/marketplace/actions/cache)
-- [actions/checkout](https://github.com/actions/checkout)
-- [actions/setup-python](https://github.com/actions/setup-python)
-- [GitHub Action Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
-- [pre-commit/action](https://github.com/pre-commit/action) (Now deprecated)
-- [ts-graphviz/setup-graphviz](https://github.com/ts-graphviz/setup-graphviz)
+## Links
 
 The GitHub Workflows and Action were influenced by these excellent examples:
 
+- [uv Github Integration](https://docs.astral.sh/uv/guides/integration/github)
 - [Re-engineering the SciPy Pipelines](https://labs.quansight.org/blog/2021/10/re-engineering-cicd-pipelines-for-scipy/) and [Example](https://github.com/scipy/scipy/blob/c4829bddb859ffe5716a88f6abd5e0d2dc1d9045/.github/workflows/linux_meson.yml)
     - SciPy also has good examples of building Docker image with layer caching, [docker.yml](https://github.com/scipy/scipy/blob/c4829bddb859ffe5716a88f6abd5e0d2dc1d9045/.github/workflows/docker.yml) and [gitpod.yml](https://github.com/scipy/scipy/blob/c4829bddb859ffe5716a88f6abd5e0d2dc1d9045/.github/workflows/gitpod.yml)
 - [PostHog Guide on GHA](https://posthog.com/blog/automating-a-software-company-with-github-actions). Includes information on Cypress, working with Amazon ECS, version bumping, etc.
@@ -25,7 +17,7 @@ The GitHub Workflows and Action were influenced by these excellent examples:
 - [mdformat pipeline](https://github.com/executablebooks/mdformat/blob/4752321bb444b51f120d8a6933583129a6ecaabb/.github/workflows/tests.yaml)
 - [decopatch has a cool use of dynamic matrices from nox](https://github.com/smarie/python-decopatch/blob/e7f5e7e3794a81af9254b2d30d1f43b7a9874399/.github/workflows/base.yml#L30-L44)
 
-### CLI Notes
+## CLI Notes
 
 ```bash
 # Inspect a workflow interactively

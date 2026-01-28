@@ -17,10 +17,9 @@ permissions:
 
 jobs:
   docs:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
         python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +27,6 @@ jobs:
           fetch-depth: 0 # For git-revision-date-localized-plugin
       - uses: ./.github/actions/setup
         with:
-          os: ${{ matrix.os }}
           python-version: ${{ matrix.python-version }}
 
         # https://github.com/mkdocs/mkdocs/discussions/2369#discussioncomment-625475
@@ -37,4 +35,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Build and deploy documentation
-        run: poetry run calcipy-docs cl.write doc.build doc.deploy
+        run: uv run calcipy-docs cl.write doc.build doc.deploy

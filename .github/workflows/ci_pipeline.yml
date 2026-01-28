@@ -5,30 +5,27 @@ name: CI Pipeline
   push:
     branches: [main]
   pull_request:
-    branches: [main]
     paths:
       - .github/workflows/ci_pipeline.yml
       - copier_template_tester/**
       - tests/**
-      - poetry.lock
+      - uv.lock
       - pyproject.toml
 
 jobs:
   lint:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
         python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
-          os: ${{ matrix.os }}
           python-version: ${{ matrix.python-version }}
 
       - name: Run static linters
-        run: poetry run calcipy-lint lint.check
+        run: uv run calcipy-lint lint.check
 
   test:
     runs-on: ${{ matrix.os }}
@@ -40,29 +37,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
-          os: ${{ matrix.os }}
           python-version: ${{ matrix.python-version }}
 
       - name: Run test
-        run: poetry run calcipy-test test.pytest
+        run: uv run calcipy-test test.pytest
 
   typecheck:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
         python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
-          os: ${{ matrix.os }}
           python-version: ${{ matrix.python-version }}
 
       - name: Run typecheck
-        run: poetry run calcipy-types types.mypy
+        run: uv run calcipy-types types.mypy
 
-      # Based on: https://github.com/jakebailey/pyright-action/issues/10#issuecomment-1455220629
-      - name: Add Poetry Python to Path
-        run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
+      # https://github.com/jakebailey/pyright-action/blob/ea37d1c67b7fc90ab9ab4571114e203b313152a2/README.md#use-with-a-virtualenv
+      - name: Add Virtual Environment to Path for pyright
+        run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
       - uses: jakebailey/pyright-action@v2

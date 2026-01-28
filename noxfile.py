@@ -1,3 +1,4 @@
-"""nox-poetry configuration file."""
+# ruff: noqa: F401
+"""nox configuration file."""
 
-from calcipy.noxfile import build_check, build_dist, tests  # noqa: F401
+from calcipy.noxfile import tests

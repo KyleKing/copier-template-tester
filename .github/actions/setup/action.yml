@@ -1,50 +1,36 @@
 ---
 name: Setup Action
-description: Install requested pipx dependencies, configure the system python, and install poetry and the package dependencies
+description: Install requested uvx dependencies, configure the system python, and install uv and the package dependencies
 
 inputs:
-  os:
-    default: ubuntu-latest
-  pipx-packages:
+  python-tools:
+    description: List of Python packages installed as CLI tools by uv
     default: ""
-  poetry-version:
-    default: 1.8.3
+  uv-version:
+    description: Astral/uv version. Defers to `[tool.uv].required-version` in `pyproject.toml`
+    default: ""
   python-version:
+    description: Python version
     required: true
-
-env:
-  POETRY_VIRTUALENVS_IN_PROJECT: true
-  POETRY_NO_INTERACTION: 1
 
 runs:
   using: composite
   steps:
-    - name: Install Poetry ${{ inputs.poetry-version }} and '${{ inputs.pipx-packages }}'
+    - name: Install 'uv==${{ inputs.uv-version }}'
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        python-version: ${{ inputs.python-version }}
+        version: ${{ inputs.uv-version }}
+
+    - name: Install '${{ inputs.python-tools }}'
+      if: ${{ inputs.python-tools }}
       run: |
-        for tool in "poetry==${{ inputs.poetry-version }}" ${{ inputs.pipx-packages }}; do
-          pipx install $tool
+        for tool in ${{ inputs.python-tools }}; do
+          uv tool install $tool
         done
       shell: bash
 
-    - name: Debug pipx
-      run: |
-        pipx ensurepath
-        pipx list
-      shell: bash
-
-    - name: Setup Python ${{ inputs.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ inputs.python-version }}
-        cache: poetry
-
-    - name: Poetry Debug Info
-      run: |
-        poetry debug info
-        poetry config --list
-      shell: bash
-
     - name: Install Project and Minimum Subset of Dependencies
-      run: |
-        poetry install && poetry run calcipy-pack pack.install-extras
+      run: uv sync --all-extras
       shell: bash

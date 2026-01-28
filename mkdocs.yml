@@ -68,5 +68,5 @@ extra_css:
   - _styles/mkdocstrings.css
 
 extra_javascript:
-  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.6.0/tablesort.min.js
   - _javascript/tables.js
