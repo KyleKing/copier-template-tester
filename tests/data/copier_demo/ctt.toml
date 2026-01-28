@@ -1,7 +1,7 @@
 # Configuration for: https://github.com/KyleKing/copier-template-tester
 
 [defaults]
-_extra_tasks = [
+_post_tasks = [
   "echo task_string",
   ["echo", "task_list"],
   {command = "echo task_dict"},
@@ -12,10 +12,10 @@ project_name = "placeholder"
 include_all = false
 project_name = "testing-no-all"
 
-[output.".ctt/prepend_tasks"]
-_prepend_tasks = ["echo prepend_first"]
+[output.".ctt/pre_tasks"]
+_pre_tasks = ["echo pre_first"]
 include_all = false
-project_name = "prepend-tasks"
+project_name = "pre-tasks"
 
 [output.".ctt/skip_tasks"]
 _skip_tasks = true

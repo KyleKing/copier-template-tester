@@ -16,8 +16,8 @@ from typing import Any
 # References:
 #   https://copier.readthedocs.io/en/stable/changelog/ (v9.7.0)
 #   https://github.com/orgs/copier-org/discussions/1250
-from copier._main import Worker
-from copier._template import load_template_config
+from copier._main import Worker  # noqa:  PLC2701
+from copier._template import load_template_config  # noqa: PLC2701
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
@@ -188,8 +188,8 @@ def write_output(
     src_path: Path,
     dst_path: Path,
     data: dict[str, bool | int | float | str | None],
-    extra_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
-    prepend_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
+    post_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
+    pre_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     skip_tasks: bool = False,
     **kwargs,
 ) -> None:
@@ -210,10 +210,10 @@ def write_output(
 
         with Worker(src_path=str(src_path), dst_path=dst_path, **kwargs) as worker:
             if skip_tasks:
-                worker.template.config_data['tasks'] = (prepend_tasks or []) + (extra_tasks or [])
+                worker.template.config_data['tasks'] = (pre_tasks or []) + (post_tasks or [])
             else:
                 template_tasks = worker.template.config_data.get('tasks', [])
-                worker.template.config_data['tasks'] = (prepend_tasks or []) + template_tasks + (extra_tasks or [])
+                worker.template.config_data['tasks'] = (pre_tasks or []) + template_tasks + (post_tasks or [])
             worker.run_copy()
 
         # Remove any .git directory created by copier script

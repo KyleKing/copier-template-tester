@@ -109,16 +109,16 @@ def test_skip_tasks(shell: Subprocess) -> None:
     stdout.matcher.fnmatch_lines_random(['task_string', 'task_list', 'task_dict'])
 
 
-def test_prepend_tasks(shell: Subprocess) -> None:
-    paths, stdout, stderr = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='prepend_tasks')
+def test_pre_tasks(shell: Subprocess) -> None:
+    paths, stdout, stderr = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='pre_tasks')
 
-    assert Path('.ctt/prepend_tasks/README.md') in paths
+    assert Path('.ctt/pre_tasks/README.md') in paths
     stderr.matcher.fnmatch_lines_random(
         [' > Running task 1 of 5: *', ' > Running task 2 of 5: *', ' > Running task 5 of 5: *'],
     )
     stdout.matcher.fnmatch_lines_random(
         [
-            'prepend_first',
+            'pre_first',
             'template_task_from_copier_yml',
             'task_string',
         ],

@@ -6,6 +6,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 import logging
 from argparse import ArgumentParser, ArgumentTypeError
+from functools import lru_cache
 from pathlib import Path
 
 from corallium.log import configure_logger, get_logger
@@ -17,6 +18,22 @@ from ._write_output import DEFAULT_TEMPLATE_FILE_NAME, read_copier_template, wri
 
 configure_logger(log_level=logging.INFO, logger=plain_printer)
 logger = get_logger()
+
+
+@lru_cache(maxsize=1)
+def _log_extra_tasks_deprecation() -> None:
+    logger.warning('_extra_tasks is deprecated; please use _post_tasks instead')
+
+
+def _resolve_post_tasks(data: dict) -> list:
+    """Resolve post_tasks with backward compatibility for _extra_tasks."""
+    post_tasks = data.pop('_post_tasks', [])
+    extra_tasks = data.pop('_extra_tasks', [])
+    if extra_tasks:
+        _log_extra_tasks_deprecation()
+        if not post_tasks:
+            return extra_tasks
+    return post_tasks
 
 
 def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
@@ -42,15 +59,15 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
         paths.add(output_path)
         logger.text(f'Using `copier` to create: {key}')
         data_with_defaults = defaults | data
-        extra_tasks = data_with_defaults.pop('_extra_tasks', [])
-        prepend_tasks = data_with_defaults.pop('_prepend_tasks', [])
+        post_tasks = _resolve_post_tasks(data_with_defaults)
+        pre_tasks = data_with_defaults.pop('_pre_tasks', [])
         skip_tasks = data_with_defaults.pop('_skip_tasks', False)
         write_output(
             src_path=input_path,
             dst_path=base_dir / output_path,
             data=data_with_defaults,
-            extra_tasks=extra_tasks,
-            prepend_tasks=prepend_tasks,
+            post_tasks=post_tasks,
+            pre_tasks=pre_tasks,
             skip_tasks=skip_tasks,
         )
 

@@ -37,21 +37,23 @@ package_name = "testing-no-all"
 include_all = false
 ```
 
-#### Extra tasks
+#### Post tasks
 
-Anything in the `_extra_tasks` key will be run after that project is generated. This is useful for running tests or other tasks that are not part of the copier template.
+Use `_post_tasks` to run tasks after the template's tasks:
 
 ```toml
 [defaults]
-_extra_tasks = [
+_post_tasks = [
   "pre-commit run --all-files",
 ]
 
 [output.".ctt/also-run-pytest-here"]
-_extra_tasks = [
+_post_tasks = [
   "poetry run pytest",
 ]
 ```
+
+*Note*: `_extra_tasks` is also supported, but `_post_tasks` is preferred for consistency with `_pre_tasks` and `_skip_tasks`
 
 #### Skip template tasks
 
@@ -60,16 +62,16 @@ Use `_skip_tasks = true` to skip tasks defined in the template's `copier.yaml`:
 ```toml
 [output.".ctt/fast-test"]
 _skip_tasks = true
-_extra_tasks = ["pytest"] # only this runs
+_post_tasks = ["pytest"] # only this runs
 ```
 
-#### Prepend tasks
+#### Pre tasks
 
-Use `_prepend_tasks` to run tasks before the template's tasks:
+Use `_pre_tasks` to run tasks before the template's tasks:
 
 ```toml
 [output.".ctt/with-validation"]
-_prepend_tasks = ["./validate-env.sh"]
+_pre_tasks = ["./validate-env.sh"]
 ```
 
 ### Pre-Commit Hook
