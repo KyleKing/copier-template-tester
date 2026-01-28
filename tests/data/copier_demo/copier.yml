@@ -29,3 +29,6 @@ include_all:
   type: bool
   help: If True, include the doc_dir, .github directory, and other optional files
   default: true
+
+_tasks:
+  - echo template_task_from_copier_yml

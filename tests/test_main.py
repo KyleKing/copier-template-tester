@@ -28,7 +28,7 @@ def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     run(base_dir=base_dir)
 
 
-def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> tuple[set[Path], MatchString]:
+def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> tuple[set[Path], MatchString, MatchString]:
     ret = run_ctt(shell, cwd=cwd)
 
     assert ret.returncode == 0, ret.stderr
@@ -47,11 +47,11 @@ def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> tuple[set
         ],
     )
     # Check a few of the created files:
-    return {pth.relative_to(cwd) for pth in (cwd / '.ctt').rglob('*.*') if pth.is_file()}, ret.stdout
+    return {pth.relative_to(cwd) for pth in (cwd / '.ctt').rglob('*.*') if pth.is_file()}, ret.stdout, ret.stderr
 
 
 def test_main(shell: Subprocess) -> None:
-    paths, stdout = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='no_all')
+    paths, stdout, _stderr = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='no_all')
 
     assert Path('.ctt/no_all/README.md') in paths
     assert Path('.ctt/no_all/.copier-answers.testing_no_all.yml') in paths
@@ -66,14 +66,14 @@ def test_main(shell: Subprocess) -> None:
 
 
 def test_no_answer_file_dir(shell: Subprocess) -> None:
-    paths, _stdout = check_run_ctt(shell=shell, cwd=NO_ANSWER_FILE_DIR, subdirname='no_answers_file')
+    paths, _stdout, _stderr = check_run_ctt(shell=shell, cwd=NO_ANSWER_FILE_DIR, subdirname='no_answers_file')
 
     assert Path('.ctt/no_answers_file/README.md') in paths
     assert not [*Path('.ctt/no_answers_file').rglob('.copier-answers*')]
 
 
 def test_with_include_dir(shell: Subprocess) -> None:
-    paths, _stdout = check_run_ctt(shell=shell, cwd=WITH_INCLUDE_DIR, subdirname='copier_include')
+    paths, _stdout, _stderr = check_run_ctt(shell=shell, cwd=WITH_INCLUDE_DIR, subdirname='copier_include')
 
     assert Path('.ctt/copier_include/script.py') in paths
 
@@ -97,3 +97,29 @@ def test_no_subdir(shell: Subprocess) -> None:
 
     assert ret.returncode == 0
     ret.stdout.matcher.fnmatch_lines(['*Using `copier` to create: .ctt/no_subdir_nor_exclude*'])
+
+
+def test_skip_tasks(shell: Subprocess) -> None:
+    paths, stdout, stderr = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='skip_tasks')
+
+    assert Path('.ctt/skip_tasks/README.md') in paths
+    stderr.matcher.fnmatch_lines_random(
+        [' > Running task 1 of 3: *', ' > Running task 2 of 3: *', ' > Running task 3 of 3: *'],
+    )
+    stdout.matcher.fnmatch_lines_random(['task_string', 'task_list', 'task_dict'])
+
+
+def test_prepend_tasks(shell: Subprocess) -> None:
+    paths, stdout, stderr = check_run_ctt(shell=shell, cwd=DEMO_DIR, subdirname='prepend_tasks')
+
+    assert Path('.ctt/prepend_tasks/README.md') in paths
+    stderr.matcher.fnmatch_lines_random(
+        [' > Running task 1 of 5: *', ' > Running task 2 of 5: *', ' > Running task 5 of 5: *'],
+    )
+    stdout.matcher.fnmatch_lines_random(
+        [
+            'prepend_first',
+            'template_task_from_copier_yml',
+            'task_string',
+        ],
+    )

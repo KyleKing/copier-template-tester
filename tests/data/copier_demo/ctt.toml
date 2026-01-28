@@ -11,3 +11,13 @@ project_name = "placeholder"
 [output.".ctt/no_all"]
 include_all = false
 project_name = "testing-no-all"
+
+[output.".ctt/prepend_tasks"]
+_prepend_tasks = ["echo prepend_first"]
+include_all = false
+project_name = "prepend-tasks"
+
+[output.".ctt/skip_tasks"]
+_skip_tasks = true
+include_all = false
+project_name = "skip-tasks"

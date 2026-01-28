@@ -53,6 +53,25 @@ _extra_tasks = [
 ]
 ```
 
+#### Skip template tasks
+
+Use `_skip_tasks = true` to skip tasks defined in the template's `copier.yaml`:
+
+```toml
+[output.".ctt/fast-test"]
+_skip_tasks = true
+_extra_tasks = ["pytest"] # only this runs
+```
+
+#### Prepend tasks
+
+Use `_prepend_tasks` to run tasks before the template's tasks:
+
+```toml
+[output.".ctt/with-validation"]
+_prepend_tasks = ["./validate-env.sh"]
+```
+
 ### Pre-Commit Hook
 
 First, add this section to your `.pre-commit-config.yml` file:
