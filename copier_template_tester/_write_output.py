@@ -9,8 +9,15 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-import copier
-from copier.template import load_template_config
+# Copier 9.7.0 renamed internal modules with a `_` prefix and emits deprecation warnings
+#   for non-public API imports. The public API (run_copy, run_recopy, run_update) doesn't
+#   support task injection, so we continue using Worker directly.
+# Alternative: replace load_template_config with pyyaml (loses !include support)
+# References:
+#   https://copier.readthedocs.io/en/stable/changelog/ (v9.7.0)
+#   https://github.com/orgs/copier-org/discussions/1250
+from copier._main import Worker
+from copier._template import load_template_config
 from corallium.file_helpers import read_lines
 from corallium.log import get_logger
 from corallium.shell import capture_shell
@@ -201,7 +208,7 @@ def write_output(
         kwargs.setdefault('unsafe', True)
         kwargs.setdefault('vcs_ref', 'HEAD')
 
-        with copier.Worker(src_path=str(src_path), dst_path=Path(dst_path), **kwargs) as worker:
+        with Worker(src_path=str(src_path), dst_path=dst_path, **kwargs) as worker:
             if skip_tasks:
                 worker.template.config_data['tasks'] = (prepend_tasks or []) + (extra_tasks or [])
             else:

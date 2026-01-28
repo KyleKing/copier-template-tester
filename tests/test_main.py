@@ -1,7 +1,7 @@
 from pathlib import Path
 
-import copier
 import pytest
+from copier._main import Worker
 from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import MatchString
@@ -23,7 +23,7 @@ def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
     def _run_copy(worker) -> None:
         pass
 
-    monkeypatch.setattr(copier.Worker, 'run_copy', _run_copy)
+    monkeypatch.setattr(Worker, 'run_copy', _run_copy)
 
     run(base_dir=base_dir)
 
