@@ -8,6 +8,7 @@ import logging
 from argparse import ArgumentParser, ArgumentTypeError
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 from corallium.log import configure_logger, get_logger
 from corallium.loggers.plain_printer import plain_printer
@@ -25,7 +26,7 @@ def _log_extra_tasks_deprecation() -> None:
     logger.warning('_extra_tasks is deprecated; please use _post_tasks instead')
 
 
-def _resolve_post_tasks(data: dict) -> list:
+def _resolve_post_tasks(data: dict[str, Any]) -> list[Any]:
     """Resolve post_tasks with backward compatibility for _extra_tasks."""
     post_tasks = data.pop('_post_tasks', [])
     extra_tasks = data.pop('_extra_tasks', [])

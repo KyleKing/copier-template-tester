@@ -13,7 +13,7 @@ def _ls_untracked_dir(base_dir: Path) -> set[Path]:
     """Use git to list all untracked files."""
     cmd = 'git ls-files --directory --exclude-standard --no-empty-dir --others'
     output = capture_shell(cmd=cmd, cwd=base_dir)
-    return {base_dir / _d.strip() for _d in output.split('\n') if _d}
+    return {base_dir / d_.strip() for d_ in output.split('\n') if d_}
 
 
 def check_for_untracked(base_dir: Path) -> None:

@@ -1,3 +1,15 @@
+## Unreleased
+
+### Feat
+
+- **#39**: add prepend_tasks and _skip_tasks
+
+### Refactor
+
+- rename to pre, skip, and post tasks to complent copier's '_tasks'
+- use private copier modules
+- minor code cleanup
+
 ## 2.2.0 (2025-02-06)
 
 ### Feat
