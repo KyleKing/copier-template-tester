@@ -10,7 +10,7 @@ name: CTT Usage Test
       - .github/workflows/usage_test.yml
       - copier_template_tester/**
       - tests/**
-      - poetry.lock
+      - uv.lock
       - pyproject.toml
 
 jobs:
@@ -24,10 +24,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
-          os: ${{ matrix.os }}
           python-version: ${{ matrix.python-version }}
 
       - name: "Run Usage Test (Specifically addresses #34 for Windows)"
         run: |
-          poetry run ctt --base-dir="tests/data/ci_usage_test"
+          uv run ctt --base-dir="tests/data/ci_usage_test"
           cat "tests/data/ci_usage_test/.ctt/README.md"
