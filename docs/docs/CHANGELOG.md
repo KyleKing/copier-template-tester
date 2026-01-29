@@ -2,7 +2,12 @@
 
 ### Feat
 
+- migrate to uv
 - **#39**: add prepend_tasks and _skip_tasks
+
+### Fix
+
+- correct dependencies
 
 ### Refactor
 

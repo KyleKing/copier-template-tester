@@ -4,7 +4,7 @@ requires = ["uv_build>=0.9.26"]
 
 [dependency-groups]
 dev = [
-  "calcipy[doc,lint,nox,tags,test,types]>=5.0.0",
+  "calcipy[recommended]>=6.0.0b3",
   "pytest-shell-utilities>=1.9.7",
   "types-pyyaml>=6.0.12.20240917",
   "types-setuptools>=75.5.0.20241116",
@@ -26,7 +26,7 @@ classifiers = [
 ] # https://pypi.org/classifiers/
 dependencies = [
   "copier>=9.7.0",
-  "corallium>=2.1.1",
+  "corallium>=2.3.0rc0",
 ]
 description = "Test copier templates"
 keywords = ["calcipy_template"]
@@ -34,8 +34,11 @@ license = "MIT"
 maintainers = []
 name = "copier_template_tester"
 readme = "docs/README.md"
-requires-python = ">=3.10.9"
+requires-python = ">=3.10.11"
 version = "2.2.0"
+
+[project.scripts]
+ctt = "copier_template_tester.main:run_cli"
 
 [project.urls]
 "Bug Tracker" = "https://github.com/kyleking/copier-template-tester/issues"
@@ -95,6 +98,7 @@ ignore = [
   'FIX002', # Line contains TODO
   'FIX004', # Line contains HACK
   'PLR0913', # Too many arguments in function definition (6 > 5)
+  'RUF067', # `__init__` module should only contain docstrings and re-exports
   'TC001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
   'TC002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
   'TC003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)

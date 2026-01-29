@@ -69,5 +69,15 @@ uv publish
 ## Current Status
 
 <!-- {cts} COVERAGE -->
+| File                                                  | Statements | Missing | Excluded | Coverage |
+|-------------------------------------------------------|-----------:|--------:|---------:|---------:|
+| `copier_template_tester/__init__.py`                  | 4          | 0       | 0        | 100.0%   |
+| `copier_template_tester/_config.py`                   | 15         | 0       | 3        | 100.0%   |
+| `copier_template_tester/_pre_commit_support.py`       | 13         | 0       | 0        | 93.3%    |
+| `copier_template_tester/_runtime_type_check_setup.py` | 13         | 0       | 37       | 100.0%   |
+| `copier_template_tester/_write_output.py`             | 87         | 1       | 16       | 99.0%    |
+| `copier_template_tester/main.py`                      | 47         | 7       | 20       | 80.4%    |
+| **Totals**                                            | 179        | 8       | 76       | 94.0%    |
 
+Generated on: 2026-01-28
 <!-- {cte} -->

@@ -187,7 +187,7 @@ def write_output(
     *,
     src_path: Path,
     dst_path: Path,
-    data: dict[str, bool | int | float | str | None],
+    data: dict[str, Any],
     post_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     pre_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     skip_tasks: bool = False,

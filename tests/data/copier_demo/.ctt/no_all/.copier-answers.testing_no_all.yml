@@ -2,7 +2,7 @@
 # Answer file maintained by Copier for: https://github.com/KyleKing/calcipy_template
 # Check into version control. Edit by re-running copier and changing responses to the questions
 _src_path: ../../copier_demo
-copyright_date: "2026"
+copyright_date: '2026'
 include_all: false
 minimum_python: 3.11.0
 package_name_py: testing_no_all

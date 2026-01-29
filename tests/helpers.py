@@ -52,7 +52,11 @@ def add_commit(shell: Subprocess, cwd: Path) -> None:
 
 @contextmanager
 def temporary_git_dir(shell: Subprocess, *, source_dir: Path | None = None) -> Generator[Path, None, None]:
-    """Initialize a temporary directory for testing."""
+    """Initialize a temporary directory for testing.
+
+    Yields:
+        Temporary directory path with git initialized.
+    """
     with tempfile.TemporaryDirectory() as tmp_dir:
         working_dir = Path(tmp_dir) / (source_dir.name if source_dir else 'subdir')
         if source_dir:
