@@ -1,11 +1,8 @@
 from contextlib import nullcontext as does_not_raise
 
 import pytest
-from corallium.log import get_logger
 
 from copier_template_tester._config import _validate_config
-
-logger = get_logger()
 
 
 @pytest.mark.parametrize(

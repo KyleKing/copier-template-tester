@@ -167,7 +167,7 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
             answers_path.unlink()
 
 
-def _remove_readonly(func, path: str, _excinfo) -> None:  # noqa: ANN001
+def _remove_readonly(func, path: str, _excinfo) -> None:  # pragma: no cover  # noqa: ANN001
     """Clear the readonly bit for `shutil.rmtree(..., onexc=_remove_readonly)`.
 
     Adapted from: https://docs.python.org/3/library/shutil.html#rmtree-example

@@ -2,16 +2,14 @@ from pathlib import Path
 
 import pytest
 from copier._main import Worker
-from corallium.log import get_logger
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import MatchString
 
-from copier_template_tester.main import run
+from copier_template_tester._write_output import read_copier_template
+from copier_template_tester.main import _resolve_post_tasks, run
 
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
-
-logger = get_logger()
 
 WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 
@@ -123,3 +121,24 @@ def test_pre_tasks(shell: Subprocess) -> None:
             'task_string',
         ],
     )
+
+
+@pytest.mark.parametrize(
+    ('data', 'expected'),
+    [
+        ({'_extra_tasks': ['et1']}, ['et1']),
+        ({'_extra_tasks': ['et1'], '_post_tasks': ['pt1']}, ['pt1']),
+    ],
+    ids=[
+        'extra_tasks_only returns extra_tasks',
+        'both present prefers post_tasks',
+    ],
+)
+def test_resolve_post_tasks_with_extra_tasks(data, expected) -> None:
+    assert _resolve_post_tasks(data) == expected
+
+
+def test_run_missing_copier_template(tmp_path) -> None:
+    read_copier_template.cache_clear()
+
+    run(base_dir=tmp_path)

@@ -22,11 +22,18 @@ _ANSWERS_PATH = Path('project-subdir').absolute() / DEFAULT_ANSWER_FILE_NAME
             '_src_path: project-subdir',
         ),
         (
+            '_src_path: /nonexistent/unrelated/path',
+            '_src_path: /nonexistent/unrelated/path',
+        ),
+        (
             # https://github.com/KyleKing/copier-template-tester/issues/20
             '_commit: v6.4.0-0',
             '_commit: HEAD',
         ),
-
+        (
+            'some_key: unchanged',
+            'some_key: unchanged',
+        ),
     ],
 )
 def test_stabilize(line: str, expected: str) -> None:
