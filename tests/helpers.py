@@ -12,7 +12,7 @@ from .configuration import TEST_DATA_DIR, TEST_DIR
 
 logger = get_logger()
 
-CTT_CMD = ['poetry', 'run', 'ctt']
+CTT_CMD = ['uv', 'run', 'ctt']
 DEMO_DIR = TEST_DATA_DIR / 'copier_demo'
 NO_ANSWER_FILE_DIR = TEST_DATA_DIR / 'no_answers_file_demo'
 

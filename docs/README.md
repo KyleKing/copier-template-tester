@@ -49,7 +49,7 @@ _post_tasks = [
 
 [output.".ctt/also-run-pytest-here"]
 _post_tasks = [
-  "poetry run pytest",
+  "uv run pytest",
 ]
 ```
 
