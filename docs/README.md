@@ -86,6 +86,17 @@ repos:
       - id: copier-template-tester
 ```
 
+*Tip*: Optionally add an `exclude` rule if unrelated files trigger unnecessary re-runs:
+
+```yaml
+repos:
+  - repo: https://github.com/KyleKing/copier-template-tester
+    rev: main
+    hooks:
+      - id: copier-template-tester
+        exclude: ^(tests/|docs/|\.github/)
+```
+
 Install and update to the latest revision:
 
 ```sh
