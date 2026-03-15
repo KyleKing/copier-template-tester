@@ -1206,6 +1206,14 @@
 <span class="linenos" data-linenos="4 "></span><span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
 <span class="linenos" data-linenos="5 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copier-template-tester</span>
 </code></pre></div>
+<p><em>Tip</em>: Optionally add an <code>exclude</code> rule if unrelated files trigger unnecessary re-runs:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="nt">repos</span><span class="p">:</span>
+<span class="linenos" data-linenos="2 "></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/KyleKing/copier-template-tester</span>
+<span class="linenos" data-linenos="3 "></span><span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="linenos" data-linenos="4 "></span><span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="linenos" data-linenos="5 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copier-template-tester</span>
+<span class="linenos" data-linenos="6 "></span><span class="w">        </span><span class="nt">exclude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^(tests/|docs/|\.github/)</span>
+</code></pre></div>
 <p>Install and update to the latest revision:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pre-commit<span class="w"> </span>autoupdate
 </code></pre></div>
