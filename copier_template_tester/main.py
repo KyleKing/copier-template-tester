@@ -5,6 +5,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 """
 
 import logging
+import os
 from argparse import ArgumentParser, ArgumentTypeError
 from functools import lru_cache
 from pathlib import Path
@@ -14,6 +15,7 @@ from corallium.log import configure_logger, get_logger
 from corallium.loggers.plain_printer import plain_printer
 
 from ._config import load_config
+from ._output_reporter import RunReporter, group_context
 from ._pre_commit_support import check_for_untracked
 from ._write_output import DEFAULT_TEMPLATE_FILE_NAME, read_copier_template, write_output
 
@@ -37,7 +39,7 @@ def _resolve_post_tasks(data: dict[str, Any]) -> list[Any]:
     return post_tasks
 
 
-def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
+def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue_on_error: bool = False) -> None:
     """Entry point."""
     base_dir = base_dir or Path.cwd()
     try:
@@ -55,22 +57,36 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False) -> None:
 
     input_path = base_dir
     paths = set()
+    if continue_on_error:
+        reporter = RunReporter()
     for key, data in config['output'].items():
         output_path = base_dir / key
         paths.add(output_path)
-        logger.text(f'Using `copier` to create: {key}')
-        data_with_defaults = defaults | data
-        post_tasks = _resolve_post_tasks(data_with_defaults)
-        pre_tasks = data_with_defaults.pop('_pre_tasks', [])
-        skip_tasks = data_with_defaults.pop('_skip_tasks', False)
-        write_output(
-            src_path=input_path,
-            dst_path=base_dir / output_path,
-            data=data_with_defaults,
-            post_tasks=post_tasks,
-            pre_tasks=pre_tasks,
-            skip_tasks=skip_tasks,
-        )
+        with group_context(key):
+            logger.text(f'Using `copier` to create: {key}')
+            data_with_defaults = defaults | data
+            post_tasks = _resolve_post_tasks(data_with_defaults)
+            pre_tasks = data_with_defaults.pop('_pre_tasks', [])
+            skip_tasks = data_with_defaults.pop('_skip_tasks', False)
+            try:
+                write_output(
+                    src_path=input_path,
+                    dst_path=base_dir / output_path,
+                    data=data_with_defaults,
+                    post_tasks=post_tasks,
+                    pre_tasks=pre_tasks,
+                    skip_tasks=skip_tasks,
+                )
+                if continue_on_error:
+                    reporter.record_pass(key)
+            except Exception as err:
+                if not continue_on_error:
+                    raise
+                reporter.record_failure(key, err)
+
+    if continue_on_error:
+        reporter.summary()
+        reporter.raise_if_any_failures()
 
     if check_untracked:  # pragma: no cover
         check_for_untracked(base_dir)
@@ -91,6 +107,8 @@ def run_cli() -> None:  # pragma: no cover
         help='Specify the path to the directory that contains the configuration file',
         type=dir_path)
     cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
+    cli.add_argument('--continue-on-error', help='Run all test cases and print a summary', action='store_true')
 
     args = cli.parse_args()
-    run(base_dir=args.base_dir, check_untracked=args.check_untracked)
+    continue_on_error = args.continue_on_error or os.environ.get('CTT_CONTINUE_ON_ERROR') == '1'
+    run(base_dir=args.base_dir, check_untracked=args.check_untracked, continue_on_error=continue_on_error)

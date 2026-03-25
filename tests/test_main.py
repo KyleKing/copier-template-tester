@@ -11,6 +11,8 @@ from copier_template_tester.main import _resolve_post_tasks, run
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
 
+EXPECTED_COPY_CALLS = 3
+
 WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 
 
@@ -36,6 +38,7 @@ def check_run_ctt(*, shell: Subprocess, cwd: Path, subdirname: str) -> tuple[set
             'Starting Copier Template Tester for *',
             '*Note: If files were modified, pre-commit will report a failure.',
             '',
+            f'--- Test: .ctt/{subdirname} ---',
             f'Using `copier` to create: .ctt/{subdirname}',
         ],
     )
@@ -94,7 +97,10 @@ def test_no_subdir(shell: Subprocess) -> None:
     ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_subdir_nor_exclude')
 
     assert ret.returncode == 0
-    ret.stdout.matcher.fnmatch_lines(['*Using `copier` to create: .ctt/no_subdir_nor_exclude*'])
+    ret.stdout.matcher.fnmatch_lines([
+        '--- Test: .ctt/no_subdir_nor_exclude ---',
+        '*Using `copier` to create: .ctt/no_subdir_nor_exclude*',
+    ])
 
 
 def test_skip_tasks(shell: Subprocess) -> None:
@@ -121,6 +127,29 @@ def test_pre_tasks(shell: Subprocess) -> None:
             'task_string',
         ],
     )
+
+
+def test_run_continue_on_error_collects_failures(monkeypatch, capsys) -> None:
+    """With continue_on_error, all keys are attempted and a summary is printed."""
+    call_count = 0
+
+    def _run_copy(worker) -> None:
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            raise RuntimeError('first case failed')
+
+    monkeypatch.setattr(Worker, 'run_copy', _run_copy)
+
+    with pytest.raises(SystemExit) as exc_info:
+        run(base_dir=DEMO_DIR, continue_on_error=True)
+
+    assert exc_info.value.code == 1
+    assert call_count == EXPECTED_COPY_CALLS
+    out = capsys.readouterr().out
+    assert '--- CTT Summary ---' in out
+    assert 'FAIL' in out
+    assert 'PASS' in out
 
 
 @pytest.mark.parametrize(
