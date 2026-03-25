@@ -73,11 +73,12 @@ uv publish
 |-------------------------------------------------------|-----------:|--------:|---------:|---------:|
 | `copier_template_tester/__init__.py`                  | 4          | 0       | 0        | 100.0%   |
 | `copier_template_tester/_config.py`                   | 15         | 0       | 3        | 100.0%   |
+| `copier_template_tester/_output_reporter.py`          | 37         | 0       | 0        | 100.0%   |
 | `copier_template_tester/_pre_commit_support.py`       | 13         | 0       | 0        | 93.3%    |
 | `copier_template_tester/_runtime_type_check_setup.py` | 13         | 0       | 37       | 100.0%   |
-| `copier_template_tester/_write_output.py`             | 87         | 1       | 16       | 99.0%    |
-| `copier_template_tester/main.py`                      | 47         | 7       | 20       | 80.4%    |
-| **Totals**                                            | 179        | 8       | 76       | 94.0%    |
+| `copier_template_tester/_write_output.py`             | 84         | 0       | 30       | 100.0%   |
+| `copier_template_tester/main.py`                      | 61         | 1       | 22       | 97.2%    |
+| **Totals**                                            | 227        | 1       | 92       | 98.9%    |
 
-Generated on: 2026-01-28
+Generated on: 2026-03-24
 <!-- {cte} -->

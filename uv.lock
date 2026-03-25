@@ -89,16 +89,16 @@ wheels = [
 
 [[package]]
 name = "calcipy"
-version = "6.0.0"
+version = "6.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "corallium" },
     { name = "invoke" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/94/c963026c825558bc821aa3d341050536cc71b06b250287ee502052d547a8/calcipy-6.0.0.tar.gz", hash = "sha256:2fe2d53b4c78fb52da154bcd93cc27a82047caf9e26776d5de9bc87118d4e178", size = 31062, upload-time = "2026-03-25T02:53:46.821Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/56/56/4a3c85acffe2081ed34d9f8ce4cf43354ea8e3c3879b3479e785b8226ee5/calcipy-6.0.1.tar.gz", hash = "sha256:8703018aaf6d7e2f93aeedbf38d80005dcc654256c74d6d59090a345c2f5c06a", size = 31072, upload-time = "2026-03-25T03:13:26.74Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/61/40/d4d8ad8c6378d219eb1fc8422471c1d53fc8c9162b33c49170cab333b581/calcipy-6.0.0-py3-none-any.whl", hash = "sha256:7af2a7dfcefc8bd3936626d7319ebeb5bdebc8021f7f0456e815d55abb623b00", size = 38020, upload-time = "2026-03-25T02:53:45.347Z" },
+    { url = "https://files.pythonhosted.org/packages/df/ab/44dac6c8923749439fc73b1a05c80b2b4eec7313443a008270d86ff2e329/calcipy-6.0.1-py3-none-any.whl", hash = "sha256:2be84137017aeece7e1ae8d1c99f711559b521d7b217f1475674a71c237a1d23", size = 38057, upload-time = "2026-03-25T03:13:25.257Z" },
 ]
 
 [package.optional-dependencies]
@@ -345,12 +345,12 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "copier", specifier = ">=9.7.0" },
-    { name = "corallium", specifier = ">=2.3.0rc0" },
+    { name = "corallium", specifier = ">=2.3.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "calcipy", extras = ["recommended"], specifier = ">=6.0.0b3" },
+    { name = "calcipy", extras = ["recommended"], specifier = ">=6.0.0" },
     { name = "pytest-shell-utilities", specifier = ">=1.9.7" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
     { name = "types-setuptools", specifier = ">=75.5.0.20241116" },
@@ -358,7 +358,7 @@ dev = [
 
 [[package]]
 name = "corallium"
-version = "2.3.0rc1"
+version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -366,9 +366,9 @@ dependencies = [
     { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/f8/90cab6bff9d8ef185360de137fff2152d2f9e911082ad0a7d0b8943e7554/corallium-2.3.0rc1.tar.gz", hash = "sha256:082b1190f582265fa23c67aa1bbdbf2e554ced35e540c5dcfecf0e2aab09f290", size = 29206, upload-time = "2026-01-30T14:52:55.058Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5c/65/63d02eed2b4bf483d78266052ae28a351e6ab55b6198c35e55639ad234a0/corallium-2.3.0.tar.gz", hash = "sha256:831738b802de604a97ebd8e55d1803db5009878b05a5fb3759ef4a876dc68cc8", size = 29222, upload-time = "2026-03-25T03:19:58.932Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b5/fb/2444decbcbb57ad4b2bd7bb05aba212fdabb1c670c6c0ca9df00fde45c3f/corallium-2.3.0rc1-py3-none-any.whl", hash = "sha256:e0f74ad68620855ed9711f3e26a3972f6e822a0b0b45d3e1eff72defe0895887", size = 35792, upload-time = "2026-01-30T14:52:53.679Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/50/9b6512743d59058bdcf4e8c3b8352df5806e62dcd29b8dc04eb3d317ae39/corallium-2.3.0-py3-none-any.whl", hash = "sha256:77db5e088ff4415327e4d67d605740883dbac0b055fd951726fa8b043906a18c", size = 35705, upload-time = "2026-03-25T03:19:57.498Z" },
 ]
 
 [[package]]

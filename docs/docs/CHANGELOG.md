@@ -2,6 +2,20 @@
 
 ### Feat
 
+- **#42**: implement grouping and run-all
+
+### Fix
+
+- resolve ty errors
+
+## 2.3.0 (2026-03-14)
+
+## 2.3.0rc0 (2026-01-30)
+
+## 2.3.0b0 (2026-01-28)
+
+### Feat
+
 - migrate to uv
 - **#39**: add prepend_tasks and _skip_tasks
 

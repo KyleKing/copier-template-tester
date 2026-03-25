@@ -57,8 +57,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue
 
     input_path = base_dir
     paths = set()
-    if continue_on_error:
-        reporter = RunReporter()
+    reporter = RunReporter()
     for key, data in config['output'].items():
         output_path = base_dir / key
         paths.add(output_path)

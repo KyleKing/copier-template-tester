@@ -4,7 +4,7 @@ requires = ["uv_build>=0.9.26,<2.0"]
 
 [dependency-groups]
 dev = [
-  "calcipy[recommended]>=6.0.0b3",
+  "calcipy[recommended]>=6.0.0",
   "pytest-shell-utilities>=1.9.7",
   "types-pyyaml>=6.0.12.20240917",
   "types-setuptools>=75.5.0.20241116",
@@ -25,7 +25,7 @@ classifiers = [
 ] # https://pypi.org/classifiers/
 dependencies = [
   "copier>=9.7.0",
-  "corallium>=2.3.0rc0",
+  "corallium>=2.3.0",
 ]
 description = "Test copier templates"
 keywords = ["calcipy_template"]
@@ -161,6 +161,12 @@ convention = "google"
 all = true
 in_place = true
 trailing_comma_inline_array = true
+
+[[tool.ty.overrides]]
+include = ["tests/data/**"]
+
+[tool.ty.overrides.rules]
+unresolved-import = "ignore"
 
 [tool.uv]
 default-groups = ["dev"]
