@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.9.26,<1"]
+requires = ["uv_build>=0.9.26,<2.0"]
 
 [dependency-groups]
 dev = [
@@ -16,7 +16,6 @@ authors = [
 ]
 classifiers = [
   "Development Status :: 1 - Planning",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -150,6 +149,7 @@ known-first-party = ['copier_template_tester']
   'D100', # Missing docstring in public module
   'D103', # Missing docstring in public function
   'PLC2701', # Private name import `_<>` from external module
+  'PLR0917', # Too many positional arguments (6/5)
   'PT004', # flake8-pytest-style: fixture does not return
   'S101', # Use of `assert` detected
 ]

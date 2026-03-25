@@ -16,12 +16,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install 'uv==${{ inputs.uv-version }}'
-      uses: astral-sh/setup-uv@v5
+    - name: Setup uv and Python ${{ inputs.python-version }}
+      uses: astral-sh/setup-uv@v7
       with:
+        cache-dependency-glob: "**/uv.lock"
         enable-cache: true
         python-version: ${{ inputs.python-version }}
-        version: ${{ inputs.uv-version }}
+        uv-version: ${{ inputs.uv-version }}
 
     - name: Install '${{ inputs.python-tools }}'
       if: ${{ inputs.python-tools }}

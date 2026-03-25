@@ -125,7 +125,7 @@ Personal Guide
 
 ### External Links
 
-<!-- Revisit -->
+Additional resources for Git best practices and commit message conventions.
 
 - \[Git: The Simple Guide\]\[simple_git\]
 - \[Commit Messages\]\[gcmsg\] and [why use the present tense](https://news.ycombinator.com/item?id=8874177)
@@ -136,22 +136,32 @@ Personal Guide
 
 ## Python
 
-<!-- Revisit -->
+This project follows standard Python conventions and uses automated tools for code quality.
 
-- Python Style Guides
-    - <https://gist.github.com/sloria/7001839>
-    - <http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/>
-    - <https://innoq.github.io/cards42org_en/>
-    - <https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide>
-    - <https://www.python.org/doc/humor/>
-    - <https://docs.python-guide.org/writing/reading/>
-    - <https://realpython.com/python-refactoring/>
+- **Automated Tools**: We use `ruff` for linting and formatting, configured in `pyproject.toml`
+- **Type Hints**: Use type annotations where appropriate to improve code clarity and catch errors early
+- **Docstrings**: Follow standard conventions for documenting modules, classes, and functions
+
+**Additional Style Guide References**:
+- <https://gist.github.com/sloria/7001839>
+- <http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/>
+- <https://innoq.github.io/cards42org_en/>
+- <https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide>
+- <https://www.python.org/doc/humor/>
+- <https://docs.python-guide.org/writing/reading/>
+- <https://realpython.com/python-refactoring/>
 
 ## ADRs
 
-<!-- Revisit -->
+Architecture Decision Records (ADRs) document important architectural decisions and their context. Use ADRs when making significant technical decisions that will impact the project long-term.
 
-- ADR Approaches
+**When to Create an ADR**:
+- Choosing between major architectural patterns or frameworks
+- Adopting new technologies or deprecating existing ones
+- Making decisions that affect multiple components or the system as a whole
+- Resolving technical debates that need documentation for future reference
+
+**ADR Approaches**:
     - <https://infraeng.dev/tech-spec> Template (And [associated review](https://infraeng.dev/tech-spec-review/)) vs. <https://infraeng.dev/decision-log/>
     - Y-Statements: [abbreviated shorthand](https://medium.com/olzzio/y-statements-10eb07b5a177). Add this as a one-line decision option if a full ADR isn't needed (or when referencing an existing ADR) (<https://scribe.rip/@docsoc/y-statements-10eb07b5a177>)
     - https://adr.github.io
