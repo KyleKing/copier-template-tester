@@ -18,14 +18,14 @@
         <link rel="prev" href="../DEVELOPER_GUIDE/">
       
       
-        <link rel="next" href="../../reference/copier_template_tester/main/">
+        <link rel="next" href="../../modules/copier_template_tester/_code_diagrams/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -595,7 +595,7 @@
   <span class="md-ellipsis">
     
   
-    Reference
+    Modules
   
 
     
@@ -611,7 +611,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Reference
+    Modules
   
 
           </label>
@@ -655,6 +655,143 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Copier template tester
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modules/copier_template_tester/_code_diagrams/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Diagrams
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copier template tester
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -979,8 +1116,7 @@
 </details>
 
 <h3 id="external-links">External Links<a class="headerlink" href="#external-links" title="Permanent link">⚓︎</a></h3>
-<!-- Revisit -->
-
+<p>Additional resources for Git best practices and commit message conventions.</p>
 <ul>
 <li>[Git: The Simple Guide][simple_git]</li>
 <li>[Commit Messages][gcmsg] and <a href="https://news.ycombinator.com/item?id=8874177">why use the present tense</a></li>
@@ -992,44 +1128,42 @@
 </li>
 </ul>
 <h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link">⚓︎</a></h2>
-<!-- Revisit -->
-
+<p>This project follows standard Python conventions and uses automated tools for code quality.</p>
 <ul>
-<li>Python Style Guides<ul>
-<li><a href="https://gist.github.com/sloria/7001839">https://gist.github.com/sloria/7001839</a></li>
-<li><a href="http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/">http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/</a></li>
-<li><a href="https://innoq.github.io/cards42org_en/">https://innoq.github.io/cards42org_en/</a></li>
-<li><a href="https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide">https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide</a></li>
-<li><a href="https://www.python.org/doc/humor/">https://www.python.org/doc/humor/</a></li>
-<li><a href="https://docs.python-guide.org/writing/reading/">https://docs.python-guide.org/writing/reading/</a></li>
-<li><a href="https://realpython.com/python-refactoring/">https://realpython.com/python-refactoring/</a></li>
+<li><strong>Automated Tools</strong>: We use <code>ruff</code> for linting and formatting, configured in <code>pyproject.toml</code></li>
+<li><strong>Type Hints</strong>: Use type annotations where appropriate to improve code clarity and catch errors early</li>
+<li><strong>Docstrings</strong>: Follow standard conventions for documenting modules, classes, and functions</li>
 </ul>
-</li>
-</ul>
+<p><strong>Additional Style Guide References</strong>:
+- <a href="https://gist.github.com/sloria/7001839">https://gist.github.com/sloria/7001839</a>
+- <a href="http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/">http://www.nilunder.com/blog/2013/08/03/pythonic-sensibilities/</a>
+- <a href="https://innoq.github.io/cards42org_en/">https://innoq.github.io/cards42org_en/</a>
+- <a href="https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide">https://docs.openstack.org/hacking/latest/user/hacking.html#styleguide</a>
+- <a href="https://www.python.org/doc/humor/">https://www.python.org/doc/humor/</a>
+- <a href="https://docs.python-guide.org/writing/reading/">https://docs.python-guide.org/writing/reading/</a>
+- <a href="https://realpython.com/python-refactoring/">https://realpython.com/python-refactoring/</a></p>
 <h2 id="adrs">ADRs<a class="headerlink" href="#adrs" title="Permanent link">⚓︎</a></h2>
-<!-- Revisit -->
-
-<ul>
-<li>ADR Approaches<ul>
-<li><a href="https://infraeng.dev/tech-spec">https://infraeng.dev/tech-spec</a> Template (And <a href="https://infraeng.dev/tech-spec-review/">associated review</a>) vs. <a href="https://infraeng.dev/decision-log/">https://infraeng.dev/decision-log/</a></li>
-<li>Y-Statements: <a href="https://medium.com/olzzio/y-statements-10eb07b5a177">abbreviated shorthand</a>. Add this as a one-line decision option if a full ADR isn&rsquo;t needed (or when referencing an existing ADR) (<a href="https://scribe.rip/@docsoc/y-statements-10eb07b5a177">https://scribe.rip/@docsoc/y-statements-10eb07b5a177</a>)</li>
-<li>https://adr.github.io</li>
-<li>More formal implementation of <a href="https://adr.github.io/madr/">ADRs (MADR) that this is based on</a>. Template: <a href="https://github.com/adr/madr/blob/97fb8edec60b8dc70b8166ef62de34c4e26b46c0/template/adr-template.md">https://github.com/adr/madr/blob/97fb8edec60b8dc70b8166ef62de34c4e26b46c0/template/adr-template.md</a></li>
-<li><a href="https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md">https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md</a></li>
-</ul>
-</li>
-<li>Examples<ul>
-<li><a href="https://github.com/pawamoy/mkdocstrings/issues/28">https://github.com/pawamoy/mkdocstrings/issues/28</a></li>
-<li><a href="https://github.com/arachne-framework/architecture/blob/060a956277a5ad71df93da49fee52463408841af/adr-002-configuration.md">https://github.com/arachne-framework/architecture/blob/060a956277a5ad71df93da49fee52463408841af/adr-002-configuration.md</a></li>
-<li><a href="https://github.com/arachne-framework/architecture/tree/060a956277a5ad71df93da49fee52463408841af">https://github.com/arachne-framework/architecture/tree/060a956277a5ad71df93da49fee52463408841af</a></li>
-<li><a href="https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md">https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md</a></li>
-<li><a href="https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html">https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html</a></li>
-<li><a href="https://peps.python.org/pep-0387">https://peps.python.org/pep-0387/</a></li>
-<li><a href="https://github.com/AICoE/aicoe-ci/blob/39de02af86a0d1f9dcd395fa88b858f1c6880411/docs/adr/0000-use-markdown-architectural-decision-records.md">https://github.com/AICoE/aicoe-ci/blob/39de02af86a0d1f9dcd395fa88b858f1c6880411/docs/adr/0000-use-markdown-architectural-decision-records.md</a></li>
-<li>And many others!</li>
-</ul>
-</li>
-</ul>
+<p>Architecture Decision Records (ADRs) document important architectural decisions and their context. Use ADRs when making significant technical decisions that will impact the project long-term.</p>
+<p><strong>When to Create an ADR</strong>:
+- Choosing between major architectural patterns or frameworks
+- Adopting new technologies or deprecating existing ones
+- Making decisions that affect multiple components or the system as a whole
+- Resolving technical debates that need documentation for future reference</p>
+<p><strong>ADR Approaches</strong>:
+    - <a href="https://infraeng.dev/tech-spec">https://infraeng.dev/tech-spec</a> Template (And <a href="https://infraeng.dev/tech-spec-review/">associated review</a>) vs. <a href="https://infraeng.dev/decision-log/">https://infraeng.dev/decision-log/</a>
+    - Y-Statements: <a href="https://medium.com/olzzio/y-statements-10eb07b5a177">abbreviated shorthand</a>. Add this as a one-line decision option if a full ADR isn&rsquo;t needed (or when referencing an existing ADR) (<a href="https://scribe.rip/@docsoc/y-statements-10eb07b5a177">https://scribe.rip/@docsoc/y-statements-10eb07b5a177</a>)
+    - https://adr.github.io
+    - More formal implementation of <a href="https://adr.github.io/madr/">ADRs (MADR) that this is based on</a>. Template: <a href="https://github.com/adr/madr/blob/97fb8edec60b8dc70b8166ef62de34c4e26b46c0/template/adr-template.md">https://github.com/adr/madr/blob/97fb8edec60b8dc70b8166ef62de34c4e26b46c0/template/adr-template.md</a>
+    - <a href="https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md">https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-5639.md</a>
+- Examples
+    - <a href="https://github.com/pawamoy/mkdocstrings/issues/28">https://github.com/pawamoy/mkdocstrings/issues/28</a>
+    - <a href="https://github.com/arachne-framework/architecture/blob/060a956277a5ad71df93da49fee52463408841af/adr-002-configuration.md">https://github.com/arachne-framework/architecture/blob/060a956277a5ad71df93da49fee52463408841af/adr-002-configuration.md</a>
+    - <a href="https://github.com/arachne-framework/architecture/tree/060a956277a5ad71df93da49fee52463408841af">https://github.com/arachne-framework/architecture/tree/060a956277a5ad71df93da49fee52463408841af</a>
+    - <a href="https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md">https://github.com/ethereum/EIPs/blob/confluenceuser/EIPS/eip-1010.md</a>
+    - <a href="https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html">https://docs-v1.prefect.io/core/pins/pin-01-introduce-pins.html</a>
+    - <a href="https://peps.python.org/pep-0387">https://peps.python.org/pep-0387/</a>
+    - <a href="https://github.com/AICoE/aicoe-ci/blob/39de02af86a0d1f9dcd395fa88b858f1c6880411/docs/adr/0000-use-markdown-architectural-decision-records.md">https://github.com/AICoE/aicoe-ci/blob/39de02af86a0d1f9dcd395fa88b858f1c6880411/docs/adr/0000-use-markdown-architectural-decision-records.md</a>
+    - And many others!</p>
 <p>&lt;&ndash; Links &ndash;&gt;</p>
 
 
