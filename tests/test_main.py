@@ -1,3 +1,6 @@
+import os
+import shutil
+import subprocess  # noqa: S404
 from pathlib import Path
 
 import pytest
@@ -11,6 +14,8 @@ from copier_template_tester.main import _resolve_post_tasks, run
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
 
+CI_USAGE_TEST_DIR = TEST_DATA_DIR / 'ci_usage_test'
+FAILING_TASK_DIR = TEST_DATA_DIR / 'failing_task_demo'
 EXPECTED_COPY_CALLS = 3
 
 WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
@@ -97,10 +102,12 @@ def test_no_subdir(shell: Subprocess) -> None:
     ret = run_ctt(shell, cwd=TEST_DATA_DIR / 'no_subdir_nor_exclude')
 
     assert ret.returncode == 0
-    ret.stdout.matcher.fnmatch_lines([
-        '--- Test: .ctt/no_subdir_nor_exclude ---',
-        '*Using `copier` to create: .ctt/no_subdir_nor_exclude*',
-    ])
+    ret.stdout.matcher.fnmatch_lines(
+        [
+            '--- Test: .ctt/no_subdir_nor_exclude ---',
+            '*Using `copier` to create: .ctt/no_subdir_nor_exclude*',
+        ]
+    )
 
 
 def test_skip_tasks(shell: Subprocess) -> None:
@@ -171,3 +178,50 @@ def test_run_missing_copier_template(tmp_path) -> None:
     read_copier_template.cache_clear()
 
     run(base_dir=tmp_path)
+
+
+def _run_ctt_merged(cwd: Path, extra_args: list[str] | None = None) -> subprocess.CompletedProcess:
+    """Run ctt as a subprocess with stderr merged into stdout, simulating GHA log stream."""
+    return subprocess.run(  # noqa: S603
+        ['uv', 'run', 'ctt', *(extra_args or [])],  # noqa: S607
+        cwd=cwd,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env={**os.environ, 'GITHUB_ACTIONS': 'true'},
+    )
+
+
+def test_github_actions_group_ordering_on_success(tmp_path) -> None:
+    """In the merged stdout+stderr log, ::group:: must precede copier output and ::endgroup:: must follow it."""
+    cwd = tmp_path / 'ci_usage_test'
+    shutil.copytree(CI_USAGE_TEST_DIR, cwd)
+
+    result = _run_ctt_merged(cwd)
+
+    lines = result.stdout.splitlines()
+    group_idx = next((i for i, ln in enumerate(lines) if ln.startswith('::group::')), None)
+    copier_idx = next((i for i, ln in enumerate(lines) if 'Copying from template' in ln), None)
+    endgroup_idx = next((i for i, ln in enumerate(lines) if ln == '::endgroup::'), None)
+
+    assert group_idx is not None, f'Missing ::group:: in:\n{result.stdout}'
+    assert copier_idx is not None, f'Missing copier output in:\n{result.stdout}'
+    assert endgroup_idx is not None, f'Missing ::endgroup:: in:\n{result.stdout}'
+    assert group_idx < copier_idx, f'::group:: (line {group_idx}) must precede copier output (line {copier_idx})'
+    assert copier_idx < endgroup_idx, (
+        f'copier output (line {copier_idx}) must precede ::endgroup:: (line {endgroup_idx})'
+    )
+
+
+def test_github_actions_endgroup_emitted_on_task_failure(tmp_path) -> None:
+    """::endgroup:: is emitted even when a copier task fails."""
+    cwd = tmp_path / 'failing_task_demo'
+    shutil.copytree(FAILING_TASK_DIR, cwd)
+
+    result = _run_ctt_merged(cwd, extra_args=['--continue-on-error'])
+
+    lines = result.stdout.splitlines()
+    assert any(ln.startswith('::group::') for ln in lines), f'Missing ::group:: in:\n{result.stdout}'
+    assert any(ln == '::endgroup::' for ln in lines), f'Missing ::endgroup:: in:\n{result.stdout}'
+    assert result.returncode == 1

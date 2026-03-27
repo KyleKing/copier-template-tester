@@ -93,6 +93,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue
 
 def run_cli() -> None:  # pragma: no cover
     """Accept CLI configuration for running ctt."""
+
     def dir_path(pth: str | None) -> Path:
         if pth and Path(pth).is_dir():
             return Path(pth).resolve()
@@ -101,10 +102,8 @@ def run_cli() -> None:  # pragma: no cover
 
     cli = ArgumentParser()
     cli.add_argument(
-        '-b',
-        '--base-dir',
-        help='Specify the path to the directory that contains the configuration file',
-        type=dir_path)
+        '-b', '--base-dir', help='Specify the path to the directory that contains the configuration file', type=dir_path
+    )
     cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
     cli.add_argument('--continue-on-error', help='Run all test cases and print a summary', action='store_true')
 

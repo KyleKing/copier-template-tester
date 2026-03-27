@@ -5,6 +5,10 @@ import sys
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 
+from corallium.log import get_logger
+
+logger = get_logger()
+
 
 def _is_github_actions() -> bool:
     return os.environ.get('GITHUB_ACTIONS') == 'true'
@@ -14,13 +18,15 @@ def _is_github_actions() -> bool:
 def group_context(name: str):  # noqa: ANN202
     """Context manager that wraps one test case's output in a named group."""
     if _is_github_actions():
-        sys.stdout.write(f'::group::{name}\n')
+        logger.text(f'::group::{name}')
         try:
             yield
         finally:
-            sys.stdout.write('::endgroup::\n')
+            logger.text('::endgroup::')
+            sys.stdout.flush()
     else:
-        sys.stdout.write(f'\n--- Test: {name} ---\n')
+        logger.text('')
+        logger.text(f'--- Test: {name} ---')
         yield
 
 
