@@ -371,7 +371,7 @@ wheels = [
 
 [[package]]
 name = "copier-template-tester"
-version = "2.4.0b0"
+version = "2.4.0"
 source = { editable = "." }
 dependencies = [
     { name = "copier" },

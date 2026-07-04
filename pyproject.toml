@@ -34,7 +34,7 @@ maintainers = []
 name = "copier_template_tester"
 readme = "docs/README.md"
 requires-python = ">=3.10.11"
-version = "2.4.0b0"
+version = "2.4.0"
 
 [project.scripts]
 ctt = "copier_template_tester.main:run_cli"
@@ -47,7 +47,7 @@ ctt = "copier_template_tester.main:run_cli"
 
 [tool.commitizen]
 pre_bump_hooks = ["uv lock"]
-version = "2.4.0b0"
+version = "2.4.0"
 version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
 [tool.mypy]
