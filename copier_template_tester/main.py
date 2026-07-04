@@ -18,7 +18,13 @@ from corallium.loggers.plain_printer import plain_printer
 from ._config import load_config
 from ._output_reporter import RunReporter, group_context
 from ._pre_commit_support import check_for_untracked
-from ._write_output import DEFAULT_TEMPLATE_FILE_NAME, read_copier_template, write_output
+from ._write_output import (
+    DEFAULT_TEMPLATE_FILE_NAME,
+    _is_git_repo_root,
+    _isolated_source,
+    read_copier_template,
+    write_output,
+)
 
 configure_logger(log_level=logging.INFO, logger=plain_printer)
 logger = get_logger()
@@ -56,34 +62,37 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue
     config = load_config(base_dir)
     defaults = config.get('defaults', {})
 
-    input_path = base_dir
+    is_repo_root = _is_git_repo_root(base_dir)
     paths = set()
     reporter = RunReporter()
-    for key, data in config['output'].items():
-        output_path = base_dir / key
-        paths.add(output_path)
-        with group_context(key):
-            logger.text(f'Using `copier` to create: {key}')
-            sys.stdout.flush()
-            data_with_defaults = defaults | data
-            post_tasks = _resolve_post_tasks(data_with_defaults)
-            pre_tasks = data_with_defaults.pop('_pre_tasks', [])
-            skip_tasks = data_with_defaults.pop('_skip_tasks', False)
-            try:
-                write_output(
-                    src_path=input_path,
-                    dst_path=base_dir / output_path,
-                    data=data_with_defaults,
-                    post_tasks=post_tasks,
-                    pre_tasks=pre_tasks,
-                    skip_tasks=skip_tasks,
-                )
-                if continue_on_error:
-                    reporter.record_pass(key)
-            except Exception as err:
-                if not continue_on_error:
-                    raise
-                reporter.record_failure(key, err)
+    with _isolated_source(base_dir) as input_path:
+        for key, data in config['output'].items():
+            output_path = base_dir / key
+            paths.add(output_path)
+            with group_context(key):
+                logger.text(f'Using `copier` to create: {key}')
+                sys.stdout.flush()
+                data_with_defaults = defaults | data
+                post_tasks = _resolve_post_tasks(data_with_defaults)
+                pre_tasks = data_with_defaults.pop('_pre_tasks', [])
+                skip_tasks = data_with_defaults.pop('_skip_tasks', False)
+                try:
+                    write_output(
+                        base_dir=base_dir,
+                        src_path=input_path,
+                        dst_path=base_dir / output_path,
+                        data=data_with_defaults,
+                        is_repo_root=is_repo_root,
+                        post_tasks=post_tasks,
+                        pre_tasks=pre_tasks,
+                        skip_tasks=skip_tasks,
+                    )
+                    if continue_on_error:
+                        reporter.record_pass(key)
+                except Exception as err:
+                    if not continue_on_error:
+                        raise
+                    reporter.record_failure(key, err)
 
     if continue_on_error:
         reporter.summary()

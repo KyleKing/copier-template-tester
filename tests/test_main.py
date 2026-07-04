@@ -180,7 +180,7 @@ def test_run_missing_copier_template(tmp_path) -> None:
     run(base_dir=tmp_path)
 
 
-def _run_ctt_merged(cwd: Path, extra_args: list[str] | None = None) -> subprocess.CompletedProcess:
+def _run_ctt_merged(cwd: Path, extra_args: list[str] | None = None) -> subprocess.CompletedProcess[str]:
     """Run ctt as a subprocess with stderr merged into stdout, simulating GHA log stream."""
     return subprocess.run(  # noqa: S603
         ['uv', 'run', 'ctt', *(extra_args or [])],  # noqa: S607

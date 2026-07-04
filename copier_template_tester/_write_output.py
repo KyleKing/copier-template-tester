@@ -1,9 +1,13 @@
 """Template Directory Writer."""
 
+import os
 import re
 import shutil
 import stat
+import subprocess  # noqa: S404
 import sys
+import tarfile
+import tempfile
 from contextlib import contextmanager, suppress
 from functools import lru_cache
 from pathlib import Path
@@ -78,52 +82,130 @@ def _resolve_git_root_dir(base_dir: Path) -> Path:
     return Path(output.strip())
 
 
-def _stabilize(line: str, answers_path: Path) -> str:
-    """Stabilize copier answers file values for deterministic output.
+# git plumbing variables that pre-commit/prek export into the hook environment.
+# Left set, they redirect the snapshot commands below to the hook-managed index or
+# a linked worktree's `.git` file, so they are cleared before every git invocation.
+_GIT_ENV_VARS = (
+    'GIT_ALTERNATE_OBJECT_DIRECTORIES',
+    'GIT_COMMON_DIR',
+    'GIT_CONFIG_PARAMETERS',
+    'GIT_DIR',
+    'GIT_INDEX_FILE',
+    'GIT_OBJECT_DIRECTORY',
+    'GIT_PREFIX',
+    'GIT_WORK_TREE',
+)
 
-    Converts variable values in the copier answers file to deterministic forms:
-    - _src_path: Converts absolute paths to relative paths from the answers file
-    - _commit: Converts specific commit hashes to 'HEAD' reference
 
-    This ensures that generated templates produce consistent, reproducible output
-    regardless of the absolute file system paths or git commit states.
+def _clean_git_env() -> dict[str, str]:
+    return {k: v for k, v in os.environ.items() if k not in _GIT_ENV_VARS}
 
-    Args:
-        line: A line from the copier answers file
-        answers_path: Path to the copier answers file being processed
 
-    Returns:
-        The stabilized line with deterministic values, or the original line if no changes needed
+def _run_git(args: list[str], *, cwd: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(  # noqa: S603
+        ['git', *args],  # noqa: S607
+        cwd=cwd,
+        env=_clean_git_env(),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
 
+
+def _is_git_repo_root(base_dir: Path) -> bool:
+    result = _run_git(['rev-parse', '--show-toplevel'], cwd=base_dir)
+    if result.returncode != 0:
+        return False
+    top = result.stdout.strip()
+    return bool(top) and Path(top).resolve() == base_dir.resolve()
+
+
+@contextmanager
+def _isolated_source(base_dir: Path):  # noqa: ANN202
+    """Yield a git-free snapshot of the template so copier never runs its VCS clone.
+
+    copier's `Worker(vcs_ref="HEAD")` clones a local git template; for a *dirty* repo it
+    stages the live work tree (`--work-tree=<repo>`) into a throwaway git-dir and commits
+    there (`copier._vcs.clone`). Run inside a pre-commit hook, while the index is mid-write,
+    that has corrupted the repository index and object store. Rendering a plain, non-git
+    copy avoids the code path entirely while still capturing the current tracked working
+    tree (staged and unstaged) via `git stash create`.
+
+    Untracked files are excluded; they are reported separately by `check_for_untracked`.
+    A non-git `base_dir` is yielded unchanged (copier already renders it without VCS).
     """
-    # Convert _src_path to a deterministic relative path
-    if line.startswith('_src_path'):
-        logger.info('Replacing with deterministic value', line=line)
-        raw_path = Path(line.rsplit('_src_path:', maxsplit=1)[-1].strip())
-        ans_dir = answers_path.parent
-        if ans_dir.is_relative_to(raw_path):
-            count_rel = len(ans_dir.relative_to(raw_path).parts)
-            rel_path = '/'.join([*(['..'] * count_rel), raw_path.name])
-            return f'_src_path: {rel_path}'
-        return line
-    # Create a stable tag for '_commit' that copier will still utilize
-    if line.startswith('_commit'):
-        logger.info('Replacing with deterministic value', line=line)
-        return '_commit: HEAD'
-    return line
+    if not _is_git_repo_root(base_dir):
+        yield base_dir
+        return
+
+    # `stash create` builds a commit of the staged+unstaged tree without touching the
+    # index, work tree, or any ref, so it is safe to run mid-commit; it is empty when clean.
+    ref = _run_git(['stash', 'create'], cwd=base_dir).stdout.strip() or 'HEAD'
+    tmp_dir = Path(tempfile.mkdtemp(prefix='ctt-src-'))
+    try:
+        # `archive` materializes that snapshot as a plain tree (no `.git`), so copier sees a
+        # non-git directory and skips its clone/dirty-staging entirely.
+        with (
+            subprocess.Popen(  # noqa: S603
+                ['git', 'archive', '--format=tar', ref],  # noqa: S607
+                cwd=base_dir,
+                env=_clean_git_env(),
+                stdout=subprocess.PIPE,
+            ) as archive,
+            tarfile.open(fileobj=archive.stdout, mode='r|') as tar,
+        ):
+            if sys.version_info >= (3, 12, 0):
+                tar.extractall(tmp_dir, filter='data')  # pragma: no cover
+            else:
+                tar.extractall(tmp_dir)  # noqa: S202
+        if archive.returncode != 0:  # pragma: no cover
+            msg = f'Failed to snapshot the template source with `git archive {ref}`'
+            raise RuntimeError(msg)
+        yield tmp_dir
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
-def _stabilize_answers_file(*, src_path: Path, dst_path: Path) -> None:
-    """Ensure that the answers file is deterministic."""
+def _relative_src_path(*, base_dir: Path, answers_path: Path) -> str:
+    """Deterministic `_src_path` relative to the answers file, independent of absolute paths.
+
+    ctt renders output into `<base_dir>/<key>`, so the source is always some number of
+    parent directories above the answers file, named for `base_dir`.
+    """
+    count_rel = len(answers_path.parent.resolve().relative_to(base_dir.resolve()).parts)
+    return '/'.join([*(['..'] * count_rel), base_dir.name])
+
+
+def _stabilize_answers_file(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root: bool) -> None:
+    """Rewrite the answers file with deterministic `_src_path` (and `_commit` for git sources).
+
+    Isolation renders every git template as a non-git copy, so copier writes an absolute
+    temp `_src_path` and omits `_commit`. Both are normalized here to the reproducible values
+    copier historically produced for a git source: a relative `_src_path` and `_commit: HEAD`.
+    """
     answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-    lines = (_stabilize(l_, answers_path) for l_ in read_lines(answers_path) if l_.strip())
-    answers_path.write_text('\n'.join(lines) + '\n')
+    rel_src_path = _relative_src_path(base_dir=base_dir, answers_path=answers_path)
+    logger.info('Replacing with deterministic value', src_path=rel_src_path)
+
+    out: list[str] = []
+    commit_written = False
+    for line in read_lines(answers_path):
+        if not line.strip() or line.startswith('_commit'):
+            continue
+        if line.startswith('_src_path'):
+            if is_repo_root and not commit_written:
+                out.append('_commit: HEAD')
+                commit_written = True
+            out.append(f'_src_path: {rel_src_path}')
+            continue
+        out.append(line)
+    answers_path.write_text('\n'.join(out) + '\n')
 
 
 @contextmanager
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
-def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
+def _output_dir(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root: bool):  # noqa: ANN202
     """Context manager to prepare output directory and handle copier answers file cleanup.
 
     This context manager ensures proper setup and teardown of the copier output directory:
@@ -138,8 +220,10 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
     Addresses: <https://github.com/KyleKing/copier-template-tester/issues/24>
 
     Args:
-        src_path: Path to the source copier template directory
+        base_dir: Path to the logical template root, used to stabilize the answers `_src_path`
+        src_path: Path to the source copier template directory (isolated snapshot when git-backed)
         dst_path: Path to the destination output directory
+        is_repo_root: Whether base_dir is a git repository root (adds a stable `_commit: HEAD`)
 
     Yields:
         None
@@ -152,19 +236,26 @@ def _output_dir(*, src_path: Path, dst_path: Path):  # noqa: ANN202
     has_answers_template = any(src_path.rglob(template_name))
 
     dst_path.mkdir(parents=True, exist_ok=True)
-    yield
-
-    if has_answers_template:
-        # Reduce variability in the output
-        try:
-            _stabilize_answers_file(src_path=src_path, dst_path=dst_path)
-        except FileNotFoundError as exc:  # pragma: no cover
-            logger.warning(str(exc))
-            raise
-    else:
-        with suppress(FileNotFoundError):
-            answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
-            answers_path.unlink()
+    # A failed render should leave the output untouched, so the answers-file handling runs only
+    # when the yielded block completes without raising (the `render_ok` guard in `finally`).
+    render_ok = False
+    try:
+        yield
+        render_ok = True
+    finally:
+        if render_ok and has_answers_template:
+            # Reduce variability in the output
+            try:
+                _stabilize_answers_file(
+                    base_dir=base_dir, src_path=src_path, dst_path=dst_path, is_repo_root=is_repo_root
+                )
+            except FileNotFoundError as exc:  # pragma: no cover
+                logger.warning(str(exc))
+                raise
+        elif render_ok:
+            with suppress(FileNotFoundError):
+                answers_path = _find_answers_file(src_path=src_path, dst_path=dst_path)
+                answers_path.unlink()
 
 
 def _remove_readonly(func, path: str, _excinfo) -> None:  # pragma: no cover  # noqa: ANN001
@@ -185,9 +276,11 @@ def _remove_readonly(func, path: str, _excinfo) -> None:  # pragma: no cover  # 
 
 def write_output(
     *,
+    base_dir: Path,
     src_path: Path,
     dst_path: Path,
     data: dict[str, Any],
+    is_repo_root: bool = False,
     post_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     pre_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     skip_tasks: bool = False,
@@ -195,10 +288,13 @@ def write_output(
 ) -> None:
     """Copy the specified directory to the target location with provided data.
 
+    `src_path` is the (possibly isolated) directory copier renders from; `base_dir` is the
+    logical template root used to keep the answers file's `_src_path` deterministic.
+
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    with _output_dir(src_path=src_path, dst_path=dst_path):
+    with _output_dir(base_dir=base_dir, src_path=src_path, dst_path=dst_path, is_repo_root=is_repo_root):
         kwargs.setdefault('cleanup_on_error', False)
         kwargs.setdefault('data', data or {})
         kwargs.setdefault('defaults', True)
