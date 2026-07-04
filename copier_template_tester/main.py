@@ -6,6 +6,7 @@ Based on: https://github.com/copier-org/copier/blob/ccfbc9a923f4228af7ca2bf06749
 
 import logging
 import os
+import sys
 from argparse import ArgumentParser, ArgumentTypeError
 from functools import lru_cache
 from pathlib import Path
@@ -63,6 +64,7 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue
         paths.add(output_path)
         with group_context(key):
             logger.text(f'Using `copier` to create: {key}')
+            sys.stdout.flush()
             data_with_defaults = defaults | data
             post_tasks = _resolve_post_tasks(data_with_defaults)
             pre_tasks = data_with_defaults.pop('_pre_tasks', [])

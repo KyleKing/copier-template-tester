@@ -19,9 +19,11 @@ def group_context(name: str):  # noqa: ANN202
     """Context manager that wraps one test case's output in a named group."""
     if _is_github_actions():
         logger.text(f'::group::{name}')
+        sys.stdout.flush()
         try:
             yield
         finally:
+            sys.stdout.flush()
             logger.text('::endgroup::')
             sys.stdout.flush()
     else:
