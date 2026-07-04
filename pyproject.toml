@@ -4,7 +4,7 @@ requires = ["uv_build>=0.9.26,<2.0"]
 
 [dependency-groups]
 dev = [
-  "calcipy[recommended]>=6.0.0",
+  "calcipy[recommended]>=6.0.1",
   "pytest-shell-utilities>=1.9.7",
   "types-pyyaml>=6.0.12.20240917",
   "types-setuptools>=75.5.0.20241116",
@@ -46,6 +46,7 @@ ctt = "copier_template_tester.main:run_cli"
 "Repository" = "https://github.com/kyleking/copier-template-tester"
 
 [tool.commitizen]
+pre_bump_hooks = ["uv lock"]
 version = "2.4.0b0"
 version_files = ["copier_template_tester/__init__.py:^__version", "pyproject.toml:^version"]
 
