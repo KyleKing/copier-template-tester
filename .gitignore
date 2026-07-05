@@ -219,9 +219,8 @@ coverage.json
 # Built Outputs
 /releases/
 
-# Ignore auto-created files by documentation tasks
-/docs/modules/*.md
-/docs/modules/**/*.md
+# Ignore auto-created files by documentation tasks (see docs/gen_ref_nav.py)
+/docs/reference/
 
 # Allow List
 !/docs/*.*
