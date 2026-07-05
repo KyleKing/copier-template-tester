@@ -3,7 +3,9 @@ import pytest
 from copier_template_tester._output_reporter import RunReporter, group_context
 
 
-def test_group_context_local_header(capsys) -> None:
+def test_group_context_local_header(monkeypatch, capsys) -> None:
+    monkeypatch.delenv('GITHUB_ACTIONS', raising=False)
+
     with group_context('my-test'):
         print('inner')  # noqa: T201
 
@@ -34,7 +36,9 @@ def test_group_context_endgroup_on_exception_github_actions(monkeypatch, capsys)
     assert '::endgroup::\n' in out
 
 
-def test_group_context_no_extra_output_on_exception_local(capsys) -> None:
+def test_group_context_no_extra_output_on_exception_local(monkeypatch, capsys) -> None:
+    monkeypatch.delenv('GITHUB_ACTIONS', raising=False)
+
     with pytest.raises(ValueError), group_context('fail-local'):  # noqa: PT011
         raise ValueError('boom')
 

@@ -28,7 +28,8 @@ def _log_shell(message: str, ret: ProcessResult, *args, **kwargs) -> None:
 
 def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> ProcessResult:
     """Run `ctt` in the specified directory."""
-    ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd)
+    # Force local (non-GHA) output formatting even when the test suite itself runs in GitHub Actions
+    ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd, env={'GITHUB_ACTIONS': ''})
     _log_shell('ran ctt', ret)
     return ret
 
