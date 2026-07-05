@@ -120,6 +120,14 @@ cd ~/your/copier/project
 ctt
 ```
 
+### CLI Flags
+
+```sh
+# Run only test cases whose key contains a substring (repeatable)
+ctt -t no_all
+ctt --test-case no_all --test-case pre_tasks
+```
+
 ### More Examples
 
 For more example code, see the [scripts] directory or the [tests].

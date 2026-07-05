@@ -266,6 +266,29 @@ def test_resolve_post_tasks_with_extra_tasks(data, expected) -> None:
     assert _resolve_post_tasks(data) == expected
 
 
+def test_cli_test_case_filter(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=DEMO_DIR, args=['-t', 'no_all'])
+
+    assert ret.returncode == 0, ret.stderr
+    ret.stdout.matcher.fnmatch_lines(
+        [
+            '--- Test: .ctt/no_all ---',
+            'Using `copier` to create: .ctt/no_all',
+        ],
+    )
+    combined = str(ret.stdout) + str(ret.stderr)
+    assert '.ctt/pre_tasks' not in combined
+    assert '.ctt/skip_tasks' not in combined
+
+
+def test_cli_test_case_filter_no_match(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=DEMO_DIR, args=['-t', 'nonexistent_filter'])
+
+    assert ret.returncode != 0
+    combined = str(ret.stdout) + str(ret.stderr)
+    assert 'No test cases matching filters' in combined
+
+
 def test_run_missing_copier_template(tmp_path) -> None:
     read_copier_template.cache_clear()
 

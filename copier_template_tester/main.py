@@ -137,7 +137,19 @@ def run_cli() -> None:  # pragma: no cover
     )
     cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
     cli.add_argument('--continue-on-error', help='Run all test cases and print a summary', action='store_true')
+    cli.add_argument(
+        '-t',
+        '--test-case',
+        action='append',
+        dest='test_case_filters',
+        help='Run only test cases whose key contains this substring (repeatable)',
+    )
 
     args = cli.parse_args()
     continue_on_error = args.continue_on_error or os.environ.get('CTT_CONTINUE_ON_ERROR') == '1'
-    run(base_dir=args.base_dir, check_untracked=args.check_untracked, continue_on_error=continue_on_error)
+    run(
+        base_dir=args.base_dir,
+        check_untracked=args.check_untracked,
+        continue_on_error=continue_on_error,
+        test_case_filters=args.test_case_filters,
+    )
