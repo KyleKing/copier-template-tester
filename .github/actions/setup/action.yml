@@ -22,7 +22,7 @@ runs:
         cache-dependency-glob: "**/uv.lock"
         enable-cache: true
         python-version: ${{ inputs.python-version }}
-        uv-version: ${{ inputs.uv-version }}
+        version: ${{ inputs.uv-version }}
 
     - name: Install '${{ inputs.python-tools }}'
       if: ${{ inputs.python-tools }}

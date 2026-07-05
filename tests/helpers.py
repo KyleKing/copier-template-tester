@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from corallium.log import get_logger
+from pytestshellutils.customtypes import EnvironDict
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import ProcessResult
 
@@ -29,7 +30,7 @@ def _log_shell(message: str, ret: ProcessResult, *args, **kwargs) -> None:
 def run_ctt(shell: Subprocess, cwd: Path, args: list[str] | None = None) -> ProcessResult:
     """Run `ctt` in the specified directory."""
     # Force local (non-GHA) output formatting even when the test suite itself runs in GitHub Actions
-    ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd, env={'GITHUB_ACTIONS': ''})
+    ret = shell.run(*CTT_CMD, *(args or []), cwd=cwd, env=EnvironDict({'GITHUB_ACTIONS': ''}))
     _log_shell('ran ctt', ret)
     return ret
 
