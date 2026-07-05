@@ -122,6 +122,16 @@ def run(
         check_for_untracked(base_dir)
 
 
+def list_test_cases(*, base_dir: Path | None = None, test_case_filters: list[str] | None = None) -> None:
+    """Print the test-case keys from ctt.toml, optionally filtered."""
+    base_dir = base_dir or Path.cwd()
+    output = load_config(base_dir)['output']
+    if test_case_filters:
+        output = _filter_test_cases(output, test_case_filters)
+    for key in output:
+        logger.text(key)
+
+
 def run_cli() -> None:  # pragma: no cover
     """Accept CLI configuration for running ctt."""
 
@@ -138,6 +148,12 @@ def run_cli() -> None:  # pragma: no cover
     cli.add_argument('--check-untracked', help='Only used for pre-commit', action='store_true')
     cli.add_argument('--continue-on-error', help='Run all test cases and print a summary', action='store_true')
     cli.add_argument(
+        '--list',
+        action='store_true',
+        dest='list_test_cases',
+        help='List matching test case keys and exit without running copier',
+    )
+    cli.add_argument(
         '-t',
         '--test-case',
         action='append',
@@ -146,6 +162,10 @@ def run_cli() -> None:  # pragma: no cover
     )
 
     args = cli.parse_args()
+    if args.list_test_cases:
+        list_test_cases(base_dir=args.base_dir, test_case_filters=args.test_case_filters)
+        return
+
     continue_on_error = args.continue_on_error or os.environ.get('CTT_CONTINUE_ON_ERROR') == '1'
     run(
         base_dir=args.base_dir,

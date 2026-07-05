@@ -126,6 +126,10 @@ ctt
 # Run only test cases whose key contains a substring (repeatable)
 ctt -t no_all
 ctt --test-case no_all --test-case pre_tasks
+
+# Discover available test case keys
+ctt --list
+ctt --list -t tasks
 ```
 
 ### More Examples

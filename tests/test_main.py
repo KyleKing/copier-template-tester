@@ -9,7 +9,7 @@ from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import MatchString
 
 from copier_template_tester._write_output import read_copier_template
-from copier_template_tester.main import _filter_test_cases, _resolve_post_tasks, run
+from copier_template_tester.main import _filter_test_cases, _resolve_post_tasks, list_test_cases, run
 
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
@@ -249,6 +249,40 @@ def test_run_test_case_filters_with_continue_on_error(monkeypatch, capsys) -> No
 def test_filter_test_cases_no_match_raises() -> None:
     with pytest.raises(RuntimeError, match='No test cases matching filters'):
         _filter_test_cases({'a': {}, 'b': {}}, ['nonexistent'])
+
+
+def test_list_test_cases_prints_all(capsys) -> None:
+    list_test_cases(base_dir=DEMO_DIR)
+
+    out = capsys.readouterr().out
+    assert '.ctt/no_all' in out
+    assert '.ctt/pre_tasks' in out
+    assert '.ctt/skip_tasks' in out
+
+
+def test_list_test_cases_with_filter(capsys) -> None:
+    list_test_cases(base_dir=DEMO_DIR, test_case_filters=['tasks'])
+
+    out = capsys.readouterr().out
+    assert '.ctt/no_all' not in out
+    assert '.ctt/pre_tasks' in out
+    assert '.ctt/skip_tasks' in out
+
+
+def test_list_test_cases_no_match_raises() -> None:
+    with pytest.raises(RuntimeError, match='No test cases matching filters'):
+        list_test_cases(base_dir=DEMO_DIR, test_case_filters=['nonexistent_filter'])
+
+
+def test_cli_list_test_cases(shell: Subprocess) -> None:
+    ret = run_ctt(shell, cwd=DEMO_DIR, args=['--list'])
+
+    assert ret.returncode == 0, ret.stderr
+    out = str(ret.stdout)
+    assert '.ctt/no_all' in out
+    assert '.ctt/pre_tasks' in out
+    assert '.ctt/skip_tasks' in out
+    assert 'Using `copier` to create' not in out
 
 
 @pytest.mark.parametrize(
