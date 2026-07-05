@@ -46,7 +46,23 @@ def _resolve_post_tasks(data: dict[str, Any]) -> list[Any]:
     return post_tasks
 
 
-def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue_on_error: bool = False) -> None:
+def _filter_test_cases(output: dict[str, Any], test_case_filters: list[str]) -> dict[str, Any]:
+    """Return the subset of output whose keys contain any non-empty filter substring."""
+    active_filters = [tcf for tcf in test_case_filters if tcf]
+    matched = {key: data for key, data in output.items() if any(tcf in key for tcf in active_filters)}
+    if not matched:
+        msg = f'No test cases matching filters: {test_case_filters}. Available test cases: {[*output]}'
+        raise RuntimeError(msg)
+    return matched
+
+
+def run(
+    *,
+    base_dir: Path | None = None,
+    check_untracked: bool = False,
+    continue_on_error: bool = False,
+    test_case_filters: list[str] | None = None,
+) -> None:
     """Entry point."""
     base_dir = base_dir or Path.cwd()
     try:
@@ -62,11 +78,15 @@ def run(*, base_dir: Path | None = None, check_untracked: bool = False, continue
     config = load_config(base_dir)
     defaults = config.get('defaults', {})
 
+    output = config['output']
+    if test_case_filters:
+        output = _filter_test_cases(output, test_case_filters)
+
     is_repo_root = _is_git_repo_root(base_dir)
     paths = set()
     reporter = RunReporter()
     with _isolated_source(base_dir) as input_path:
-        for key, data in config['output'].items():
+        for key, data in output.items():
             output_path = base_dir / key
             paths.add(output_path)
             with group_context(key):

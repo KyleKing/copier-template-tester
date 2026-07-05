@@ -9,7 +9,7 @@ from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import MatchString
 
 from copier_template_tester._write_output import read_copier_template
-from copier_template_tester.main import _resolve_post_tasks, run
+from copier_template_tester.main import _filter_test_cases, _resolve_post_tasks, run
 
 from .configuration import TEST_DATA_DIR
 from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
@@ -17,6 +17,7 @@ from .helpers import DEMO_DIR, NO_ANSWER_FILE_DIR, run_ctt
 CI_USAGE_TEST_DIR = TEST_DATA_DIR / 'ci_usage_test'
 FAILING_TASK_DIR = TEST_DATA_DIR / 'failing_task_demo'
 EXPECTED_COPY_CALLS = 3
+EXPECTED_FILTERED_COPY_CALLS = 2
 
 WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 
@@ -157,6 +158,97 @@ def test_run_continue_on_error_collects_failures(monkeypatch, capsys) -> None:
     assert '--- CTT Summary ---' in out
     assert 'FAIL' in out
     assert 'PASS' in out
+
+
+def _stub_run_copy(monkeypatch, ran_paths: list[str]) -> None:
+    def _run_copy(worker) -> None:
+        ran_paths.append(str(worker.dst_path))
+
+    monkeypatch.setattr(Worker, 'run_copy', _run_copy)
+
+
+def test_run_test_case_filters_single_match(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    run(base_dir=DEMO_DIR, test_case_filters=['no_all'])
+
+    assert len(ran_paths) == 1
+    assert any('no_all' in pth for pth in ran_paths)
+
+
+def test_run_test_case_filters_multiple_match(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    run(base_dir=DEMO_DIR, test_case_filters=['no_all', 'pre_tasks'])
+
+    assert len(ran_paths) == EXPECTED_FILTERED_COPY_CALLS
+    assert any('no_all' in pth for pth in ran_paths)
+    assert any('pre_tasks' in pth for pth in ran_paths)
+
+
+def test_run_test_case_filters_partial_substring(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    run(base_dir=DEMO_DIR, test_case_filters=['tasks'])
+
+    assert len(ran_paths) == EXPECTED_FILTERED_COPY_CALLS
+    assert any('pre_tasks' in pth for pth in ran_paths)
+    assert any('skip_tasks' in pth for pth in ran_paths)
+
+
+def test_run_no_filter_runs_all(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    run(base_dir=DEMO_DIR)
+
+    assert len(ran_paths) == EXPECTED_COPY_CALLS
+
+
+def test_run_test_case_filters_no_match_raises(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    with pytest.raises(RuntimeError, match='No test cases matching filters') as exc_info:
+        run(base_dir=DEMO_DIR, test_case_filters=['nonexistent_filter'])
+
+    assert 'Available test cases: [' in str(exc_info.value)
+
+
+def test_run_test_case_filters_empty_string_no_match(monkeypatch) -> None:
+    ran_paths: list[str] = []
+    _stub_run_copy(monkeypatch, ran_paths)
+
+    with pytest.raises(RuntimeError, match='No test cases matching filters'):
+        run(base_dir=DEMO_DIR, test_case_filters=[''])
+
+
+def test_run_test_case_filters_with_continue_on_error(monkeypatch, capsys) -> None:
+    call_count = 0
+
+    def _run_copy(worker) -> None:
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            raise RuntimeError('first case failed')
+
+    monkeypatch.setattr(Worker, 'run_copy', _run_copy)
+
+    with pytest.raises(SystemExit) as exc_info:
+        run(base_dir=DEMO_DIR, continue_on_error=True, test_case_filters=['no_all', 'pre_tasks'])
+
+    assert exc_info.value.code == 1
+    assert call_count == EXPECTED_FILTERED_COPY_CALLS
+    out = capsys.readouterr().out
+    assert '--- CTT Summary ---' in out
+
+
+def test_filter_test_cases_no_match_raises() -> None:
+    with pytest.raises(RuntimeError, match='No test cases matching filters'):
+        _filter_test_cases({'a': {}, 'b': {}}, ['nonexistent'])
 
 
 @pytest.mark.parametrize(
