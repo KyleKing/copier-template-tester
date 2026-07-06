@@ -1,14 +1,23 @@
 """Generate the code reference pages.
 
+Runs standalone (before ``zensical build``) and writes real Markdown stubs to
+``<doc_dir>/reference/`` for ``mkdocstrings`` to render. Zensical does not yet
+support the ``mkdocs-gen-files`` plugin, so this replaces its virtual filesystem
+with on-disk files. See: https://github.com/zensical/backlog/issues/8
+
 Adapted without navigation from:
 https://github.com/pawamoy/copier-pdm/blob/adff9b64887d0b4c9ec0b42de1698b34858a511e/project/scripts/gen_ref_nav.py
 
 """
 
+import shutil
 from pathlib import Path
 
-import mkdocs_gen_files
 from corallium.tomllib import tomllib
+
+_DOC_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _DOC_DIR.parent
+_REFERENCE_DIR = _DOC_DIR / 'reference'
 
 
 def has_public_code(line: str) -> bool:
@@ -27,9 +36,13 @@ def has_public_code(line: str) -> bool:
     return False
 
 
-_config = tomllib.loads(Path('pyproject.toml').read_text(encoding='utf-8'))
+_config = tomllib.loads((_PROJECT_ROOT / 'pyproject.toml').read_text(encoding='utf-8'))
 _pkg_name = _config['project']['name']
-src = Path(_pkg_name)
+src = _PROJECT_ROOT / _pkg_name
+
+if _REFERENCE_DIR.exists():
+    shutil.rmtree(_REFERENCE_DIR)
+
 for path in sorted(src.rglob('*.py')):
     for line in path.read_text().split('\n'):
         if has_public_code(line):
@@ -37,20 +50,17 @@ for path in sorted(src.rglob('*.py')):
     else:
         continue  # Do not include the file in generated documentation
 
-    module_path = path.with_suffix('')
-    doc_path = path.with_suffix('.md')
-    full_doc_path = Path('reference', doc_path)
+    rel_path = path.relative_to(_PROJECT_ROOT)
+    module_path = rel_path.with_suffix('')
+    doc_path = rel_path.with_suffix('.md')
 
     parts = tuple(module_path.parts)
     if parts[-1] == '__init__':
         parts = parts[:-1]
         doc_path = doc_path.with_name('index.md')
-        full_doc_path = full_doc_path.with_name('index.md')
     elif parts[-1].startswith('_'):
         continue
 
-    with mkdocs_gen_files.open(full_doc_path, 'w') as fd:
-        ident = '.'.join(parts)
-        fd.write(f'::: {ident}')
-
-    mkdocs_gen_files.set_edit_path(full_doc_path, path)
+    full_doc_path = _REFERENCE_DIR / doc_path
+    full_doc_path.parent.mkdir(parents=True, exist_ok=True)
+    full_doc_path.write_text(f'::: {".".join(parts)}\n', encoding='utf-8')
