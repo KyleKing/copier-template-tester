@@ -366,6 +366,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#keep-existing-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep existing output
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -886,6 +897,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#keep-existing-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep existing output
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1082,6 +1104,12 @@
 <p>Use <code>_pre_tasks</code> to run tasks before the template&rsquo;s tasks:</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="k">[output.</span><span class="s2">&quot;.ctt/with-validation&quot;</span><span class="k">]</span>
 <span class="linenos" data-linenos="2 "></span><span class="n">_pre_tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;./validate-env.sh&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h4 id="keep-existing-output">Keep existing output<a class="headerlink" href="#keep-existing-output" title="Permanent link">⚓︎</a></h4>
+<p>Each output directory is emptied before rendering, so the result is always exactly what the template generates today. Without that, copier&rsquo;s <code>_skip_if_exists</code> patterns win over <code>overwrite</code>, and files the template no longer generates stay behind, both of which let <code>ctt</code> report a stale tree as current.</p>
+<p>Use <code>_keep_output = true</code> when a test case relies on files that the template does not create, such as output edited by hand or produced by an external step:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="k">[output.</span><span class="s2">&quot;.ctt/keeps-scratch-files&quot;</span><span class="k">]</span>
+<span class="linenos" data-linenos="2 "></span><span class="n">_keep_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 </code></pre></div>
 <h3 id="pre-commit-hook">Pre-Commit Hook<a class="headerlink" href="#pre-commit-hook" title="Permanent link">⚓︎</a></h3>
 <p>First, add this section to your <code>.pre-commit-config.yml</code> file:</p>
