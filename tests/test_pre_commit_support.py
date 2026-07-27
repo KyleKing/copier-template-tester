@@ -67,7 +67,7 @@ def test_ctt_with_untracked_files(shell: Subprocess) -> None:
     ret.stderr.matcher.fnmatch_lines_random(
         [
             '*Copying from template*',
-            '*conflict* .copier-answers.testing_no_all.yml*',
+            '*create* .copier-answers.testing_no_all.yml*',
             f'*create* {untracked_file.name}*',
         ]
     )

@@ -8,7 +8,7 @@ from copier._main import Worker
 from pytestshellutils.shell import Subprocess
 from pytestshellutils.utils.processes import MatchString
 
-from copier_template_tester._write_output import read_copier_template
+from copier_template_tester._write_output import _find_answers_file, read_copier_template
 from copier_template_tester.main import _filter_test_cases, _resolve_post_tasks, list_test_cases, run
 
 from .configuration import TEST_DATA_DIR
@@ -21,13 +21,34 @@ EXPECTED_FILTERED_COPY_CALLS = 2
 
 WITH_INCLUDE_DIR = TEST_DATA_DIR / 'copier_include'
 
+STUB_ANSWERS_NAME = '.copier-answers.stub.yml'
 
-@pytest.mark.parametrize('base_dir', [DEMO_DIR, NO_ANSWER_FILE_DIR])
-def test_main_with_copier_mock(monkeypatch, base_dir: Path) -> None:
+
+def _copy_template(tmp_path: Path, source_dir: Path) -> Path:
+    """Return a throwaway copy of a committed fixture.
+
+    `run` empties each output directory before rendering, so any test that stubs the render
+    would otherwise delete the committed `.ctt/**` files and write nothing back.
+    """
+    read_copier_template.cache_clear()
+    _find_answers_file.cache_clear()
+    base_dir = tmp_path / source_dir.name
+    shutil.copytree(source_dir, base_dir)
+    return base_dir
+
+
+def _write_stub_answers(worker) -> None:
+    """Stand in for the answers file a real render would leave for `_stabilize_answers_file`."""
+    (worker.dst_path / STUB_ANSWERS_NAME).write_text('_src_path: stub\n')
+
+
+@pytest.mark.parametrize('source_dir', [DEMO_DIR, NO_ANSWER_FILE_DIR])
+def test_main_with_copier_mock(monkeypatch, tmp_path: Path, source_dir: Path) -> None:
     """Only necessary for coverage metrics, but the .ctt/* files must exist."""
+    base_dir = _copy_template(tmp_path, source_dir)
 
     def _run_copy(worker) -> None:
-        pass
+        _write_stub_answers(worker)
 
     monkeypatch.setattr(Worker, 'run_copy', _run_copy)
 
@@ -137,8 +158,9 @@ def test_pre_tasks(shell: Subprocess) -> None:
     )
 
 
-def test_run_continue_on_error_collects_failures(monkeypatch, capsys) -> None:
+def test_run_continue_on_error_collects_failures(monkeypatch, tmp_path: Path, capsys) -> None:
     """With continue_on_error, all keys are attempted and a summary is printed."""
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     call_count = 0
 
     def _run_copy(worker) -> None:
@@ -146,11 +168,12 @@ def test_run_continue_on_error_collects_failures(monkeypatch, capsys) -> None:
         call_count += 1
         if call_count == 1:
             raise RuntimeError('first case failed')
+        _write_stub_answers(worker)
 
     monkeypatch.setattr(Worker, 'run_copy', _run_copy)
 
     with pytest.raises(SystemExit) as exc_info:
-        run(base_dir=DEMO_DIR, continue_on_error=True)
+        run(base_dir=base_dir, continue_on_error=True)
 
     assert exc_info.value.code == 1
     assert call_count == EXPECTED_COPY_CALLS
@@ -163,47 +186,52 @@ def test_run_continue_on_error_collects_failures(monkeypatch, capsys) -> None:
 def _stub_run_copy(monkeypatch, ran_paths: list[str]) -> None:
     def _run_copy(worker) -> None:
         ran_paths.append(str(worker.dst_path))
+        _write_stub_answers(worker)
 
     monkeypatch.setattr(Worker, 'run_copy', _run_copy)
 
 
-def test_run_test_case_filters_single_match(monkeypatch) -> None:
+def test_run_test_case_filters_single_match(monkeypatch, tmp_path: Path) -> None:
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     ran_paths: list[str] = []
     _stub_run_copy(monkeypatch, ran_paths)
 
-    run(base_dir=DEMO_DIR, test_case_filters=['no_all'])
+    run(base_dir=base_dir, test_case_filters=['no_all'])
 
     assert len(ran_paths) == 1
     assert any('no_all' in pth for pth in ran_paths)
 
 
-def test_run_test_case_filters_multiple_match(monkeypatch) -> None:
+def test_run_test_case_filters_multiple_match(monkeypatch, tmp_path: Path) -> None:
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     ran_paths: list[str] = []
     _stub_run_copy(monkeypatch, ran_paths)
 
-    run(base_dir=DEMO_DIR, test_case_filters=['no_all', 'pre_tasks'])
+    run(base_dir=base_dir, test_case_filters=['no_all', 'pre_tasks'])
 
     assert len(ran_paths) == EXPECTED_FILTERED_COPY_CALLS
     assert any('no_all' in pth for pth in ran_paths)
     assert any('pre_tasks' in pth for pth in ran_paths)
 
 
-def test_run_test_case_filters_partial_substring(monkeypatch) -> None:
+def test_run_test_case_filters_partial_substring(monkeypatch, tmp_path: Path) -> None:
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     ran_paths: list[str] = []
     _stub_run_copy(monkeypatch, ran_paths)
 
-    run(base_dir=DEMO_DIR, test_case_filters=['tasks'])
+    run(base_dir=base_dir, test_case_filters=['tasks'])
 
     assert len(ran_paths) == EXPECTED_FILTERED_COPY_CALLS
     assert any('pre_tasks' in pth for pth in ran_paths)
     assert any('skip_tasks' in pth for pth in ran_paths)
 
 
-def test_run_no_filter_runs_all(monkeypatch) -> None:
+def test_run_no_filter_runs_all(monkeypatch, tmp_path: Path) -> None:
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     ran_paths: list[str] = []
     _stub_run_copy(monkeypatch, ran_paths)
 
-    run(base_dir=DEMO_DIR)
+    run(base_dir=base_dir)
 
     assert len(ran_paths) == EXPECTED_COPY_CALLS
 
@@ -226,7 +254,8 @@ def test_run_test_case_filters_empty_string_no_match(monkeypatch) -> None:
         run(base_dir=DEMO_DIR, test_case_filters=[''])
 
 
-def test_run_test_case_filters_with_continue_on_error(monkeypatch, capsys) -> None:
+def test_run_test_case_filters_with_continue_on_error(monkeypatch, tmp_path: Path, capsys) -> None:
+    base_dir = _copy_template(tmp_path, DEMO_DIR)
     call_count = 0
 
     def _run_copy(worker) -> None:
@@ -234,11 +263,12 @@ def test_run_test_case_filters_with_continue_on_error(monkeypatch, capsys) -> No
         call_count += 1
         if call_count == 1:
             raise RuntimeError('first case failed')
+        _write_stub_answers(worker)
 
     monkeypatch.setattr(Worker, 'run_copy', _run_copy)
 
     with pytest.raises(SystemExit) as exc_info:
-        run(base_dir=DEMO_DIR, continue_on_error=True, test_case_filters=['no_all', 'pre_tasks'])
+        run(base_dir=base_dir, continue_on_error=True, test_case_filters=['no_all', 'pre_tasks'])
 
     assert exc_info.value.code == 1
     assert call_count == EXPECTED_FILTERED_COPY_CALLS
