@@ -1,4 +1,37 @@
-## Unreleased
+## 3.0.0 (2026-07-27)
+
+### BREAKING CHANGE
+
+- every output directory is emptied before rendering, so the
+first run after upgrading shows a real diff in any template using
+`_skip_if_exists` or holding output the template no longer generates. Set
+`_keep_output = true` on an output to opt out.
+
+### Feat
+
+- clear the output directory before each render
+
+### Fix
+
+- **deps**: bump gitpython to 3.1.57
+
+## 2.5.0 (2026-07-04)
+
+### Feat
+
+- **#44**: add --list flag to print test case keys
+- **#44**: add -t/--test-case CLI flag
+- **#44**: filter test cases in run() via test_case_filters
+
+## 2.4.0 (2026-07-04)
+
+### Fix
+
+- isolate template source so copier can't corrupt a dirty repo
+- **#42**: finish flush stdout around GitHub Actions log groups
+- **#42**: add missing flush and new tests
+
+## 2.4.0b0 (2026-03-24)
 
 ### Feat
 
