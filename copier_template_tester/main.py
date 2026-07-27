@@ -96,6 +96,7 @@ def run(
                 post_tasks = _resolve_post_tasks(data_with_defaults)
                 pre_tasks = data_with_defaults.pop('_pre_tasks', [])
                 skip_tasks = data_with_defaults.pop('_skip_tasks', False)
+                keep_output = data_with_defaults.pop('_keep_output', False)
                 try:
                     write_output(
                         base_dir=base_dir,
@@ -103,6 +104,7 @@ def run(
                         dst_path=base_dir / output_path,
                         data=data_with_defaults,
                         is_repo_root=is_repo_root,
+                        keep_output=keep_output,
                         post_tasks=post_tasks,
                         pre_tasks=pre_tasks,
                         skip_tasks=skip_tasks,

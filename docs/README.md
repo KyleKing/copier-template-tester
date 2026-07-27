@@ -74,6 +74,17 @@ Use `_pre_tasks` to run tasks before the template's tasks:
 _pre_tasks = ["./validate-env.sh"]
 ```
 
+#### Keep existing output
+
+Each output directory is emptied before rendering, so the result is always exactly what the template generates today. Without that, copier's `_skip_if_exists` patterns win over `overwrite`, and files the template no longer generates stay behind, both of which let `ctt` report a stale tree as current.
+
+Use `_keep_output = true` when a test case relies on files that the template does not create, such as output edited by hand or produced by an external step:
+
+```toml
+[output.".ctt/keeps-scratch-files"]
+_keep_output = true
+```
+
 ### Pre-Commit Hook
 
 First, add this section to your `.pre-commit-config.yml` file:

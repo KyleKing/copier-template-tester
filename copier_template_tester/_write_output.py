@@ -202,14 +202,48 @@ def _stabilize_answers_file(*, base_dir: Path, src_path: Path, dst_path: Path, i
     answers_path.write_text('\n'.join(out) + '\n')
 
 
+def _rmtree(path: Path) -> None:
+    if sys.version_info >= (3, 12, 0):
+        shutil.rmtree(path, onexc=_remove_readonly)  # type: ignore[call-arg]  # pragma: no cover
+    else:
+        shutil.rmtree(path, onerror=_remove_readonly)
+
+
+def _clear_output_dir(*, base_dir: Path, dst_path: Path) -> None:
+    """Empty the rendered output so the result is only what the template generates now.
+
+    copier's `_skip_if_exists` outranks `overwrite`, so any pre-existing file would otherwise
+    survive as stale content, and files the template stopped generating would linger forever.
+
+    `dst_path` must be a strict subdirectory of `base_dir`: `base_dir / key` silently yields
+    `key` itself when the `ctt.toml` key is absolute, which would target a real project.
+
+    Raises:
+        ValueError: If `dst_path` escapes `base_dir` or looks like a git repository
+
+    """
+    base, dst = base_dir.resolve(), dst_path.resolve()
+    if dst == base or not dst.is_relative_to(base):
+        msg = f'Refusing to clear an output path outside the template: {dst}'
+        raise ValueError(msg)
+    if (dst / '.git').exists():
+        msg = f'Refusing to clear {dst}: it looks like a git repository'
+        raise ValueError(msg)
+    for path in dst.iterdir():
+        if path.is_dir() and not path.is_symlink():
+            _rmtree(path)
+        else:
+            path.unlink()
+
+
 @contextmanager
 # PLANNED: In python 3.10, there is a Beartype error for this return annotation:
 #   -> Generator[None, None, None]
-def _output_dir(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root: bool):  # noqa: ANN202
+def _output_dir(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root: bool, keep_output: bool = False):  # noqa: ANN202
     """Context manager to prepare output directory and handle copier answers file cleanup.
 
     This context manager ensures proper setup and teardown of the copier output directory:
-    1. Pre-yield: Creates the destination directory if it doesn't exist
+    1. Pre-yield: Creates the destination directory and empties it unless `keep_output`
     2. Post-yield: Handles the copier answers file based on template configuration
        - If template has a custom answers file template, stabilizes it for deterministic output
        - If template has no custom answers template, removes the default answers file
@@ -224,6 +258,7 @@ def _output_dir(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root:
         src_path: Path to the source copier template directory (isolated snapshot when git-backed)
         dst_path: Path to the destination output directory
         is_repo_root: Whether base_dir is a git repository root (adds a stable `_commit: HEAD`)
+        keep_output: Leave pre-existing output in place instead of clearing it before rendering
 
     Yields:
         None
@@ -236,6 +271,8 @@ def _output_dir(*, base_dir: Path, src_path: Path, dst_path: Path, is_repo_root:
     has_answers_template = any(src_path.rglob(template_name))
 
     dst_path.mkdir(parents=True, exist_ok=True)
+    if not keep_output:
+        _clear_output_dir(base_dir=base_dir, dst_path=dst_path)
     # A failed render should leave the output untouched, so the answers-file handling runs only
     # when the yielded block completes without raising (the `render_ok` guard in `finally`).
     render_ok = False
@@ -281,6 +318,7 @@ def write_output(
     dst_path: Path,
     data: dict[str, Any],
     is_repo_root: bool = False,
+    keep_output: bool = False,
     post_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     pre_tasks: list[str | list[str] | dict[str, str | list[str]]] | None = None,
     skip_tasks: bool = False,
@@ -294,7 +332,9 @@ def write_output(
     kwargs documentation: https://github.com/copier-org/copier/blob/103828b59fd9eb671b5ffa909004d1577742300b/copier/main.py#L86-L173
 
     """
-    with _output_dir(base_dir=base_dir, src_path=src_path, dst_path=dst_path, is_repo_root=is_repo_root):
+    with _output_dir(
+        base_dir=base_dir, src_path=src_path, dst_path=dst_path, is_repo_root=is_repo_root, keep_output=keep_output
+    ):
         kwargs.setdefault('cleanup_on_error', False)
         kwargs.setdefault('data', data or {})
         kwargs.setdefault('defaults', True)
@@ -316,7 +356,4 @@ def write_output(
         git_path = dst_path / '.git'
         if git_path.is_dir():  # pragma: no cover
             logger.info('Removing git created by copier', git_path=git_path)
-            if sys.version_info >= (3, 12, 0):
-                shutil.rmtree(git_path, onexc=_remove_readonly)  # type: ignore[call-arg]
-            else:
-                shutil.rmtree(git_path, onerror=_remove_readonly)
+            _rmtree(git_path)
