@@ -51,7 +51,7 @@ Repository Settings → Environments:
 
 PyPI: https://pypi.org/manage/project/copier_template_tester/settings/publishing/
 - Owner: `kyleking`
-- Repository: `copier_template_tester`
+- Repository: `copier-template-tester`
 - Workflow: `publish.yml`
 - Environment: `pypi`
     - Or environment `testpypi` (for [TestPyPI](https://test.pypi.org/manage/account/publishing))

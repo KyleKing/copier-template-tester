@@ -100,6 +100,7 @@ ignore = [
   'FIX004', # Line contains HACK
   'PLR0913', # Too many arguments in function definition (6 > 5)
   'RUF067', # `__init__` module should only contain docstrings and re-exports
+  'RUF105', # Prefer `ruff: ignore` over `noqa`; `noqa` stays for cross-tool compatibility
   'TC001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
   'TC002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
   'TC003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
