@@ -4,6 +4,7 @@ import pytest
 
 from copier_template_tester._write_output import (
     DEFAULT_ANSWER_FILE_NAME,
+    _clear_output_dir,
     _find_answers_file,
     _is_git_repo_root,
     _isolated_source,
@@ -12,9 +13,22 @@ from copier_template_tester._write_output import (
     _run_git,
     _stabilize_answers_file,
     read_copier_template,
+    write_output,
 )
 
 from .configuration import TEST_DATA_DIR
+
+
+def _make_template(base_dir: Path, *, config: str, files: dict[str, str]) -> Path:
+    read_copier_template.cache_clear()
+    _find_answers_file.cache_clear()
+    base_dir.mkdir(parents=True)
+    (base_dir / 'copier.yaml').write_text(config)
+    for name, content in files.items():
+        (base_dir / name).write_text(content)
+    dst_path = base_dir / '.ctt' / 'out'
+    dst_path.mkdir(parents=True)
+    return dst_path
 
 
 def _init_repo(root: Path) -> None:
@@ -88,3 +102,68 @@ def test_isolated_source_snapshots_working_tree(tmp_path: Path) -> None:
         held = snapshot
 
     assert not held.exists()  # cleaned up on context exit
+
+
+def test_write_output_refreshes_skip_if_exists_files(tmp_path: Path) -> None:
+    """`_skip_if_exists` outranks `overwrite` in copier, so only clearing keeps the render honest."""
+    base_dir = tmp_path / 'tmpl'
+    dst_path = _make_template(
+        base_dir,
+        config='_skip_if_exists:\n  - keeper.txt\n',
+        files={'keeper.txt': 'fresh keeper\n', 'other.txt': 'fresh other\n'},
+    )
+    (dst_path / 'keeper.txt').write_text('stale keeper\n')
+    (dst_path / 'other.txt').write_text('stale other\n')
+
+    write_output(base_dir=base_dir, src_path=base_dir, dst_path=dst_path, data={})
+
+    assert (dst_path / 'keeper.txt').read_text() == 'fresh keeper\n'
+    assert (dst_path / 'other.txt').read_text() == 'fresh other\n'
+
+
+def test_write_output_removes_files_no_longer_generated(tmp_path: Path) -> None:
+    base_dir = tmp_path / 'tmpl'
+    dst_path = _make_template(base_dir, config='{}\n', files={'kept.txt': 'generated\n'})
+    (dst_path / 'obsolete.txt').write_text('from an older template\n')
+    (dst_path / 'obsolete_dir').mkdir()
+    (dst_path / 'obsolete_dir' / 'nested.txt').write_text('also stale\n')
+
+    write_output(base_dir=base_dir, src_path=base_dir, dst_path=dst_path, data={})
+
+    assert (dst_path / 'kept.txt').is_file()
+    assert not (dst_path / 'obsolete.txt').exists()
+    assert not (dst_path / 'obsolete_dir').exists()
+
+
+def test_write_output_keep_output_preserves_extra_files(tmp_path: Path) -> None:
+    base_dir = tmp_path / 'tmpl'
+    dst_path = _make_template(base_dir, config='{}\n', files={'kept.txt': 'generated\n'})
+    (dst_path / 'external.txt').write_text('written by something other than the template\n')
+
+    write_output(base_dir=base_dir, src_path=base_dir, dst_path=dst_path, data={}, keep_output=True)
+
+    assert (dst_path / 'external.txt').is_file()
+
+
+def test_clear_output_dir_rejects_paths_outside_the_template(tmp_path: Path) -> None:
+    base_dir = tmp_path / 'tmpl'
+    real_project = tmp_path / 'real_project'
+    for pth in (base_dir, real_project):
+        pth.mkdir()
+    (real_project / 'precious.txt').write_text('do not delete\n')
+
+    # `base_dir / key` yields `key` itself when the ctt.toml key is absolute
+    for dst_path in (base_dir / real_project, base_dir / '..' / 'real_project', base_dir):
+        with pytest.raises(ValueError, match='outside the template'):
+            _clear_output_dir(base_dir=base_dir, dst_path=dst_path)
+
+    assert (real_project / 'precious.txt').is_file()
+
+
+def test_clear_output_dir_rejects_a_git_repository(tmp_path: Path) -> None:
+    base_dir = tmp_path / 'tmpl'
+    dst_path = base_dir / '.ctt' / 'out'
+    (dst_path / '.git').mkdir(parents=True)
+
+    with pytest.raises(ValueError, match='looks like a git repository'):
+        _clear_output_dir(base_dir=base_dir, dst_path=dst_path)
