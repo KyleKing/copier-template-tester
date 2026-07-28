@@ -34,7 +34,7 @@ repos:
       - id: detect-private-key
       - id: double-quote-string-fixer
       - id: end-of-file-fixer
-        exclude: \.copier-answers\.yml|__snapshots__/.*\.ambr
+        exclude: \.copier-answers(\..+)?\.yml|__snapshots__/.*\.ambr
       - id: fix-byte-order-marker
       - id: forbid-new-submodules
       - id: mixed-line-ending
@@ -70,7 +70,7 @@ repos:
           # Note: this version must be the same as the hook revision
           - "prettier@4.0.0-alpha.8"
           - "prettier-plugin-sh"
-        exclude: \.copier-answers\.yml|tests/.*/cassettes/.*\.yaml|__snapshots__/.*\.json
+        exclude: \.copier-answers(\..+)?\.yml|tests/.*/cassettes/.*\.yaml|__snapshots__/.*\.json
         types_or: [css, html, javascript, json, shell, yaml]
         stages: ["pre-commit"]
   - repo: https://github.com/pappasam/toml-sort

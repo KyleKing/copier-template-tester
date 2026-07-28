@@ -75,7 +75,7 @@ pythonVersion = "3.10"
 
 [tool.ruff]
 # Docs: https://github.com/charliermarsh/ruff
-# Tip: uv run ruff rule RUF100
+# Tip: uv run ruff rule unused-noqa
 line-length = 120
 target-version = 'py310'
 
@@ -84,35 +84,35 @@ quote-style = 'single'
 
 [tool.ruff.lint]
 ignore = [
-  'ANN002', # Missing type annotation for `*args`
-  'ANN003', # Missing type annotation for `**kwargs`
-  'ANN401', # Dynamically typed expressions (typing.Any) are disallowed in `pop_key`
-  'BLE001', # Do not catch blind exception: `Exception`
-  'COM812', # Conflicts with formatter
-  'CPY001', # Missing copyright notice at top of file
-  'D203', # "1 blank line required before class docstring" (Conflicts with D211)
-  'D213', # "Multi-line docstring summary should start at the second line" (Conflicts with D212)
-  'DOC201', # Missing "Returns" in docstring; prefer minimal docstrings
-  'DOC501', # Raised exception `RuntimeError` missing from docstring
-  'EM101', # Exception must not use a string literal, assign to variable first
-  'FIX001', # Line contains FIXME
-  'FIX002', # Line contains TODO
-  'FIX004', # Line contains HACK
-  'PLR0913', # Too many arguments in function definition (6 > 5)
-  'RUF067', # `__init__` module should only contain docstrings and re-exports
-  'RUF105', # Prefer `ruff: ignore` over `noqa`; `noqa` stays for cross-tool compatibility
-  'TC001', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
-  'TC002', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
-  'TC003', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
-  'TD001', # Invalid TODO tag: `FIXME`
-  'TD002', # Missing author in TODO; try: `# TODO(<author_name>): ...`
-  'TD003', # Missing issue link on the line following this TODO
-  'TRY003', # Avoid specifying long messages outside the exception class
+  'any-type', # Dynamically typed expressions (typing.Any) are disallowed in `pop_key`
+  'blind-except', # Do not catch blind exception: `Exception`
+  'docstring-missing-exception', # Raised exception `RuntimeError` missing from docstring
+  'docstring-missing-returns', # Missing "Returns" in docstring; prefer minimal docstrings
+  'incorrect-blank-line-before-class', # "1 blank line required before class docstring" (Conflicts with blank-line-before-class)
+  'invalid-todo-tag', # Invalid TODO tag: `FIXME`
+  'line-contains-fixme', # Line contains FIXME
+  'line-contains-hack', # Line contains HACK
+  'line-contains-todo', # Line contains TODO
+  'missing-copyright-notice', # Missing copyright notice at top of file
+  'missing-todo-author', # Missing author in TODO; try: `# TODO(<author_name>): ...`
+  'missing-todo-link', # Missing issue link on the line following this TODO
+  'missing-trailing-comma', # Conflicts with formatter
+  'missing-type-args', # Missing type annotation for `*args`
+  'missing-type-kwargs', # Missing type annotation for `**kwargs`
+  'multi-line-summary-second-line', # "Multi-line docstring summary should start at the second line" (Conflicts with multi-line-summary-first-line)
+  'non-empty-init-module', # `__init__` module should only contain docstrings and re-exports
+  'noqa-comments', # Prefer `ruff: ignore` over `noqa`; `noqa` stays for cross-tool compatibility
+  'raise-vanilla-args', # Avoid specifying long messages outside the exception class
+  'raw-string-in-exception', # Exception must not use a string literal, assign to variable first
+  'too-many-arguments', # Too many arguments in function definition (6 > 5)
+  'typing-only-first-party-import', # Move application import `tail_jsonl.config.Config` into a type-checking block (Conflicts with Beartype)
+  'typing-only-standard-library-import', # Move standard library import `argparse` into a type-checking block (Conflicts with Beartype)
+  'typing-only-third-party-import', # Move third-party import `rich.console.Console` into a type-checking block (Conflicts with Beartype)
 ]
 preview = true
 select = ['ALL']
 unfixable = [
-  'ERA001', # Commented out code
+  'commented-out-code', # Commented out code
 ]
 
 [tool.ruff.lint.flake8-quotes]
@@ -132,28 +132,28 @@ known-first-party = ['copier_template_tester']
 
 [tool.ruff.lint.per-file-ignores]
 './copier_template_tester/../*.py' = [
-  'INP001', # File `/<>.py` is part of an implicit namespace package. Add an `__init__.py`.
+  'implicit-namespace-package', # File `/<>.py` is part of an implicit namespace package. Add an `__init__.py`.
 ]
 '__init__.py' = [
-  'D104', # Missing docstring in public package
+  'undocumented-public-package', # Missing docstring in public package
 ]
 'scripts/*.py' = [
-  'INP001', # File `scripts/*.py` is part of an implicit namespace package. Add an `__init__.py`.
+  'implicit-namespace-package', # File `scripts/*.py` is part of an implicit namespace package. Add an `__init__.py`.
 ]
 'scripts/check_imports.py' = [
-  'F401', # imported but unused; consider adding to __all__ or using a redundant alias
+  'unused-import', # imported but unused; consider adding to __all__ or using a redundant alias
 ]
 'tests/*.py' = [
-  'ANN001', # Missing type annotation for function argument
-  'ANN201', # Missing return type annotation for public function
-  'ANN202', # Missing return type annotation for private function `test_make_diffable`
-  'ARG001', # Unused function argument: `line`
-  'D100', # Missing docstring in public module
-  'D103', # Missing docstring in public function
-  'PLC2701', # Private name import `_<>` from external module
-  'PLR0917', # Too many positional arguments (6/5)
-  'PT004', # flake8-pytest-style: fixture does not return
-  'S101', # Use of `assert` detected
+  'assert', # Use of `assert` detected
+  'import-private-name', # Private name import `_<>` from external module
+  'missing-return-type-private-function', # Missing return type annotation for private function `test_make_diffable`
+  'missing-return-type-undocumented-public-function', # Missing return type annotation for public function
+  'missing-type-function-argument', # Missing type annotation for function argument
+  'pytest-missing-fixture-name-underscore', # flake8-pytest-style: fixture does not return
+  'too-many-positional-arguments', # Too many positional arguments (6/5)
+  'undocumented-public-function', # Missing docstring in public function
+  'undocumented-public-module', # Missing docstring in public module
+  'unused-function-argument', # Unused function argument: `line`
 ]
 
 [tool.ruff.lint.pydocstyle]
