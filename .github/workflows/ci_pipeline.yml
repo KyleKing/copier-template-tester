@@ -12,6 +12,13 @@ name: CI Pipeline
       - uv.lock
       - pyproject.toml
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -31,7 +38,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.10"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -59,5 +66,5 @@ jobs:
       # pyright-action requires Python to be in PATH explicitly
       # Based on: https://github.com/jakebailey/pyright-action/issues/10#issuecomment-1455220629
       - name: Add uv Python to Path
-        run: echo "$(uv run python -c 'import sys; print(sys.prefix)')/bin" >> $GITHUB_PATH
+        run: echo "$(uv run python -c 'import sys; print(sys.prefix)')/bin" >> "$GITHUB_PATH"
       - uses: jakebailey/pyright-action@8ec14b5cfe41f26e5f41686a31eb6012758217ef # v3.0.2

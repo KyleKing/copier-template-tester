@@ -4,4 +4,4 @@ from pprint import pprint
 
 from copier_template_tester.main import run
 
-pprint(f'run: {run}\n\n{locals()}')  # noqa: T203
+pprint(f'run: {run}\n\n{locals()}')  # ruff:ignore[p-print]

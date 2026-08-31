@@ -1,0 +1,157 @@
+// Tool and GitHub Action versions this project tracks in its own files. Each
+// one is a literal in the file that consumes it. This file records where
+// those literals are and how to resolve the latest value.
+//
+// pypa/gh-action-pypi-publish is absent: upstream recommends pinning to the
+// `release/v1` branch rather than a tag, and a branch ref has no release to
+// resolve against. Move that pin by hand when upstream advertises a new tip.
+//
+// A site that matches a different number of times than `expect` fails the
+// run. A pattern that silently stops matching is how a pin goes stale
+// unnoticed.
+//
+// The schema is inlined so this file evaluates today. It amends doneram's
+// published Config.pkl once doneram ships a pkl package.
+
+class Site {
+  /// Repo-relative path to the file holding the literal.
+  file: String
+  /// Regex with exactly one capture group around the version.
+  pattern: String
+  expect: Int(this > 0) = 1
+  window: Int(this > 0) = 1
+}
+
+class Tool {
+  resolver: String = "mise"
+  /// Name to query when it differs from the map key, e.g. "pipx:commitizen".
+  resolverName: String?
+  sites: Listing<Site>
+  /// Overrides the default `#.#.#` constraint, for a pin that only ever
+  /// ships with a suffix (a prerelease tracked on purpose).
+  pattern: String?
+}
+
+local ciYml = ".github/workflows/ci_pipeline.yml"
+local publishYml = ".github/workflows/publish.yml"
+local docsYml = ".github/workflows/update_docs.yml"
+local setupAction = ".github/actions/setup/action.yml"
+local freshnessYml = ".github/workflows/freshness.yml"
+local mkdocsYml = "mkdocs.yml"
+local preCommit = ".pre-commit-config.yaml"
+
+/// A `uses: owner/repo@<sha> # <tag>` GitHub Action pin, one capture group
+/// spanning the sha and the tag together, since github-action patches both
+/// as a single resolved value.
+local function actionPin(action: String, sourceFile: String, count: Int): Site = new {
+  file = sourceFile
+  pattern = #"\#(action)@([0-9a-f]{40} # v[\d.]+)"#
+  expect = count
+}
+
+/// A pre-commit hook's `rev:` line, one below its `repo:` URL, matched as a
+/// two-line window anchored on the repo URL so the rev can't be confused
+/// with another hook's.
+local function hookPin(repoUrl: String, versionPattern: String): Site = new {
+  file = preCommit
+  pattern = #"repo: https://github\.com/\#(repoUrl)\n\s*rev: \#(versionPattern)"#
+  window = 2
+}
+
+tools: Mapping<String, Tool> = new {
+  ["checkout"] = new {
+    resolver = "github-action"
+    resolverName = "actions/checkout"
+    sites = new {
+      actionPin("actions/checkout", ciYml, 3)
+      actionPin("actions/checkout", publishYml, 1)
+      actionPin("actions/checkout", docsYml, 1)
+      actionPin("actions/checkout", freshnessYml, 1)
+    }
+  }
+  ["commitizen"] = new {
+    resolver = "github-release"
+    resolverName = "commitizen-tools/commitizen"
+    sites = new { hookPin("commitizen-tools/commitizen", #"v([\d.]+)"#) }
+  }
+  ["create-pull-request"] = new {
+    resolver = "github-action"
+    resolverName = "peter-evans/create-pull-request"
+    sites = new { actionPin("peter-evans/create-pull-request", freshnessYml, 1) }
+  }
+  ["download-artifact"] = new {
+    resolver = "github-action"
+    resolverName = "actions/download-artifact"
+    sites = new { actionPin("actions/download-artifact", publishYml, 3) }
+  }
+  ["mdformat"] = new {
+    resolver = "github-release"
+    resolverName = "executablebooks/mdformat"
+    sites = new { hookPin("executablebooks/mdformat", #"([\d.]+)"#) }
+  }
+  ["mirrors-prettier"] = new {
+    resolver = "github-release"
+    resolverName = "pre-commit/mirrors-prettier"
+    pattern = "4.0.0-alpha.*"
+    sites = new { hookPin("pre-commit/mirrors-prettier", #""v(4\.0\.0-alpha\.\d+)""#) }
+  }
+  ["mise-action"] = new {
+    resolver = "github-action"
+    resolverName = "jdx/mise-action"
+    sites = new { actionPin("jdx/mise-action", freshnessYml, 1) }
+  }
+  ["pre-commit-hooks"] = new {
+    resolver = "github-release"
+    resolverName = "pre-commit/pre-commit-hooks"
+    sites = new { hookPin("pre-commit/pre-commit-hooks", #"v([\d.]+)"#) }
+  }
+  ["pyright-action"] = new {
+    resolver = "github-action"
+    resolverName = "jakebailey/pyright-action"
+    sites = new { actionPin("jakebailey/pyright-action", ciYml, 1) }
+  }
+  ["setup-go"] = new {
+    resolver = "github-action"
+    resolverName = "actions/setup-go"
+    sites = new { actionPin("actions/setup-go", freshnessYml, 1) }
+  }
+  ["setup-python"] = new {
+    resolver = "github-action"
+    resolverName = "actions/setup-python"
+    sites = new { actionPin("actions/setup-python", publishYml, 1) }
+  }
+  ["setup-uv"] = new {
+    resolver = "github-action"
+    resolverName = "astral-sh/setup-uv"
+    sites = new {
+      actionPin("astral-sh/setup-uv", publishYml, 2)
+      actionPin("astral-sh/setup-uv", setupAction, 1)
+      actionPin("astral-sh/setup-uv", freshnessYml, 1)
+    }
+  }
+  ["shellcheck-py"] = new {
+    resolver = "github-release"
+    resolverName = "shellcheck-py/shellcheck-py"
+    sites = new { hookPin("shellcheck-py/shellcheck-py", #"v([\d.]+)"#) }
+  }
+  ["tablesort"] = new {
+    resolver = "cdnjs"
+    resolverName = "tablesort@tristen/tablesort"
+    sites = new {
+      new Site {
+        file = mkdocsYml
+        pattern = #"cdnjs\.cloudflare\.com/ajax/libs/tablesort/([\d.]+)/tablesort\.min\.js"#
+      }
+    }
+  }
+  ["toml-sort"] = new {
+    resolver = "github-release"
+    resolverName = "pappasam/toml-sort"
+    sites = new { hookPin("pappasam/toml-sort", #"v([\d.]+)"#) }
+  }
+  ["upload-artifact"] = new {
+    resolver = "github-action"
+    resolverName = "actions/upload-artifact"
+    sites = new { actionPin("actions/upload-artifact", publishYml, 1) }
+  }
+}
