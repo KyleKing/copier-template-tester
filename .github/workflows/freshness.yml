@@ -20,19 +20,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+      # pkl evaluates .doneram.pkl and mise answers the tool resolvers.
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: kyleking/doneram@77f1515c153fb5bc0530c4bc0ef7fb0884657f05 # v0.3.0
         with:
-          go-version: stable
-
-      - name: Install doneram
-        run: go install github.com/kyleking/doneram/cmd/doneram@eacdee47e894c197a4002020ab6ce4e03d6c6633
-
-      - name: Install mise
-        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+          version: v0.3.0
 
       - id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: doneram update --output /tmp/doneram.json
 
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
