@@ -23,9 +23,9 @@ jobs:
       # pkl evaluates .doneram.pkl and mise answers the tool resolvers.
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
-      - uses: kyleking/doneram@77f1515c153fb5bc0530c4bc0ef7fb0884657f05 # v0.3.0
+      - uses: kyleking/doneram@52797c4247b851b8f427240a6e1cbadca2e7f980 # v0.3.1
         with:
-          version: v0.3.0
+          version: v0.3.1
 
       - id: check
         env:
@@ -33,7 +33,7 @@ jobs:
         run: doneram update --output /tmp/doneram.json
 
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        if: fromJSON(steps.check.outputs.has_upgrades)
+        if: steps.check.outputs.has_upgrades == 'true'
         with:
           branch: chore/doneram-updates
           draft: true
