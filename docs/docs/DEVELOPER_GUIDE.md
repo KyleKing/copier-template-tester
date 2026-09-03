@@ -80,5 +80,5 @@ uv publish
 | `copier_template_tester/main.py`                      | 82         | 1       | 43       | 98.0%    |
 | **Totals**                                            | 305        | 1       | 115      | 98.9%    |
 
-Generated on: 2026-08-31
+Generated on: 2026-09-02
 <!-- {cte} -->
