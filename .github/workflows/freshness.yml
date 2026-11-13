@@ -25,9 +25,9 @@ jobs:
       # pkl evaluates .doneram.pkl and mise answers the tool resolvers.
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
-      - uses: kyleking/doneram@c5120304a06b6c524a9b96dd6408b01e8b453e65 # v0.5.1
+      - uses: kyleking/doneram@9deb49166d65a924504e0b3cc1fa2a7459c22b44 # v0.6.1
         with:
-          version: v0.5.1
+          version: v0.6.1
 
       - id: check
         env:
