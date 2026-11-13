@@ -6,42 +6,23 @@
 // only make the next update a merge. What belongs here is everything this
 // project added itself, e.g. a declared dependency in pyproject.toml, a
 // tool in mise.toml, or a CDN URL in a template it wrote.
-//
-// The schema is inlined so this file evaluates today. It amends doneram's
-// published Config.pkl once doneram ships a pkl package.
 
-class Site {
-  /// Repo-relative path to the file holding the literal.
-  file: String
-  /// Regex with exactly one capture group around the version.
-  pattern: String
-  /// An exact match count. Unset takes one or more.
-  expect: Int(this > 0)?
-  window: Int(this > 0) = 1
+amends "package://github.com/kyleking/doneram/releases/download/v0.6.1/doneram@0.6.1#/Config.pkl"
+import "package://github.com/kyleking/doneram/releases/download/v0.6.1/doneram@0.6.1#/Config.pkl"
+
+tools = new {
+  ["doneram-schema"] = new {
+    resolver = "github-release"
+    resolverName = "kyleking/doneram"
+    sites = new {
+      new Config.Site {
+        file = ".doneram.pkl"
+        pattern = #"releases/download/v([\d.]+)/doneram"#
+      }
+      new Config.Site {
+        file = ".doneram.pkl"
+        pattern = #"doneram@([\d.]+)#/Config\.pkl"#
+      }
+    }
+  }
 }
-
-/// Keeps taking updates below `max`, so a known break blocks only the majors
-/// past it rather than freezing the pin.
-class Hold {
-  reason: String
-  max: String?
-}
-
-class Tool {
-  resolver: String = "mise"
-  /// Name to query when it differs from the map key, e.g. "pipx:commitizen".
-  resolverName: String?
-  sites: Listing<Site> = new {}
-  hold: Hold?
-  /// Overrides the default `#.#.#` constraint, for a pin that only ever
-  /// ships with a suffix (a prerelease tracked on purpose).
-  pattern: String?
-  /// Resolves through a command's output instead of a registry, for a
-  /// version only the project's own resolver knows, e.g.
-  /// `uv tree --outdated`. With sites, the command answers what the newest
-  /// version is and the sites say where to write it.
-  command: String?
-  commandPattern: String?
-}
-
-tools: Mapping<String, Tool> = new {}

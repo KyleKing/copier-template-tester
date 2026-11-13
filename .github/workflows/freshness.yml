@@ -4,7 +4,7 @@ name: Freshness
 "on":
   schedule:
     - cron: "0 9 * * 1"
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -15,6 +15,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    env:
+      HAS_APP: ${{ secrets.DONERAM_APP_CLIENT_ID != '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -23,18 +25,30 @@ jobs:
       # pkl evaluates .doneram.pkl and mise answers the tool resolvers.
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
-      - uses: kyleking/doneram@52797c4247b851b8f427240a6e1cbadca2e7f980 # v0.3.1
+      - uses: kyleking/doneram@c5120304a06b6c524a9b96dd6408b01e8b453e65 # v0.5.1
         with:
-          version: v0.3.1
+          version: v0.5.1
 
       - id: check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: doneram update --output /tmp/doneram.json
 
+      # GITHUB_TOKEN cannot push a branch that edits .github/workflows/**.
+      # When the doneram app is installed with secrets set, its scoped
+      # installation token covers that push; otherwise the job token opens
+      # the PR and any workflow-file patch fails the push loudly.
+      - id: app-token
+        if: env.HAS_APP == 'true' && steps.check.outputs.has_upgrades == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.DONERAM_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DONERAM_APP_PRIVATE_KEY }}
+
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         if: steps.check.outputs.has_upgrades == 'true'
         with:
+          token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
           branch: chore/doneram-updates
           draft: true
           delete-branch: true
